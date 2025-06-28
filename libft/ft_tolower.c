@@ -6,7 +6,7 @@
 /*   By: sohuikim <sohuikim@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 20:29:08 by sohuikim          #+#    #+#             */
-/*   Updated: 2025/06/27 21:09:05 by sohuikim         ###   ########.fr       */
+/*   Updated: 2025/06/28 10:50:21 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	ft_tolower(int c)
 		return (c);
 	}
 }
-
+/*
 #include <stdio.h>
 
 int main()
@@ -29,4 +29,4 @@ int main()
 	printf("before = %d", c);
 	printf(" after = %d", ft_tolower(c));
 }
-
+*/
