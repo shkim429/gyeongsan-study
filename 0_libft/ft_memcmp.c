@@ -1,37 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strchr.c                                        :+:      :+:    :+:   */
+/*   ft_memcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sohuikim <sohuikim@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/27 21:12:42 by sohuikim          #+#    #+#             */
-/*   Updated: 2025/07/01 20:14:10 by sohuikim         ###   ########.fr       */
+/*   Created: 2025/07/02 18:47:01 by sohuikim          #+#    #+#             */
+/*   Updated: 2025/07/02 21:28:57 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strchr(const char *s, int c)
+int	ft_memcmp(const void *s1, const void *s2, size_t n)
 {
-	while (*s)
+	unsigned char	*s1_tmp;
+	unsigned char	*s2_tmp;
+
+	s1_tmp = (unsigned char *)s1;
+	s2_tmp = (unsigned char *)s2;
+	while (n--)
 	{
-		if (*s == c)
-			return ((char *)s);
-		s++;
+		if (*s1_tmp != *s2_tmp)
+			break ;
 	}
-	if (c == '\0')
-		return ((char *)s);
-	return (NULL);
+	return (*s1_tmp - *s2_tmp);
 }
 /*
 int main()
 {
-	char d = '2';
-	char *s = "abcde";
-	printf("strchr = %s", strchr("abcde", '\0'));
-	printf("%c\n", d);
-	printf("ft_strchr = %s", ft_strchr("abcde", '\0'));
-	printf("%c", d);
-} 
+	char s1[10] = "abcdefg";
+	char s2[10] = "bddefg";
+
+	printf("s1 = %s, s2 = %s\n", s1, s2);
+	printf("return: %d", ft_memcmp(s1, s2, 1));
+}
 */

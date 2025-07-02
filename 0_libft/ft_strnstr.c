@@ -1,23 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   libft.h                                            :+:      :+:    :+:   */
+/*   ft_strnstr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sohuikim <sohuikim@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/27 20:16:24 by sohuikim          #+#    #+#             */
-/*   Updated: 2025/07/01 16:25:49 by sohuikim         ###   ########.fr       */
+/*   Created: 2025/07/02 21:31:05 by sohuikim          #+#    #+#             */
+/*   Updated: 2025/07/02 21:59:49 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef LIBFT_H
-# define LIBFT_H
-# include <unistd.h>
-# include <string.h>
-# include <stdlib.h>
-# include <stdio.h>
+#include "libft.h"
 
-size_t	ft_strlen(const char *s);
-void	*ft_memcpy(void *dest, const void *src, size_t n);
-
-#endif
+char	*strnstr(const char *big, const char *little, size_t len)
+{
+	while (*big)
+	{
+		
+	}
+}

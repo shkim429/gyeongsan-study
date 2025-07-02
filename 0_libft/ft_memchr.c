@@ -1,37 +1,44 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strchr.c                                        :+:      :+:    :+:   */
+/*   ft_memchr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sohuikim <sohuikim@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/27 21:12:42 by sohuikim          #+#    #+#             */
-/*   Updated: 2025/07/01 20:14:10 by sohuikim         ###   ########.fr       */
+/*   Created: 2025/07/01 17:12:54 by sohuikim          #+#    #+#             */
+/*   Updated: 2025/07/02 18:21:29 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strchr(const char *s, int c)
+void	*ft_memchr(const void *s, int c, size_t n)
 {
-	while (*s)
+	unsigned char	*s_tmp;
+	unsigned char	c_tmp;
+	size_t			i;
+
+	s_tmp = (unsigned char *)s;
+	c_tmp = (unsigned char)c;
+	i = 0;
+	while (i < n)
 	{
-		if (*s == c)
-			return ((char *)s);
-		s++;
+		if (*s_tmp == c_tmp)
+			return (s_tmp);
+		i++;
+		s_tmp++;
 	}
-	if (c == '\0')
-		return ((char *)s);
 	return (NULL);
 }
 /*
 int main()
 {
-	char d = '2';
-	char *s = "abcde";
-	printf("strchr = %s", strchr("abcde", '\0'));
-	printf("%c\n", d);
-	printf("ft_strchr = %s", ft_strchr("abcde", '\0'));
-	printf("%c", d);
-} 
+	char s[10] = "12345";
+	int c = '2';
+	size_t n = 3;
+	printf("s = %s\n", s);
+	printf("c = %d\n", c);
+	printf("n = %zu\n", n);
+	printf("찾은 문자 = %s", (char *)ft_memchr(s,c,n));
+}
 */
