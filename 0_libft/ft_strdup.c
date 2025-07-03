@@ -1,24 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   libft.h                                            :+:      :+:    :+:   */
+/*   ft_strdup.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sohuikim <sohuikim@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/27 20:16:24 by sohuikim          #+#    #+#             */
-/*   Updated: 2025/07/03 22:33:41 by sohuikim         ###   ########.fr       */
+/*   Created: 2025/07/03 17:53:29 by sohuikim          #+#    #+#             */
+/*   Updated: 2025/07/03 21:10:02 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef LIBFT_H
-# define LIBFT_H
-# include <unistd.h>
-# include <string.h>
-# include <stdlib.h>
-# include <stdio.h>
+#include "libft.h"
 
-size_t	ft_strlen(const char *s);
-void	*ft_memcpy(void *dest, const void *src, size_t n);
-void	*ft_memset(void *s, int c, size_t n);
+char	*ft_strdup(const char *s)
+{
+	char	*s_copy;
+	char	*s_tmp;
 
-#endif
+	s_copy = (char *)malloc((ft_strlen(s_tmp) + 1) * sizeof(char));
+	s_tmp = s_copy;
+	if (s_copy == NULL)
+		return (NULL);
+	while (*s)
+		*s_copy++ = *s++;
+	*s_copy = '\0';
+	return (s_tmp);
+}
+/*
+int	main()
+{
+	char	s[] = "hello, world!";
+	printf("%s", ft_strdup(s));
+	free(s);
+}
+*/

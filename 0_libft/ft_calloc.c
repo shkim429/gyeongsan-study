@@ -1,49 +1,43 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_memset.c                                        :+:      :+:    :+:   */
+/*   ft_calloc.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sohuikim <sohuikim@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/28 20:29:10 by sohuikim          #+#    #+#             */
-/*   Updated: 2025/07/03 22:34:41 by sohuikim         ###   ########.fr       */
+/*   Created: 2025/07/03 21:05:44 by sohuikim          #+#    #+#             */
+/*   Updated: 2025/07/03 22:54:24 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	*ft_memset(void *s, int c, size_t n)
+void	*ft_calloc(size_t nmemb, size_t size)
 {
-	unsigned char	tmp;
-	unsigned char	*p;
+	void	*s;
 
-	tmp = (unsigned char) c;
-	p = (unsigned char *)s;
-	while (n--)
-		*p++ = tmp;
-	return (p);
+	s = NULL;
+	if (s == NULL)
+		return (NULL);
+	s = (void *)malloc((nmemb + 1) * sizeof(size));
+	s = ft_memset(s, 1, sizeof(nmemb + 1) * size);
+	return (s);
 }
+
 /*
 int main()
 {
-	char s[5];
+	int *s;
 	
-	for (int i=0; i<5; i++)
-	{
-		printf("%d ", *(s + i));
-	}
+	s = malloc(4 * sizeof(int));
+	for (int i=0; i<4; i++)
+		printf("%d ", s[i]);
 	printf("\n");
-	memset(s, 0, sizeof(s));
-	for (int i=0; i<5; i++)
-	{
-		printf("%d ", *(s + i));
-	}
-	printf("\n");
-	ft_memset(s, -300, sizeof(s));
-	for (int i=0; i<5; i++)
-	{
-		printf("%d ", *(s + i));
-	}
-	
+	free(s);
+
+	s = calloc(4, sizeof(int));
+	for (int i=0; i<4; i++)
+		printf("%d ", s[i]);
+	free(s);
 }
 */
