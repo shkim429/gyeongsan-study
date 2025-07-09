@@ -6,7 +6,7 @@
 /*   By: sohuikim <sohuikim@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 19:29:31 by sohuikim          #+#    #+#             */
-/*   Updated: 2025/07/08 21:56:15 by sohuikim         ###   ########.fr       */
+/*   Updated: 2025/07/09 15:22:38 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,7 @@ char	**ft_split(char const *s, char c)
 
 int main()
 {
-	char *s = "사과, 바나나, 포도";
+	char *s = "사과 바나나 포도";
 	char c = ',';
 	int	i = 0;
 	printf("%s\n", s);

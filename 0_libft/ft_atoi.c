@@ -6,7 +6,7 @@
 /*   By: sohuikim <sohuikim@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/28 17:21:03 by sohuikim          #+#    #+#             */
-/*   Updated: 2025/06/28 20:27:09 by sohuikim         ###   ########.fr       */
+/*   Updated: 2025/07/09 15:08:39 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,10 +51,14 @@ int	ft_atoi(const char *nptr)
 	}
 	return (num * sign);
 }
-/*
-int main(void)
-{
-	printf("atoi: %d\t", atoi("+23 er"));
-	printf("ft_atoi: %d", ft_atoi("+23 er"));
-}
-*/
+
+// # include <unistd.h>
+// # include <string.h>
+// # include <stdlib.h>
+// # include <stdio.h>
+
+// int main(void)
+// {
+// 	printf("atoi: %d\t", atoi("2147483648"));
+// 	printf("ft_atoi: %d", ft_atoi("2147483648"));
+// }

@@ -6,7 +6,7 @@
 /*   By: sohuikim <sohuikim@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/29 16:05:51 by sohuikim          #+#    #+#             */
-/*   Updated: 2025/06/29 17:32:18 by sohuikim         ###   ########.fr       */
+/*   Updated: 2025/07/09 15:13:39 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,14 @@
 void	ft_bzero(void *s, size_t n)
 {
 	unsigned char	*tmp;
+	unsigned long	indx;
 
+	indx = 0;
 	tmp = (unsigned char *)s;
-	while (n--)
+	while (indx < n)
 	{
-		*tmp++ = 0;
+		tmp[indx] = 0;
+		indx++;
 	}
 }
 /*

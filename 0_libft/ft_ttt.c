@@ -1,13 +1,16 @@
 #include "libft.h"
 
-void	ft_putnbr_fd(int n, int fd)
+char	f(unsigned int i, char c)
 {
-	ft_putchar_fd(n % 10 + '0', fd);
+	(void)i;
+	if (c >= 'a' && c <= 'z')
+		c = c - 32;
+	return (c);
 }
 
 int main()
 {
-	// ft_putnbr_fd(-2147483648, 1);
-	printf("\n");
-	ft_putnbr_fd(0, 1);
+	int i = 0;
+	printf("%c", f(i, 'd'));
+	return (0);
 }

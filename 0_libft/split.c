@@ -1,45 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strrchr.c                                       :+:      :+:    :+:   */
+/*   split.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sohuikim <sohuikim@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/28 10:54:25 by sohuikim          #+#    #+#             */
-/*   Updated: 2025/07/09 15:52:30 by sohuikim         ###   ########.fr       */
+/*   Created: 2025/07/09 17:58:15 by sohuikim          #+#    #+#             */
+/*   Updated: 2025/07/09 18:20:06 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strrchr(const char *s, int c)
+int	is_check_sep(char sep, char c)
+{
+	
+}
+int	arr_str_cnt(const char *s, char c)
 {
 	int	i;
+	int	str_cnt;
 
 	i = 0;
-	while (*s)
+	str_cnt = 0;
+	while (s[i] != '\0')
 	{
-		s++;
+		if ((i = 0 && s[i] != c) || (s[i - 1] == c && s[i] != c ))
+			str_cnt++;
 		i++;
 	}
-	while (i > 0)
-	{
-		if (*s == c)
-			return ((char *) s);
-		i--;
-		s--;
-	}
-	return (NULL);
+	return (str_cnt);
 }
-
-// #include <stdio.h>
-
-// int main()
-// {
-// 	char d = '2';
-// 	char *s = "abcde";
-// 	printf("strrchr = %s", strrchr("abcde", '\0'));
-// 	printf("%c\n", d);
-// 	printf("ft_strrchr = %s", ft_strrchr("abcde", '\0'));
-// 	printf("%c", d);
-// }
+char **ft_split(char const *s, char c)
+{
+	
+}

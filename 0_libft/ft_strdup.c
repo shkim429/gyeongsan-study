@@ -6,7 +6,7 @@
 /*   By: sohuikim <sohuikim@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/03 17:53:29 by sohuikim          #+#    #+#             */
-/*   Updated: 2025/07/04 16:14:16 by sohuikim         ###   ########.fr       */
+/*   Updated: 2025/07/09 15:58:27 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ char	*ft_strdup(const char *s)
 	char	*s_copy;
 	char	*s_tmp;
 
-	s_copy = (char *)malloc((ft_strlen(s_tmp) + 1) * sizeof(char));
+	s_copy = (char *)malloc((ft_strlen(s) + 1) * sizeof(char));
 	s_tmp = s_copy;
 	if ((s_copy == NULL) || (s == NULL))
 		return (NULL);
@@ -26,11 +26,14 @@ char	*ft_strdup(const char *s)
 	*s_copy = '\0';
 	return (s_tmp);
 }
-/*
-int	main()
-{
-	char	*s = NULL;
-	printf("%s", ft_strdup(s));
-	free(s);
-}
-*/
+
+// #include <stdio.h>
+
+
+// int	main()
+// {
+// 	char	*s = ft_strdup("apple");
+// 	printf("%s", );
+// 	free(s);
+// }
+

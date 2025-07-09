@@ -1,45 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strrchr.c                                       :+:      :+:    :+:   */
+/*   ft_lstnew.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sohuikim <sohuikim@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/28 10:54:25 by sohuikim          #+#    #+#             */
-/*   Updated: 2025/07/09 15:52:30 by sohuikim         ###   ########.fr       */
+/*   Created: 2025/07/09 20:52:08 by sohuikim          #+#    #+#             */
+/*   Updated: 2025/07/09 22:01:01 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strrchr(const char *s, int c)
+t_list	*ft_lstnew(void *content)
 {
-	int	i;
+	t_list	*new;
 
-	i = 0;
-	while (*s)
-	{
-		s++;
-		i++;
-	}
-	while (i > 0)
-	{
-		if (*s == c)
-			return ((char *) s);
-		i--;
-		s--;
-	}
-	return (NULL);
+	new = (t_list *)malloc(sizeof(t_list));
+	if (new == NULL)
+		return (NULL);
+	//
+	new->next = NULL;
 }
-
-// #include <stdio.h>
-
-// int main()
-// {
-// 	char d = '2';
-// 	char *s = "abcde";
-// 	printf("strrchr = %s", strrchr("abcde", '\0'));
-// 	printf("%c\n", d);
-// 	printf("ft_strrchr = %s", ft_strrchr("abcde", '\0'));
-// 	printf("%c", d);
-// }

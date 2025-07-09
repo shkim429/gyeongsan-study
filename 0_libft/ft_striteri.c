@@ -1,45 +1,41 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strrchr.c                                       :+:      :+:    :+:   */
+/*   ft_striteri.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sohuikim <sohuikim@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/28 10:54:25 by sohuikim          #+#    #+#             */
-/*   Updated: 2025/07/09 15:52:30 by sohuikim         ###   ########.fr       */
+/*   Created: 2025/07/09 11:58:44 by sohuikim          #+#    #+#             */
+/*   Updated: 2025/07/09 17:47:15 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strrchr(const char *s, int c)
+void	f(unsigned int i, char *c)
+{
+	(void)i;
+	if (*c >= 'a' && *c <= 'z')
+		*c = *c - 32;
+}
+
+void	ft_striteri(char *s, void (*f) (unsigned int, char*))
 {
 	int	i;
 
 	i = 0;
-	while (*s)
+	while (s[i] != '\0')
 	{
-		s++;
+		f(i, &s[i]);
 		i++;
 	}
-	while (i > 0)
-	{
-		if (*s == c)
-			return ((char *) s);
-		i--;
-		s--;
-	}
-	return (NULL);
 }
+/*
 
-// #include <stdio.h>
-
-// int main()
-// {
-// 	char d = '2';
-// 	char *s = "abcde";
-// 	printf("strrchr = %s", strrchr("abcde", '\0'));
-// 	printf("%c\n", d);
-// 	printf("ft_strrchr = %s", ft_strrchr("abcde", '\0'));
-// 	printf("%c", d);
-// }
+int main()
+{
+	char s[] = "HeLlO, wOrLd";
+	ft_striteri(s, f);
+	printf("%s", s);
+}
+*/
