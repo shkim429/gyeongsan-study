@@ -6,7 +6,7 @@
 /*   By: sohuikim <sohuikim@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 21:31:05 by sohuikim          #+#    #+#             */
-/*   Updated: 2025/07/03 17:49:36 by sohuikim         ###   ########.fr       */
+/*   Updated: 2025/07/10 15:19:55 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,24 +14,23 @@
 
 char	*ft_strnstr(const char *big, const char *little, size_t len)
 {
-	const char	*little_tmp;
-	const char	*big_tmp;
+	size_t		i;
+	size_t		j;
 
-	little_tmp = little;
-	if (*little == '\0')
+	i = 0;
+	j = 0;
+	if (little[0] == '\0')
 		return ((char *)big);
-	while (*big && len--)
+	while (big[i] && i < len)
 	{
-		big_tmp = big;
-		while (*big == *little)
+		while (big[i] == little[j])
 		{
-			if (*(little + 1) == '\0')
-				return ((char *)big_tmp);
-			big++;
-			little++;
+			if (little[i + 1] == '\0')
+				return ((char *)&big[i]);
+			i++;
+			j++;
 		}
-		big++;
-		little = little_tmp;
+		i++;
 	}
 	return (NULL);
 }
@@ -41,7 +40,7 @@ int main()
 {
 	char big[26] = "selensele";
 	char little[6] = "le";
-	size_t len = 2;
+	size_t len = 6;
 	printf("%s\n", ft_strnstr(big, little, len));
 }
 */

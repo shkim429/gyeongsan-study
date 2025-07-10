@@ -6,7 +6,7 @@
 /*   By: sohuikim <sohuikim@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/28 10:54:25 by sohuikim          #+#    #+#             */
-/*   Updated: 2025/07/09 15:52:30 by sohuikim         ###   ########.fr       */
+/*   Updated: 2025/07/10 15:23:53 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,29 +17,22 @@ char	*ft_strrchr(const char *s, int c)
 	int	i;
 
 	i = 0;
-	while (*s)
-	{
-		s++;
+	while (s[i] != '\0')
 		i++;
-	}
 	while (i > 0)
 	{
-		if (*s == c)
-			return ((char *) s);
+		if (s[i] == c)
+			return ((char *) &s[i]);
 		i--;
-		s--;
 	}
 	return (NULL);
 }
-
-// #include <stdio.h>
-
-// int main()
-// {
-// 	char d = '2';
-// 	char *s = "abcde";
-// 	printf("strrchr = %s", strrchr("abcde", '\0'));
-// 	printf("%c\n", d);
-// 	printf("ft_strrchr = %s", ft_strrchr("abcde", '\0'));
-// 	printf("%c", d);
-// }
+/*
+int main()
+{
+	char d = 'd';
+	char *s = "abcde";
+	printf("strrchr = %s\t", strrchr(s, d));
+	printf("ft_strrchr = %s", ft_strrchr(s, d));
+}
+*/

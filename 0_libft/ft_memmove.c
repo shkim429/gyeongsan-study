@@ -6,7 +6,7 @@
 /*   By: sohuikim <sohuikim@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 00:46:43 by sohuikim          #+#    #+#             */
-/*   Updated: 2025/07/01 18:41:04 by sohuikim         ###   ########.fr       */
+/*   Updated: 2025/07/10 11:35:56 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,32 +14,35 @@
 
 void	*ft_memmove(void *dest, const void *src, size_t n)
 {
-	unsigned char	*d;
-	unsigned char	*s;
-	unsigned char	*d_tmp;
+	unsigned char	*d_copy;
+	unsigned char	*s_copy;
+	size_t			i;
 
-	d = (unsigned char *)dest;
-	s = (unsigned char *)src;
-	d_tmp = d;
-	if (d > s && d < s + n)
+	d_copy = (unsigned char *)dest;
+	s_copy = (unsigned char *)src;
+	i = 0;
+	if (d_copy > s_copy && d_copy < s_copy + n)
 	{
-		while (n--)
+		while (i < n)
 		{
-			*d++ = *s++;
+			d_copy[i] = s_copy[i];
+			i++;
 		}
 	}
 	else
-		ft_memcpy(d, s, n);
-	return (d_tmp);
+		ft_memcpy(d_copy, s_copy, n);
+	return (d_copy);
 }
-/*
+
 int	main()
 {
-	char src2[10] = "12345";
+	char src2[10] = "12345 ";
 	char dest2[10] = "defghjk";
 
 	printf("src2 = %s, dest2 = %s\n", src2, dest2);
-	printf("src2 = %s, dest2 = %s\n\n", src2, (char *)memmove(dest2, src2, 5));
+	printf("src2 = %s, dest2 = %s\n", src2, (char *)memmove(dest2, src2, 6));
 	printf("src2 = %p, dest2 = %p\n", src2, dest2);
+	printf("ft_src2 = %s, ft_dest2 = %s\n", src2, (char *)ft_memmove(dest2, src2, 6));
+
+	
 }
-*/

@@ -6,19 +6,11 @@
 /*   By: sohuikim <sohuikim@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 10:28:07 by sohuikim          #+#    #+#             */
-/*   Updated: 2025/07/09 11:58:08 by sohuikim         ###   ########.fr       */
+/*   Updated: 2025/07/10 13:27:44 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-
-char	f(unsigned int i, char c)
-{
-	(void)i;
-	if (c >= 'a' && c <= 'z')
-		c = c - 32;
-	return (c);
-}
 
 char	*ft_strmapi(const char *s, char (*f)(unsigned int, char))
 {
@@ -40,6 +32,14 @@ char	*ft_strmapi(const char *s, char (*f)(unsigned int, char))
 	return (str);
 }
 /*
+char	f(unsigned int i, char c)
+{
+	(void)i;
+	if (c >= 'a' && c <= 'z')
+		c = c - 32;
+	return (c);
+}
+
 int main()
 {
 	char *s = "HeLlO, wOrLd";

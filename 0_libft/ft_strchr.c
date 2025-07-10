@@ -6,7 +6,7 @@
 /*   By: sohuikim <sohuikim@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 21:12:42 by sohuikim          #+#    #+#             */
-/*   Updated: 2025/07/01 20:14:10 by sohuikim         ###   ########.fr       */
+/*   Updated: 2025/07/10 15:55:17 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,24 +14,23 @@
 
 char	*ft_strchr(const char *s, int c)
 {
-	while (*s)
+	int	i;
+
+	i = 0;
+	while (s[i] != (char)c)
 	{
-		if (*s == c)
-			return ((char *)s);
-		s++;
+		if (s[i] == '\0')
+			return (NULL);
+		i++;
 	}
-	if (c == '\0')
-		return ((char *)s);
-	return (NULL);
+	return ((char *)&s[i]);
 }
 /*
 int main()
 {
-	char d = '2';
+	char c = 'b';
 	char *s = "abcde";
-	printf("strchr = %s", strchr("abcde", '\0'));
-	printf("%c\n", d);
-	printf("ft_strchr = %s", ft_strchr("abcde", '\0'));
-	printf("%c", d);
-} 
+	printf("strchr = %s\n", strchr(s, c));
+	printf("ft_strchr = %s\n", ft_strchr(s, c));
+}
 */

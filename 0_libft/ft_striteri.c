@@ -6,18 +6,11 @@
 /*   By: sohuikim <sohuikim@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 11:58:44 by sohuikim          #+#    #+#             */
-/*   Updated: 2025/07/09 17:47:15 by sohuikim         ###   ########.fr       */
+/*   Updated: 2025/07/10 12:42:30 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-
-void	f(unsigned int i, char *c)
-{
-	(void)i;
-	if (*c >= 'a' && *c <= 'z')
-		*c = *c - 32;
-}
 
 void	ft_striteri(char *s, void (*f) (unsigned int, char*))
 {
@@ -31,6 +24,12 @@ void	ft_striteri(char *s, void (*f) (unsigned int, char*))
 	}
 }
 /*
+void	f(unsigned int i, char *c)
+{
+	(void)i;
+	if (*c >= 'a' && *c <= 'z')
+		*c = *c - 32;
+}
 
 int main()
 {

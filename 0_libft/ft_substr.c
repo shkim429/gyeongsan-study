@@ -6,7 +6,7 @@
 /*   By: sohuikim <sohuikim@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/04 14:29:46 by sohuikim          #+#    #+#             */
-/*   Updated: 2025/07/04 16:18:55 by sohuikim         ###   ########.fr       */
+/*   Updated: 2025/07/10 15:42:15 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,6 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 int main()
 {
 	char *s = "hello";
-	printf("s = %s, return = %s", s,ft_substr(s, 0, 100));
+	printf("s = %s, return = %s", s,ft_substr(s, 0, 3));
 }
 */

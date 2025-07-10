@@ -6,7 +6,7 @@
 /*   By: sohuikim <sohuikim@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 20:52:08 by sohuikim          #+#    #+#             */
-/*   Updated: 2025/07/09 22:01:01 by sohuikim         ###   ########.fr       */
+/*   Updated: 2025/07/09 22:07:35 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,6 @@ t_list	*ft_lstnew(void *content)
 	new = (t_list *)malloc(sizeof(t_list));
 	if (new == NULL)
 		return (NULL);
-	//
+	new->content = content;
 	new->next = NULL;
 }

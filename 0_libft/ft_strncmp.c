@@ -6,7 +6,7 @@
 /*   By: sohuikim <sohuikim@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 21:21:41 by sohuikim          #+#    #+#             */
-/*   Updated: 2025/07/02 21:29:30 by sohuikim         ###   ########.fr       */
+/*   Updated: 2025/07/10 13:28:26 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	ft_strncmp(const char *s1, const char *s2, size_t n)
 	size_t	i;
 
 	i = 0;
-	while ((s1[i] && s2[i]) && n > i)
+	while ((s1[i] && s2[i]) && i < n)
 	{
 		if (s1[i] != s2[i])
 			break ;

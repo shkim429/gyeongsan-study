@@ -6,7 +6,7 @@
 /*   By: sohuikim <sohuikim@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 19:29:31 by sohuikim          #+#    #+#             */
-/*   Updated: 2025/07/09 15:22:38 by sohuikim         ###   ########.fr       */
+/*   Updated: 2025/07/10 19:40:04 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int	str_len(char const *s, char c, int i)
 	int	start_idx;
 	int	end_idx;
 	int	str;
-	int str_len;
+	int	str_len;
 
 	start_idx = 0;
 	end_idx = 0;
@@ -118,7 +118,7 @@ char	**ft_split(char const *s, char c)
 
 int main()
 {
-	char *s = "사과 바나나 포도";
+	char *s = "apple, banana, grape";
 	char c = ',';
 	int	i = 0;
 	printf("%s\n", s);

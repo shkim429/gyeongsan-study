@@ -6,7 +6,7 @@
 /*   By: sohuikim <sohuikim@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/03 21:05:44 by sohuikim          #+#    #+#             */
-/*   Updated: 2025/07/04 13:41:23 by sohuikim         ###   ########.fr       */
+/*   Updated: 2025/07/10 15:53:51 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,15 +16,14 @@ void	*ft_calloc(size_t nmemb, size_t size)
 {
 	void	*s;
 
-	s = NULL;
+	s = (void *)malloc((nmemb + 1) * sizeof(size));
 	if (s == NULL)
 		return (NULL);
-	s = (void *)malloc((nmemb + 1) * sizeof(size));
-	s = ft_memset(s, 1, sizeof(nmemb + 1) * size);
+	s = ft_memset(s, 0, sizeof(nmemb + 1) * size);
 	return (s);
 }
 
-/*
+
 int main()
 {
 	int *s;
@@ -35,9 +34,8 @@ int main()
 	printf("\n");
 	free(s);
 
-	s = calloc(4, sizeof(int));
+	s = ft_calloc(4, sizeof(int));
 	for (int i=0; i<4; i++)
 		printf("%d ", s[i]);
 	free(s);
 }
-*/

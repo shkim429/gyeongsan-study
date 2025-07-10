@@ -6,7 +6,7 @@
 /*   By: sohuikim <sohuikim@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/04 18:52:44 by sohuikim          #+#    #+#             */
-/*   Updated: 2025/07/04 20:48:54 by sohuikim         ###   ########.fr       */
+/*   Updated: 2025/07/10 11:47:46 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,13 +28,12 @@ void	ft_putnbr_fd(int n, int fd)
 		ft_putnbr_fd(n / 10, fd);
 	ft_putchar_fd(n % 10 + '0', fd);
 }
-/*
+
 int main()
 {
-	ft_putnbr_fd(-2147483648, 1);
+	ft_putnbr_fd(2147483648, 1);
 	printf("\n");
 	ft_putnbr_fd(-3, 1);
 	printf("\n");
 	ft_putnbr_fd(0, 1);
 }
-*/
