@@ -6,7 +6,7 @@
 /*   By: sohuikim <sohuikim@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/04 16:31:11 by sohuikim          #+#    #+#             */
-/*   Updated: 2025/07/04 18:13:48 by sohuikim         ###   ########.fr       */
+/*   Updated: 2025/07/14 01:46:04 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,3 @@ void	ft_putchar_fd(char c, int fd)
 {
 	write(fd, &c, 1);
 }
-/*
-int main()
-{
-	ft_putchar_fd('d', 1);
-}
-*/

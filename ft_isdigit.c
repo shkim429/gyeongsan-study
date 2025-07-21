@@ -6,7 +6,7 @@
 /*   By: sohuikim <sohuikim@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 02:08:43 by sohuikim          #+#    #+#             */
-/*   Updated: 2025/06/27 20:25:21 by sohuikim         ###   ########.fr       */
+/*   Updated: 2025/07/14 16:31:46 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,3 @@ int	ft_isdigit(int c)
 	else
 		return (0);
 }
-/*
-int main()
-{
-	int c = 0;
-	printf("%d\n", ft_isdigit(c));
-}
-*/

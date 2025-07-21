@@ -6,7 +6,7 @@
 /*   By: sohuikim <sohuikim@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 10:28:07 by sohuikim          #+#    #+#             */
-/*   Updated: 2025/07/10 13:27:44 by sohuikim         ###   ########.fr       */
+/*   Updated: 2025/07/21 19:04:39 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ char	*ft_strmapi(const char *s, char (*f)(unsigned int, char))
 	if (str == NULL)
 		return (NULL);
 	i = 0;
-	while (s[i] != '\0')
+	while (s[i])
 	{
 		str[i] = f(i, s[i]);
 		i++;
@@ -31,20 +31,3 @@ char	*ft_strmapi(const char *s, char (*f)(unsigned int, char))
 	str[i] = '\0';
 	return (str);
 }
-/*
-char	f(unsigned int i, char c)
-{
-	(void)i;
-	if (c >= 'a' && c <= 'z')
-		c = c - 32;
-	return (c);
-}
-
-int main()
-{
-	char *s = "HeLlO, wOrLd";
-	char *str = ft_strmapi(s, f);
-	printf("%s", str);
-	free(str);
-}
-*/

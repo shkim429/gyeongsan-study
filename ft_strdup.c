@@ -6,11 +6,7 @@
 /*   By: sohuikim <sohuikim@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/03 17:53:29 by sohuikim          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2025/07/14 01:20:26 by sohuikim         ###   ########.fr       */
-=======
-/*   Updated: 2025/07/10 12:41:35 by sohuikim         ###   ########.fr       */
->>>>>>> 64ab842c637013900c1602f397c253a28f9abaa9
+/*   Updated: 2025/07/21 19:11:48 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +23,7 @@ char	*ft_strdup(const char *s)
 	if (s_copy == NULL)
 		return (NULL);
 	i = 0;
-	while (s[i] != '\0')
+	while (s[i])
 	{
 		s_copy[i] = s[i];
 		i++;
@@ -35,27 +31,3 @@ char	*ft_strdup(const char *s)
 	s_copy[i] = '\0';
 	return (s_copy);
 }
-<<<<<<< HEAD
-
-// #include <stdio.h>
-
-
-// int	main()
-// {
-// 	char	*s = ft_strdup(NULL);
-// 	printf("%s", s);
-// 	free(s);
-// }
-=======
-/*
-#include <stdio.h>
-
-
-int	main()
-{
-	char	*s = ft_strdup("apple");
-	printf("%s", s);
-	free(s);
-}
-*/
->>>>>>> 64ab842c637013900c1602f397c253a28f9abaa9

@@ -6,7 +6,7 @@
 /*   By: sohuikim <sohuikim@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 21:12:42 by sohuikim          #+#    #+#             */
-/*   Updated: 2025/07/10 15:55:17 by sohuikim         ###   ########.fr       */
+/*   Updated: 2025/07/14 06:14:14 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,12 @@
 
 char	*ft_strchr(const char *s, int c)
 {
-	int	i;
+	int				i;
+	unsigned char	c_copy;
 
 	i = 0;
-	while (s[i] != (char)c)
+	c_copy = (unsigned char)c;
+	while (s[i] != c_copy)
 	{
 		if (s[i] == '\0')
 			return (NULL);
@@ -25,12 +27,3 @@ char	*ft_strchr(const char *s, int c)
 	}
 	return ((char *)&s[i]);
 }
-/*
-int main()
-{
-	char c = 'b';
-	char *s = "abcde";
-	printf("strchr = %s\n", strchr(s, c));
-	printf("ft_strchr = %s\n", ft_strchr(s, c));
-}
-*/

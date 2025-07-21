@@ -6,7 +6,7 @@
 /*   By: sohuikim <sohuikim@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/04 16:21:20 by sohuikim          #+#    #+#             */
-/*   Updated: 2025/07/07 14:44:57 by sohuikim         ###   ########.fr       */
+/*   Updated: 2025/07/21 19:33:41 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,32 +78,10 @@ char	*ft_strcpy(char *dest, const char *src)
 	int	j;
 
 	j = 0;
-	while (src[j] != '\0')
+	while (src[j])
 	{
 		dest[j] = src[j];
 		j++;
 	}
 	return (dest);
 }
-/*
-int main()
-{
-
-	printf("n 길이 = %d\n", nlen(-2147483648));
-	char	*num1 = ft_itoa(-123);
-	char	*num2 = ft_itoa(123);
-	char	*num3 = ft_itoa(0);
-	char	*num4 = ft_itoa(-2147483648);
-	
-	printf("%s\n", num1);
-	printf("%s\n", num2);
-	printf("%s\n", num3);
-	printf("%s\n", num4);
-	
-	free(num1);
-	free(num2);
-	free(num3);
-	free(num4);
-	
-}
-*/

@@ -6,25 +6,16 @@
 /*   By: sohuikim <sohuikim@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 20:16:24 by sohuikim          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2025/07/13 04:28:41 by sohuikim         ###   ########.fr       */
-=======
-/*   Updated: 2025/07/09 20:49:34 by sohuikim         ###   ########.fr       */
->>>>>>> 64ab842c637013900c1602f397c253a28f9abaa9
+/*   Updated: 2025/07/14 15:32:42 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LIBFT_H
 # define LIBFT_H
 # include <unistd.h>
-# include <string.h>
 # include <stdlib.h>
-<<<<<<< HEAD
 # include <stdint.h>
 # include <limits.h>
-=======
->>>>>>> 64ab842c637013900c1602f397c253a28f9abaa9
-# include <stdio.h>
 
 typedef struct s_list
 {
@@ -37,7 +28,6 @@ void	*ft_memcpy(void *dest, const void *src, size_t n);
 void	*ft_memset(void *s, int c, size_t n);
 void	ft_putchar_fd(char c, int fd);
 void	ft_putstr_fd(char *s, int fd);
-<<<<<<< HEAD
 char	*ft_strdup(const char *s);
 t_list	*ft_lstnew(void *content);
 void	ft_lstadd_front(t_list **lst, t_list *new);
@@ -74,7 +64,4 @@ char	*ft_strrchr(const char *s, int c);
 char	*ft_substr(char const *s, unsigned int start, size_t len);
 int		ft_tolower(int c);
 int		ft_toupper(int c);
-=======
-
->>>>>>> 64ab842c637013900c1602f397c253a28f9abaa9
 #endif

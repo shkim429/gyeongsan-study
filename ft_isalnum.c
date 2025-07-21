@@ -6,11 +6,7 @@
 /*   By: sohuikim <sohuikim@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 10:10:58 by sohuikim          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2025/07/12 11:28:18 by sohuikim         ###   ########.fr       */
-=======
-/*   Updated: 2025/06/27 20:24:53 by sohuikim         ###   ########.fr       */
->>>>>>> 64ab842c637013900c1602f397c253a28f9abaa9
+/*   Updated: 2025/07/14 16:31:27 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,12 +21,3 @@ int	ft_isalnum(int c)
 	else
 		return (0);
 }
-/*
-int main()
-{
-	int c;
-	printf("한 문자 입력 >> ");
-	scanf("%d", &c);
-	printf("%d\n", ft_isalnum(c));
-}
-*/

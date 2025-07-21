@@ -6,11 +6,7 @@
 /*   By: sohuikim <sohuikim@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 15:26:17 by sohuikim          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2025/07/12 14:52:39 by sohuikim         ###   ########.fr       */
-=======
-/*   Updated: 2025/07/10 13:19:11 by sohuikim         ###   ########.fr       */
->>>>>>> 64ab842c637013900c1602f397c253a28f9abaa9
+/*   Updated: 2025/07/21 19:12:13 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,17 +21,14 @@ size_t	ft_strlcat(char *dst, const char *src, size_t size)
 	src_len = ft_strlen(src);
 	dst_len = ft_strlen(dst);
 	i = 0;
-<<<<<<< HEAD
-	if (size == 0)
-		return (src_len);
-=======
->>>>>>> 64ab842c637013900c1602f397c253a28f9abaa9
-	while (src[i] != '\0' && size -1 > dst_len + i)
+	if (dst_len >= size)
+		return (src_len + size);
+	while (src[i] && i < size - dst_len - 1)
 	{
 		dst[dst_len + i] = src[i];
 		i++;
 	}
-	if (dst_len < size)
+	if (dst_len + i < size)
 	{
 		dst[dst_len + i] = '\0';
 		return (src_len + dst_len);
@@ -43,20 +36,3 @@ size_t	ft_strlcat(char *dst, const char *src, size_t size)
 	else
 		return (src_len + size);
 }
-/*
-int main(void)
-{
-	char src[] = "67890";
-	char dest[100] = "12345";
-	printf("src = %s, dest = %s\n", src, dest);
-<<<<<<< HEAD
-	printf("길이: %zu", ft_strlcat(dest, src, 0));
-	printf(" dest = %s", dest);	
-}
-*/
-=======
-	printf("길이: %zu", ft_strlcat(dest, src, 10));
-	printf(" dest = %s", dest);	
-}
-*/
->>>>>>> 64ab842c637013900c1602f397c253a28f9abaa9
