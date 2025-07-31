@@ -6,7 +6,7 @@
 /*   By: sohuikim <sohuikim@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/23 10:01:18 by sohuikim          #+#    #+#             */
-/*   Updated: 2025/07/31 16:16:09 by sohuikim         ###   ########.fr       */
+/*   Updated: 2025/07/31 16:53:17 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,8 @@ int	print_type(t_value *info)
 		return (ft_print_c(info->c));
 	else if (info->type == 'd')
 		return (ft_print_id(info->id));
+	else if (info->type == 's')
+		return (ft_print_s(info->s));
 	else
 		return (-1);
 
