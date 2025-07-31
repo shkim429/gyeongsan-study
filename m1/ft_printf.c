@@ -6,7 +6,7 @@
 /*   By: sohuikim <sohuikim@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/23 10:01:18 by sohuikim          #+#    #+#             */
-/*   Updated: 2025/07/30 21:35:07 by sohuikim         ###   ########.fr       */
+/*   Updated: 2025/07/31 16:16:09 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,9 +33,9 @@ void	parse_format(t_value *info, char format)
 int	print_type(t_value *info)
 {
 	if (info->type == 'c')
-		return (print_c(info->c));
+		return (ft_print_c(info->c));
 	else if (info->type == 'd')
-		return (print_id(info->id));
+		return (ft_print_id(info->id));
 	else
 		return (-1);
 
@@ -86,11 +86,3 @@ int	ft_printf(const char *format, ...)
 	return (len);
 }
 
-#include <stdio.h>
-int main()
-{
-	char c = 'a';
-	int len = ft_printf("123%c\n", c);
-	int len2 = printf("123%c\n", c);
-	printf("%d %d", len, len2);
-}

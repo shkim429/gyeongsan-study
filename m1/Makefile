@@ -8,23 +8,28 @@ ft_strlen.c ft_strdup.c ft_itoa.c ft_memset.c\
 OBJS = ${SRCS:.c=.o}
 OBJ_DIR = obj
 OBJS_FILES = $(addprefix $(OBJ_DIR)/, $(SRCS:.c=.o))
+MAIN = main.c
+MAIN_EXE = a.out
 
 all : $(NAME)
 
-$(NAME) : $(OBJS)
-	ar -rcs $(NAME) $(OBJS)
+$(NAME) : $(OBJS_FILES)
+	ar -rcs $(NAME) $(OBJS_FILES)
 
 $(OBJ_DIR) :
 	mkdir -p $(OBJ_DIR)
 
-$(OBJS_DIR)/%.o : %.c | $(OBJ_DIR)
+$(OBJ_DIR)/%.o : %.c | $(OBJ_DIR)
 	$(CC) $(CFLAGS) -c $< -o $@
 
+$(MAIN_EXE) : $(NAME) $(MAIN)
+	$(CC) $(CFLAGS) $(MAIN) -L. -lftprintf -o $(MAIN_EXE)
+
 clean :
-	$(RM) $(OBJS)
+	$(RM) $(OBJS_FILES) $(MAIN_EXE)
 
 fclean : clean
-	$(RM) $(NAME)
+	$(RM) $(NAME) $(MAIN_EXE)
 
 re : fclean all
 	

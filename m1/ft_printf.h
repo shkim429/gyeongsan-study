@@ -6,7 +6,7 @@
 /*   By: sohuikim <sohuikim@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/25 16:09:23 by sohuikim          #+#    #+#             */
-/*   Updated: 2025/07/30 16:26:50 by sohuikim         ###   ########.fr       */
+/*   Updated: 2025/07/31 14:33:04 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,6 @@ int		ft_printf(const char *format, ...);
 void	*ft_memset(void *s, int c, size_t n);
 int		arg_print(t_value *info, va_list ap);
 void	parse_format(t_value *info, char format);
-int		print_c(char c);
-int		print_id(int id);
+int		ft_print_c(char c);
+int		ft_print_id(int id);
 #endif

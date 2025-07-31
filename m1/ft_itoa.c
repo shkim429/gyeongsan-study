@@ -6,7 +6,7 @@
 /*   By: sohuikim <sohuikim@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 15:36:18 by sohuikim          #+#    #+#             */
-/*   Updated: 2025/07/30 15:50:42 by sohuikim         ###   ########.fr       */
+/*   Updated: 2025/07/31 15:39:33 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ char	*ft_itoa(int n)
 		str[0] = '-';
 		n = -n;
 	}
-	if (n > 9)
+	while (i >= min_idx)
 	{
 		str[i--] = (n % 10 + '0');
 		n /= 10;
