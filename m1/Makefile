@@ -2,8 +2,8 @@ NAME = libftprintf.a
 CC = cc
 CFLAGS = -Wall -Wextra -Werror
 RM = rm -rf
-SRCS = ft_printf.c ft_print_c.c ft_print_id.c ft_print_s.c\
-ft_strlen.c ft_strdup.c ft_itoa.c ft_memset.c\
+SRCS = ft_printf.c ft_print_c.c ft_print_id.c ft_print_u.c ft_print_s.c\
+ft_strlen.c ft_strdup.c ft_itoa.c ft_utoa.c ft_memset.c\
 
 OBJS = ${SRCS:.c=.o}
 OBJ_DIR = obj

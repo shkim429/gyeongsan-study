@@ -6,40 +6,14 @@
 /*   By: sohuikim <sohuikim@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 15:36:18 by sohuikim          #+#    #+#             */
-/*   Updated: 2025/07/31 15:39:33 by sohuikim         ###   ########.fr       */
+/*   Updated: 2025/08/02 02:49:46 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-// int	nlen(int n);
-// int	sign_idx(int n);
-
-int	nlen(int n)
-{
-	int	len;
-
-	len = 0;
-	if (n == -2147483648)
-		return (11);
-	if (n < 0)
-	{
-		n = -n;
-		len++;
-	}
-	if (n > 9)
-		len += nlen(n / 10);
-	len++;
-	return (len);
-}
-
-int	sign_idx(int n)
-{
-	if (n < 0)
-		return (1);
-	else
-		return (0);
-}
+int	signed_nlen(int n);
+int	sign_idx(int n);
 
 char	*ft_itoa(int n)
 {
@@ -47,7 +21,7 @@ char	*ft_itoa(int n)
 	int		i;
 	int		min_idx;
 
-	i = nlen(n);
+	i = signed_nlen(n);
 	min_idx = sign_idx(n);
 	str = (char *)malloc(i + 1);
 	if (str == NULL)
@@ -66,4 +40,30 @@ char	*ft_itoa(int n)
 		n /= 10;
 	}
 	return (str);
+}
+
+int	signed_nlen(int n)
+{
+	int	len;
+
+	len = 0;
+	if (n == -2147483648)
+		return (11);
+	if (n < 0)
+	{
+		n = -n;
+		len++;
+	}
+	if (n > 9)
+		len += signed_nlen(n / 10);
+	len++;
+	return (len);
+}
+
+int	sign_idx(int n)
+{
+	if (n < 0)
+		return (1);
+	else
+		return (0);
 }

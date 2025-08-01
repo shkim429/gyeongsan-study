@@ -6,30 +6,30 @@
 /*   By: sohuikim <sohuikim@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/01 15:26:28 by sohuikim          #+#    #+#             */
-/*   Updated: 2025/08/01 17:42:56 by sohuikim         ###   ########.fr       */
+/*   Updated: 2025/08/02 02:50:02 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-int	nlen(unsigned int n)
+int	unsigned_nlen(unsigned int n)
 {
 	unsigned int	len;
 
 	len = 0;
 	if (n > 9)
-		len += nlen(n / 10);
+		len += unsigned_nlen(n / 10);
 	len++;
 	return (len);
 }
 
-unsigned char	*ft_utoa(unsigned int n)
+char	*ft_utoa(unsigned int n)
 {
-	unsigned char	*str;
-	int				i;
+	char	*str;
+	int		i;
 
-	i = nlen(n);
-	str = (unsigned char *)malloc(nlen(n) + i);
+	i = unsigned_nlen(n);
+	str = (char *)malloc(unsigned_nlen(n) + i);
 	if (str == NULL)
 		return (NULL);
 	str[i--] = '\0';
@@ -45,9 +45,9 @@ unsigned char	*ft_utoa(unsigned int n)
 
 // int main()
 // {
-// 	unsigned int num1 = 4294967295;
-// 	printf("%s\n", ft_utoa(4294967295));
-// 	printf("%d\n", -1);
-// 	printf("%u", num1);
-	
+// 	unsigned long num1 = 4294967295;
+// 	printf("%s\n", ft_utoa(num1));
+// 	printf("%lu\n\n", num1);
+// 	printf("%s\n", ft_utoa(-20));
+// 	printf("%u\n", -20);
 // }
