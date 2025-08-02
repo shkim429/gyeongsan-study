@@ -1,53 +1,61 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_utoa.c                                          :+:      :+:    :+:   */
+/*   ft_utoa_base.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sohuikim <sohuikim@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/01 15:26:28 by sohuikim          #+#    #+#             */
-/*   Updated: 2025/08/02 11:51:23 by sohuikim         ###   ########.fr       */
+/*   Created: 2025/08/02 11:46:34 by sohuikim          #+#    #+#             */
+/*   Updated: 2025/08/02 15:10:30 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-int	unsigned_nlen(unsigned int n)
+int	unsigned_hex_nlen(unsigned int n, unsigned int base)
 {
 	unsigned int	len;
 
 	len = 0;
-	if (n > 9)
-		len += unsigned_nlen(n / 10);
+	if (n > base)
+		len += unsigned_hex_nlen(n / base, base);
 	len++;
 	return (len);
 }
 
-char	*ft_utoa(unsigned int n)
+char	*ft_utoa_base(unsigned int n, unsigned int base, int uppercase)
 {
 	char	*str;
+	char	*hex_mapping_arr;
+	int		hex_num;
 	int		i;
 
-	i = unsigned_nlen(n);
+	i = unsigned_hex_nlen(n, base);
 	str = (char *)malloc(i + 1);
-	if (str == NULL)
-		return (NULL);
+	if (uppercase)
+		hex_mapping_arr = "0123456789ABCDEF";
+	else
+		hex_mapping_arr = "0123456789abcdef";
 	str[i--] = '\0';
-	while (i >= 0)
+	if (n == 0)
 	{
-		str[i--] = (n % 10 + '0');
-		n /= 10;
+		str[0] = '0';
+		return (str);
 	}
+	while (n > base)
+	{
+		hex_num = n % base;
+		n /= base;
+		str[i--] = hex_mapping_arr[hex_num];
+	}
+	str[i--] = hex_mapping_arr[n];
 	return (str);
 }
 
 // #include <stdio.h>
-
 // int main()
 // {
-// 	unsigned long num1 = 4294967295;
-// 	printf("%s\n", ft_utoa(num1));
-// 	printf("%lu\n\n", num1);
-// 	printf("%s\n", ft_utoa(-20));
-// 	printf("%u\n", -20);
+// 	char *hex_str = ft_utoa_base(0, 16, 1);
+// 	printf("%s", hex_str);
+// 	free(hex_str);
 // }
