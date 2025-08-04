@@ -6,7 +6,7 @@
 /*   By: sohuikim <sohuikim@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/25 16:09:23 by sohuikim          #+#    #+#             */
-/*   Updated: 2025/08/02 15:11:02 by sohuikim         ###   ########.fr       */
+/*   Updated: 2025/08/04 14:38:05 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ size_t			ft_strlen(const char *s);
 char			*ft_strdup(const char *s);
 char			*ft_itoa(int n);
 char			*ft_utoa(unsigned int n);
-char			*ft_utoa_base(unsigned int n, unsigned int base, int uppercase);
+char			*ft_utoa_base(uintptr_t n, uintptr_t base, int uppercase);
 int				ft_printf(const char *format, ...);
 void			*ft_memset(void *s, int c, size_t n);
 int				arg_print(t_value *info, va_list ap);
@@ -41,4 +41,5 @@ int				ft_print_id(int id);
 int				ft_print_u(unsigned int u);
 int				ft_print_hex(unsigned int x_num, int uppercase);
 int				ft_print_s(char *str);
+int				ft_print_p(void *ptr, int uppercase);
 #endif

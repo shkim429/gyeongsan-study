@@ -6,7 +6,7 @@
 /*   By: sohuikim <sohuikim@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/31 13:24:34 by sohuikim          #+#    #+#             */
-/*   Updated: 2025/08/02 14:57:03 by sohuikim         ###   ########.fr       */
+/*   Updated: 2025/08/04 14:43:37 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,9 @@ int main()
 {
 	// int d = 456;
 	// char d = 'a';
-	// char *d = "abc";
-	unsigned int d = 123;
-	int len = ft_printf("%X\n", d);
-	int len2 = printf("%X\n", d);
+	char *str_d = "13";
+	// unsigned int num_d = 123;
+	int len = ft_printf("%p\n", str_d);
+	int len2 = printf("%p\n", str_d);
 	printf("%d %d", len, len2);
 }

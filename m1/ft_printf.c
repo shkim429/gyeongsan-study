@@ -6,7 +6,7 @@
 /*   By: sohuikim <sohuikim@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/23 10:01:18 by sohuikim          #+#    #+#             */
-/*   Updated: 2025/08/02 14:48:51 by sohuikim         ###   ########.fr       */
+/*   Updated: 2025/08/04 14:40:47 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,8 @@ int	print_type(t_value *info)
 		return (ft_print_hex(info->ux, 1));
 	else if (info->type == 's')
 		return (ft_print_s(info->s));
+	else if (info->type == 'p')
+		return (ft_print_p(info->p, 0));
 	else
 		return (-1);
 }
