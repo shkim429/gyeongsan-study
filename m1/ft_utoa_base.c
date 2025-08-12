@@ -6,7 +6,7 @@
 /*   By: sohuikim <sohuikim@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/02 11:46:34 by sohuikim          #+#    #+#             */
-/*   Updated: 2025/08/04 14:16:27 by sohuikim         ###   ########.fr       */
+/*   Updated: 2025/08/12 02:27:03 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	unsigned_hex_nlen(unsigned int n, unsigned int base)
 	unsigned int	len;
 
 	len = 0;
-	if (n > base)
+	if (n >= base)
 		len += unsigned_hex_nlen(n / base, base);
 	len++;
 	return (len);
@@ -42,7 +42,7 @@ char	*ft_utoa_base(uintptr_t n, uintptr_t base, int uppercase)
 		str[0] = '0';
 		return (str);
 	}
-	while (n > base)
+	while (n >= base)
 	{
 		hex_num = n % base;
 		n /= base;

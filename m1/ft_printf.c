@@ -6,67 +6,34 @@
 /*   By: sohuikim <sohuikim@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/23 10:01:18 by sohuikim          #+#    #+#             */
-/*   Updated: 2025/08/04 14:40:47 by sohuikim         ###   ########.fr       */
+/*   Updated: 2025/08/12 01:59:30 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-void	parse_format(t_value *info, char format)
+int	parse_format(va_list *ap, char format)
 {
 	if (format == 'c')
-		info->type = 'c';
+		return (ft_print_c(va_arg(*ap, int)));
 	else if ((format == 'd') || (format == 'i'))
-		info->type = 'd';
+		return (ft_print_id(va_arg(*ap, int)));
 	else if (format == 'u')
-		info->type = 'u';
+		return (ft_print_u(va_arg(*ap, unsigned int)));
 	else if (format == 'x')
-		info->type = 'x';
+		return (ft_print_hex(va_arg(*ap, unsigned int), 0));
 	else if (format == 'X')
-		info->type = 'X';
+		return (ft_print_hex(va_arg(*ap, unsigned int), 1));
 	else if (format == 's')
-		info->type = 's';
+		return (ft_print_s(va_arg(*ap, char *)));
 	else if (format == 'p')
-		info->type = 'p';
-}
-
-int	print_type(t_value *info)
-{
-	if (info->type == 'c')
-		return (ft_print_c(info->c));
-	else if (info->type == 'd')
-		return (ft_print_id(info->id));
-	else if (info->type == 'u')
-		return (ft_print_u(info->ux));
-	else if (info->type == 'x')
-		return (ft_print_hex(info->ux, 0));
-	else if (info->type == 'X')
-		return (ft_print_hex(info->ux, 1));
-	else if (info->type == 's')
-		return (ft_print_s(info->s));
-	else if (info->type == 'p')
-		return (ft_print_p(info->p, 0));
+		return (ft_print_p(va_arg(*ap, void *), 0));
 	else
 		return (-1);
 }
 
-void	arg_type(t_value *info, va_list ap)
-{
-	if (info->type == 'c')
-		info->c = va_arg(ap, int);
-	else if (info->type == 'd')
-		info->id = va_arg(ap, int);
-	else if ((info->type == 'u') || (info->type == 'x') || (info->type == 'X'))
-		info->ux = va_arg(ap, unsigned int);
-	else if (info->type == 's')
-		info->s = va_arg(ap, char *);
-	else if (info->type == 'p')
-		info->p = va_arg(ap, void *);
-}
-
 int	ft_printf(const char *format, ...)
 {
-	t_value	info;
 	va_list	ap;
 	int		i;
 	int		len;
@@ -74,15 +41,12 @@ int	ft_printf(const char *format, ...)
 	va_start(ap, format);
 	i = 0;
 	len = 0;
-	ft_memset(&info, 0, sizeof(t_value));
 	while (format[i])
 	{
 		if (format[i] == '%')
 		{
 			i++;
-			parse_format(&info, format[i]);
-			arg_type(&info, ap);
-			len += print_type(&info);
+			len += parse_format(&ap, format[i]);
 		}
 		else
 		{
