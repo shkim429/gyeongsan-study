@@ -6,13 +6,13 @@
 /*   By: sohuikim <sohuikim@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/02 11:46:34 by sohuikim          #+#    #+#             */
-/*   Updated: 2025/08/12 02:27:03 by sohuikim         ###   ########.fr       */
+/*   Updated: 2025/08/15 02:55:57 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-int	unsigned_hex_nlen(unsigned int n, unsigned int base)
+int	unsigned_hex_nlen(uintptr_t n, uintptr_t base)
 {
 	unsigned int	len;
 
@@ -59,3 +59,10 @@ char	*ft_utoa_base(uintptr_t n, uintptr_t base, int uppercase)
 // 	printf("%s", hex_str);
 // 	free(hex_str);
 // }
+
+#include <stdio.h>
+int main()
+{
+	char *s = 0;
+	printf("%s", 0);
+}
