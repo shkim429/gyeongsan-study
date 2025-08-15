@@ -6,7 +6,7 @@
 /*   By: sohuikim <sohuikim@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/23 10:01:18 by sohuikim          #+#    #+#             */
-/*   Updated: 2025/08/12 01:59:30 by sohuikim         ###   ########.fr       */
+/*   Updated: 2025/08/15 22:01:11 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,12 @@ int	parse_format(va_list *ap, char format)
 		return (ft_print_s(va_arg(*ap, char *)));
 	else if (format == 'p')
 		return (ft_print_p(va_arg(*ap, void *), 0));
+	else if (format == '%')
+		return (write(1, "%", 1));
 	else
+	{
 		return (-1);
+	}
 }
 
 int	ft_printf(const char *format, ...)
@@ -58,4 +62,3 @@ int	ft_printf(const char *format, ...)
 	va_end(ap);
 	return (len);
 }
-

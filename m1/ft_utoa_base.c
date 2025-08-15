@@ -6,7 +6,7 @@
 /*   By: sohuikim <sohuikim@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/02 11:46:34 by sohuikim          #+#    #+#             */
-/*   Updated: 2025/08/15 02:55:57 by sohuikim         ###   ########.fr       */
+/*   Updated: 2025/08/15 12:05:22 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,9 +60,9 @@ char	*ft_utoa_base(uintptr_t n, uintptr_t base, int uppercase)
 // 	free(hex_str);
 // }
 
-#include <stdio.h>
-int main()
-{
-	char *s = 0;
-	printf("%s", 0);
-}
+// #include <stdio.h>
+// int main()
+// {
+// 	char *s = 0;
+// 	printf("%s", s);
+// }
