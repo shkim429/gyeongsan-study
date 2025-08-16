@@ -5,6 +5,10 @@ RM = rm -rf
 SRCS = ft_printf.c ft_print_c.c ft_print_id.c ft_print_u.c ft_print_hex.c ft_print_s.c ft_print_p.c\
 ft_strlen.c ft_strdup.c ft_itoa.c ft_utoa.c ft_utoa_base.c ft_memset.c\
 
+SRCS_PATH = /home/sohuikim/gisa/m1/ft_printf
+vpath %.c $(SRCS_PATH)
+vpath %.h $(SRCS_PATH)
+
 OBJS = ${SRCS:.c=.o}
 OBJ_DIR = obj
 OBJS_FILES = $(addprefix $(OBJ_DIR)/, $(SRCS:.c=.o))
