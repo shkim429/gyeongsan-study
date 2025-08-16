@@ -1,6 +1,6 @@
 NAME = libftprintf.a
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -g
+CFLAGS = -g
 RM = rm -rf
 SRCS = ft_printf.c ft_print_c.c ft_print_id.c ft_print_u.c ft_print_hex.c ft_print_s.c ft_print_p.c\
 ft_strlen.c ft_strdup.c ft_itoa.c ft_utoa.c ft_utoa_base.c ft_memset.c\

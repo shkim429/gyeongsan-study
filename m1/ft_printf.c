@@ -6,7 +6,7 @@
 /*   By: sohuikim <sohuikim@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/23 10:01:18 by sohuikim          #+#    #+#             */
-/*   Updated: 2025/08/15 22:01:11 by sohuikim         ###   ########.fr       */
+/*   Updated: 2025/08/16 16:27:18 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,7 @@ int	parse_format(va_list *ap, char format)
 	else if (format == '%')
 		return (write(1, "%", 1));
 	else
-	{
-		return (-1);
-	}
+		return (1);
 }
 
 int	ft_printf(const char *format, ...)
