@@ -6,7 +6,7 @@
 /*   By: sohuikim <sohuikim@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/31 13:24:34 by sohuikim          #+#    #+#             */
-/*   Updated: 2025/08/17 23:06:29 by sohuikim         ###   ########.fr       */
+/*   Updated: 2025/08/18 02:12:04 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,17 +15,17 @@
 #include <stdio.h>
 int main()
 {
-	int id = 0;
-	char c = 0;
+	int id = -2147483648;
+	char c = '\0';
 	char *s = 0;
 	unsigned int uxX = 0;
 	unsigned int *p = NULL;
 	printf("==id 출력 결과==\n");
-	int len_ft_id = ft_printf("%d\t", id);
-	int len_id = printf("%d\t", id);
+	int len_ft_id = ft_printf("%%b\t", id);
+	int len_id = printf("%d", id);
 	printf("(길이: %d %d)\n", len_ft_id, len_id);
 	printf("==c 출력 결과==\n");
-	int len_ft_c = ft_printf("%c\t", c);
+	int len_ft_c = ft_printf("%b\t", c);
 	int len_c = printf("%c\t", c);
 	printf("(길이: %d %d)\n", len_ft_c, len_c);
 	printf("==s 출력 결과==\n");

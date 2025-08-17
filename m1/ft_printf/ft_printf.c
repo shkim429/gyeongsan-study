@@ -6,7 +6,7 @@
 /*   By: sohuikim <sohuikim@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/23 10:01:18 by sohuikim          #+#    #+#             */
-/*   Updated: 2025/08/17 17:08:33 by sohuikim         ###   ########.fr       */
+/*   Updated: 2025/08/17 23:55:58 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,9 @@
 
 int	parse_format(va_list *ap, char format)
 {
+	int	error_len;
+
+	error_len = 0;
 	if (format == 'c')
 		return (ft_print_c(va_arg(*ap, int)));
 	else if ((format == 'd') || (format == 'i'))
@@ -31,7 +34,12 @@ int	parse_format(va_list *ap, char format)
 	else if (format == '%')
 		return (write(1, "%", 1));
 	else
-		return (1);
+		{
+			error_len += write(1, "error: invalid conversion specifier '", 37);
+			error_len += write(1, &format, 1);
+			error_len += write(1, "'", 1);
+			return (error_len);
+		}	
 }
 
 int	ft_printf(const char *format, ...)
