@@ -6,23 +6,23 @@
 /*   By: sohuikim <sohuikim@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/31 13:24:34 by sohuikim          #+#    #+#             */
-/*   Updated: 2025/08/16 22:07:11 by sohuikim         ###   ########.fr       */
+/*   Updated: 2025/08/17 23:06:29 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf/ft_printf.h"
+#include "ft_printf.h"
 
 #include <stdio.h>
 int main()
 {
-	int id = 3;
-	char c = 'a';
-	char *s = "abc";
-	unsigned int uxX = 123;
-	unsigned int *p = &uxX;
+	int id = 0;
+	char c = 0;
+	char *s = 0;
+	unsigned int uxX = 0;
+	unsigned int *p = NULL;
 	printf("==id 출력 결과==\n");
 	int len_ft_id = ft_printf("%d\t", id);
-	int len_id = printf("fr%d\t", id);
+	int len_id = printf("%d\t", id);
 	printf("(길이: %d %d)\n", len_ft_id, len_id);
 	printf("==c 출력 결과==\n");
 	int len_ft_c = ft_printf("%c\t", c);

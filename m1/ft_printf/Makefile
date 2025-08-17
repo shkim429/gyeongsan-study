@@ -1,20 +1,28 @@
 NAME = libftprintf.a
 CC = cc
-CFLAGS = -g
+CFLAGS = -Wall -Wextra -Werror $(INC) -g
 RM = rm -rf
 SRCS = ft_printf.c ft_print_c.c ft_print_id.c ft_print_u.c ft_print_hex.c ft_print_s.c ft_print_p.c\
-ft_strlen.c ft_strdup.c ft_itoa.c ft_utoa.c ft_utoa_base.c ft_memset.c\
+	   ft_utoa.c ft_utoa_base.c\
 
 OBJS = ${SRCS:.c=.o}
 OBJ_DIR = obj
 OBJS_FILES = $(addprefix $(OBJ_DIR)/, $(SRCS:.c=.o))
+LIBS_PATH = -L. -L./ft_libft
+LIBS = -lftprintf -lft
+INC = -I./include -I./ft_libft
+
 MAIN = ../main.c
 MAIN_EXE = a.out
 
 all : $(NAME)
 
 $(NAME) : $(OBJS_FILES)
-	ar -rcs $(NAME) $(OBJS_FILES)
+	make -C ./ft_libft
+	ar -x ./ft_libft/libft.a
+	mv *.o $(OBJ_DIR)
+	ar -rcs $(NAME) $(OBJ_DIR)/*.o
+	make -C ./ft_libft clean
 
 $(OBJ_DIR) :
 	mkdir -p $(OBJ_DIR)
@@ -23,10 +31,10 @@ $(OBJ_DIR)/%.o : %.c | $(OBJ_DIR)
 	$(CC) $(CFLAGS) -c $< -o $@
 
 $(MAIN_EXE) : $(NAME) $(MAIN)
-	$(CC) $(CFLAGS) $(MAIN) -L. -lftprintf -o $(MAIN_EXE)
+	$(CC) $(CFLAGS) $(MAIN) $(LIBS_PATH)  $(LIBS) -o $(MAIN_EXE)
 
 clean :
-	$(RM) $(OBJS_FILES) $(MAIN_EXE)
+	$(RM) $(OBJ_DIR) $(MAIN_EXE)
 
 fclean : clean
 	$(RM) $(NAME) $(MAIN_EXE)

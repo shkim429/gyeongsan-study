@@ -6,7 +6,7 @@
 /*   By: sohuikim <sohuikim@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/25 16:09:23 by sohuikim          #+#    #+#             */
-/*   Updated: 2025/08/16 16:33:00 by sohuikim         ###   ########.fr       */
+/*   Updated: 2025/08/17 17:02:28 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include <stdint.h>
 # include <stdlib.h>
 # include <stdarg.h>
+# include "libft.h"
 
 int				ft_printf(const char *format, ...);
 int				parse_format(va_list *ap, char format);
@@ -25,11 +26,7 @@ int				ft_print_u(unsigned int u);
 int				ft_print_hex(unsigned int x_num, int uppercase);
 int				ft_print_s(char *str);
 int				ft_print_p(void *ptr, int uppercase);
-size_t			ft_strlen(const char *s);
-char			*ft_strdup(const char *s);
-char			*ft_itoa(int n);
 char			*ft_utoa(unsigned int n);
 char			*ft_utoa_base(uintptr_t n, uintptr_t base, int uppercase);
-void			*ft_memset(void *s, int c, size_t n);
 
 #endif

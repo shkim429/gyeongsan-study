@@ -5,15 +5,15 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: sohuikim <sohuikim@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/29 15:36:18 by sohuikim          #+#    #+#             */
-/*   Updated: 2025/08/02 02:49:46 by sohuikim         ###   ########.fr       */
+/*   Created: 2025/07/04 16:21:20 by sohuikim          #+#    #+#             */
+/*   Updated: 2025/08/17 22:32:45 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
+#include "libft.h"
 
-int	signed_nlen(int n);
-int	sign_idx(int n);
+int		signed_nlen(int n);
+int		sign_idx(int n);
 
 char	*ft_itoa(int n)
 {
@@ -55,7 +55,9 @@ int	signed_nlen(int n)
 		len++;
 	}
 	if (n > 9)
+	{
 		len += signed_nlen(n / 10);
+	}
 	len++;
 	return (len);
 }

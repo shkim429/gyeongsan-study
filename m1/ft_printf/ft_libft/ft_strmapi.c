@@ -1,30 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_memset.c                                        :+:      :+:    :+:   */
+/*   ft_strmapi.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sohuikim <sohuikim@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/28 20:29:10 by sohuikim          #+#    #+#             */
-/*   Updated: 2025/07/30 15:48:20 by sohuikim         ###   ########.fr       */
+/*   Created: 2025/07/09 10:28:07 by sohuikim          #+#    #+#             */
+/*   Updated: 2025/07/22 14:21:07 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
+#include "libft.h"
 
-void	*ft_memset(void *s, int c, size_t n)
+char	*ft_strmapi(const char *s, char (*f)(unsigned int, char))
 {
-	unsigned char	c_copy;
-	unsigned char	*s_copy;
-	size_t			i;
+	char	*str;
+	int		i;
 
-	c_copy = (unsigned char) c;
-	s_copy = (unsigned char *)s;
+	if (s == NULL || f == NULL)
+		return (NULL);
+	str = (char *)malloc((ft_strlen(s) + 1) * sizeof(char));
+	if (str == NULL)
+		return (NULL);
 	i = 0;
-	while (i < n)
+	while (s[i])
 	{
-		s_copy[i] = c_copy;
+		str[i] = f(i, s[i]);
 		i++;
 	}
-	return (s_copy);
+	str[i] = '\0';
+	return (str);
 }

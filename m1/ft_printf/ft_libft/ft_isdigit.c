@@ -1,33 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strdup.c                                        :+:      :+:    :+:   */
+/*   ft_isdigit.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sohuikim <sohuikim@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/29 15:30:20 by sohuikim          #+#    #+#             */
-/*   Updated: 2025/07/29 15:34:30 by sohuikim         ###   ########.fr       */
+/*   Created: 2025/06/27 02:08:43 by sohuikim          #+#    #+#             */
+/*   Updated: 2025/07/14 16:31:46 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
+#include "libft.h"
 
-char	*ft_strdup(const char *s)
+int	ft_isdigit(int c)
 {
-	char	*s_copy;
-	int		i;
-
-	if (s == NULL)
-		return (NULL);
-	s_copy = (char *)malloc(ft_strlen(s) + 1);
-	if (s_copy == NULL)
-		return (NULL);
-	i = 0;
-	while (s[i])
-	{
-		s_copy[i] = s[i];
-		i++;
-	}
-	s_copy[i] = '\0';
-	return (s_copy);
+	if (c >= '0' && c <= '9')
+		return (1);
+	else
+		return (0);
 }
