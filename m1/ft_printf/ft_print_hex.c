@@ -6,7 +6,7 @@
 /*   By: sohuikim <sohuikim@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/02 14:22:50 by sohuikim          #+#    #+#             */
-/*   Updated: 2025/08/17 16:38:13 by sohuikim         ###   ########.fr       */
+/*   Updated: 2025/08/19 18:54:21 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,13 +23,3 @@ int	ft_print_hex(unsigned int x_num, int uppercase)
 	free(str);
 	return (len);
 }
-
-// #include <stdio.h>
-// int main()
-// {
-// 	unsigned int x_num = 4294967295;
-// 	int len_ft_hex = ft_print_hex(x_num, 1);
-// 	printf("\t");
-// 	int len_hex = printf("%X", x_num);
-// 	printf("\n%d %d" ,len_ft_hex, len_hex);
-// }

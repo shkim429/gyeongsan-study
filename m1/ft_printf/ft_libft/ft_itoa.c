@@ -6,7 +6,7 @@
 /*   By: sohuikim <sohuikim@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/04 16:21:20 by sohuikim          #+#    #+#             */
-/*   Updated: 2025/08/17 22:32:45 by sohuikim         ###   ########.fr       */
+/*   Updated: 2025/08/19 15:50:31 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,9 +55,7 @@ int	signed_nlen(int n)
 		len++;
 	}
 	if (n > 9)
-	{
 		len += signed_nlen(n / 10);
-	}
 	len++;
 	return (len);
 }

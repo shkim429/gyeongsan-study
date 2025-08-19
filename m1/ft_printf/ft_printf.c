@@ -6,17 +6,46 @@
 /*   By: sohuikim <sohuikim@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/23 10:01:18 by sohuikim          #+#    #+#             */
-/*   Updated: 2025/08/17 23:55:58 by sohuikim         ###   ########.fr       */
+/*   Updated: 2025/08/19 19:24:40 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
+int	parse_format(va_list *ap, char format);
+int	error_case(char format);
+
+int	ft_printf(const char *format, ...)
+{
+	va_list	ap;
+	int		i;
+	int		len;
+
+	va_start(ap, format);
+	i = 0;
+	len = 0;
+	while (format[i])
+	{
+		if (format[i] == '%')
+		{
+			i++;
+			if (error_case(format[i]) == -1)
+				return (-1);
+			len += parse_format(&ap, format[i]);
+		}
+		else
+		{
+			write(1, &format[i], 1);
+			len++;
+		}
+		i++;
+	}
+	va_end(ap);
+	return (len);
+}
+
 int	parse_format(va_list *ap, char format)
 {
-	int	error_len;
-
-	error_len = 0;
 	if (format == 'c')
 		return (ft_print_c(va_arg(*ap, int)));
 	else if ((format == 'd') || (format == 'i'))
@@ -34,37 +63,17 @@ int	parse_format(va_list *ap, char format)
 	else if (format == '%')
 		return (write(1, "%", 1));
 	else
-		{
-			error_len += write(1, "error: invalid conversion specifier '", 37);
-			error_len += write(1, &format, 1);
-			error_len += write(1, "'", 1);
-			return (error_len);
-		}	
+		return (-1);
 }
 
-int	ft_printf(const char *format, ...)
+int	error_case(char format)
 {
-	va_list	ap;
-	int		i;
+	char	*error_map;
 	int		len;
 
-	va_start(ap, format);
-	i = 0;
+	error_map = "0123456789CILZjlqtz";
 	len = 0;
-	while (format[i])
-	{
-		if (format[i] == '%')
-		{
-			i++;
-			len += parse_format(&ap, format[i]);
-		}
-		else
-		{
-			write(1, &format[i], 1);
-			len++;
-		}
-		i++;
-	}
-	va_end(ap);
+	if (ft_strchr(error_map, format))
+		len = -1;
 	return (len);
 }

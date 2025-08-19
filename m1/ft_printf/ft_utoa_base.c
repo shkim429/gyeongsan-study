@@ -6,22 +6,13 @@
 /*   By: sohuikim <sohuikim@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/02 11:46:34 by sohuikim          #+#    #+#             */
-/*   Updated: 2025/08/15 12:05:22 by sohuikim         ###   ########.fr       */
+/*   Updated: 2025/08/19 16:53:26 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-int	unsigned_hex_nlen(uintptr_t n, uintptr_t base)
-{
-	unsigned int	len;
-
-	len = 0;
-	if (n >= base)
-		len += unsigned_hex_nlen(n / base, base);
-	len++;
-	return (len);
-}
+int	unsigned_hex_nlen(uintptr_t n, uintptr_t base);
 
 char	*ft_utoa_base(uintptr_t n, uintptr_t base, int uppercase)
 {
@@ -52,17 +43,13 @@ char	*ft_utoa_base(uintptr_t n, uintptr_t base, int uppercase)
 	return (str);
 }
 
-// #include <stdio.h>
-// int main()
-// {
-// 	char *hex_str = ft_utoa_base(0, 16, 1);
-// 	printf("%s", hex_str);
-// 	free(hex_str);
-// }
+int	unsigned_hex_nlen(uintptr_t n, uintptr_t base)
+{
+	unsigned int	len;
 
-// #include <stdio.h>
-// int main()
-// {
-// 	char *s = 0;
-// 	printf("%s", s);
-// }
+	len = 0;
+	if (n >= base)
+		len += unsigned_hex_nlen(n / base, base);
+	len++;
+	return (len);
+}

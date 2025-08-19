@@ -6,7 +6,7 @@
 /*   By: sohuikim <sohuikim@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/01 15:26:28 by sohuikim          #+#    #+#             */
-/*   Updated: 2025/08/02 11:51:23 by sohuikim         ###   ########.fr       */
+/*   Updated: 2025/08/19 18:55:00 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,14 +40,3 @@ char	*ft_utoa(unsigned int n)
 	}
 	return (str);
 }
-
-// #include <stdio.h>
-
-// int main()
-// {
-// 	unsigned long num1 = 4294967295;
-// 	printf("%s\n", ft_utoa(num1));
-// 	printf("%lu\n\n", num1);
-// 	printf("%s\n", ft_utoa(-20));
-// 	printf("%u\n", -20);
-// }

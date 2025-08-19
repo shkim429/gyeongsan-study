@@ -6,7 +6,7 @@
 /*   By: sohuikim <sohuikim@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/04 13:15:22 by sohuikim          #+#    #+#             */
-/*   Updated: 2025/08/17 23:02:01 by sohuikim         ###   ########.fr       */
+/*   Updated: 2025/08/19 16:53:06 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,21 +26,3 @@ int	ft_print_p(void *ptr, int uppercase)
 	free(str);
 	return (2 + len);
 }
-// #include <stdio.h>
-// int main()
-// {
-// 	char *str = "123";
-// 	int len = ft_print_p(str, 0);
-// 	printf("\n%d\n", len);
-// 	printf("%p", str);
-// 	printf("\n%s", str);
-// }
-
-// #include <stdio.h>
-// int main()
-// {
-// 	char *ptr = NULL;
-// 	int len_ft_p = ft_print_p(ptr, 0);
-// 	int len_p = printf("%p", ptr);
-// 	printf("%d %d", len_ft_p, len_p);
-// }
