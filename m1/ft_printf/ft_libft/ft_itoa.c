@@ -6,56 +6,54 @@
 /*   By: sohuikim <sohuikim@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/04 16:21:20 by sohuikim          #+#    #+#             */
-/*   Updated: 2025/08/19 15:50:31 by sohuikim         ###   ########.fr       */
+/*   Updated: 2025/09/06 20:00:45 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int		signed_nlen(int n);
+int		signed_nlen(long n);
 int		sign_idx(int n);
 
 char	*ft_itoa(int n)
 {
 	char	*str;
+	long	long_n;
 	int		i;
 	int		min_idx;
 
-	i = signed_nlen(n);
-	min_idx = sign_idx(n);
-	str = (char *)malloc(i + 1);
+	long_n = n;
+	i = signed_nlen(long_n);
+	min_idx = sign_idx(long_n);
+	str = calloc((i + 1), sizeof(char));
 	if (str == NULL)
 		return (NULL);
 	str[i--] = '\0';
-	if (n == -2147483648)
-		return (ft_strdup("-2147483648"));
-	if (n < 0)
+	if (long_n < 0)
 	{
 		str[0] = '-';
-		n = -n;
+		long_n = -long_n;
 	}
 	while (i >= min_idx)
 	{
-		str[i--] = (n % 10 + '0');
-		n /= 10;
+		str[i--] = (long_n % 10 + '0');
+		long_n /= 10;
 	}
 	return (str);
 }
 
-int	signed_nlen(int n)
+int	signed_nlen(long long_n)
 {
-	int	len;
+	int		len;
 
 	len = 0;
-	if (n == -2147483648)
-		return (11);
-	if (n < 0)
+	if (long_n < 0)
 	{
-		n = -n;
+		long_n = -long_n;
 		len++;
 	}
-	if (n > 9)
-		len += signed_nlen(n / 10);
+	if (long_n > 9)
+		len += signed_nlen(long_n / 10);
 	len++;
 	return (len);
 }
