@@ -6,7 +6,7 @@
 /*   By: sohuikim <sohuikim@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/31 13:24:34 by sohuikim          #+#    #+#             */
-/*   Updated: 2025/09/06 20:26:48 by sohuikim         ###   ########.fr       */
+/*   Updated: 2025/09/07 20:07:57 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,15 @@
 #include <stdio.h>
 int main()
 {
-	 // int id = INT_MIN;
+	 int id = INT_MIN;
 	char c = '\0';
 	char *s = 0;
 	unsigned int uxX = 42;
 	unsigned int *p = NULL;
 	printf("==id 출력 결과==\n");
-	int len_ft_id = ft_printf("%");
-	int len_id = printf("%");
+	int len_ft_id = ft_printf("%q %d", id, id);
+	printf("\t");
+	int len_id = printf("%q %d", id, id);
 	printf("\n");
 	printf("(길이: %d %d)\n", len_ft_id, len_id);
 	printf("==c 출력 결과==\n");
