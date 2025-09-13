@@ -6,7 +6,7 @@
 /*   By: sohuikim <sohuikim@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/31 13:24:34 by sohuikim          #+#    #+#             */
-/*   Updated: 2025/09/07 20:07:57 by sohuikim         ###   ########.fr       */
+/*   Updated: 2025/09/13 16:48:06 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,9 @@ int main()
 	unsigned int uxX = 42;
 	unsigned int *p = NULL;
 	printf("==id 출력 결과==\n");
-	int len_ft_id = ft_printf("%q %d", id, id);
+	int len_ft_id = ft_printf("%q  %d %q", id, id);
 	printf("\t");
-	int len_id = printf("%q %d", id, id);
+	int len_id = printf("%q %d %q", id, id);
 	printf("\n");
 	printf("(길이: %d %d)\n", len_ft_id, len_id);
 	printf("==c 출력 결과==\n");

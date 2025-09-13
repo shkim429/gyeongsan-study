@@ -11,5 +11,4 @@ int main()
 	int len_p = printf("p) %p %p %p %p %p %p %p\n", NULL, (void*)0, (void*)0x1234, (void*)-1, (void*)0x7fffffffffffffff, (void*)1, (void*)0xdeadbeef);
 
 	printf("%d %d %d %d %d %d", len_id, len_u, len_x, len_X, len_s, len_p);
-
 }

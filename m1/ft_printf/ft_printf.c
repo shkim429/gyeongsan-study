@@ -6,7 +6,7 @@
 /*   By: sohuikim <sohuikim@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/23 10:01:18 by sohuikim          #+#    #+#             */
-/*   Updated: 2025/09/07 18:12:44 by sohuikim         ###   ########.fr       */
+/*   Updated: 2025/09/13 16:43:11 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,8 @@ int	ft_printf(const char *format, ...)
 			i++;
 			if (format[i] == '%')
 				len += write(1, "%", 1);
-			if (error_case(format[i], &len) == 1)
-				break ;
+			if (len == 0 && (error_case(format[i], &len) == 1))
+				i++;
 			len += parse_format(&ap, format[i]);
 		}
 		else
