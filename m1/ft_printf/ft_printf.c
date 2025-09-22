@@ -6,7 +6,7 @@
 /*   By: sohuikim <sohuikim@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/23 10:01:18 by sohuikim          #+#    #+#             */
-/*   Updated: 2025/09/13 16:43:11 by sohuikim         ###   ########.fr       */
+/*   Updated: 2025/09/14 14:48:53 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,9 +52,9 @@ int	parse_format(va_list *ap, char format)
 	else if (format == 'u')
 		return (ft_print_u(va_arg(*ap, unsigned int)));
 	else if (format == 'x')
-		return (ft_print_hex(va_arg(*ap, unsigned int), 0));
+		return (ft_print_hex(va_arg(*ap, unsigned int), LOWERCASE));
 	else if (format == 'X')
-		return (ft_print_hex(va_arg(*ap, unsigned int), 1));
+		return (ft_print_hex(va_arg(*ap, unsigned int), UPPERCASE));
 	else if (format == 's')
 		return (ft_print_s(va_arg(*ap, char *)));
 	else if (format == 'p')
@@ -65,7 +65,7 @@ int	parse_format(va_list *ap, char format)
 
 int	error_case(char format, int *len)
 {
-	char	*error_map;
+	char	*error_map;	
 
 	error_map = "0123456789CILZjlqtz";
 	if (ft_strchr(error_map, format))

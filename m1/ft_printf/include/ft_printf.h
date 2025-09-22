@@ -6,7 +6,7 @@
 /*   By: sohuikim <sohuikim@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/25 16:09:23 by sohuikim          #+#    #+#             */
-/*   Updated: 2025/09/07 15:41:28 by sohuikim         ###   ########.fr       */
+/*   Updated: 2025/09/14 12:55:08 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@
 # include <stdlib.h>
 # include <stdarg.h>
 # include "libft.h"
+# define  LOWERCASE 0
+# define UPPERCASE 1
 
 int				ft_printf(const char *format, ...);
 int				parse_format(va_list *ap, char format);
