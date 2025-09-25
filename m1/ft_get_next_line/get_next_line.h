@@ -6,7 +6,7 @@
 /*   By: sohuikim <sohuikim@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 01:25:17 by sohuikim          #+#    #+#             */
-/*   Updated: 2025/09/21 20:03:52 by sohuikim         ###   ########.fr       */
+/*   Updated: 2025/09/25 20:44:53 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 # define GET_NEXT_LINE_H
 # include <unistd.h>
 # include <fcntl.h>
-# include "libft.h"
 
 char	*get_next_line(int fd);
 

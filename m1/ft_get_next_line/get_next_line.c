@@ -6,7 +6,7 @@
 /*   By: sohuikim <sohuikim@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 01:24:36 by sohuikim          #+#    #+#             */
-/*   Updated: 2025/09/22 14:48:42 by sohuikim         ###   ########.fr       */
+/*   Updated: 2025/09/25 20:45:17 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,25 +21,24 @@ char	*get_next_line(int fd)
 	while (read_len = read(fd, buffer, BUFFER_SIZE) > 0)
 	{
 		buffer[read_len] = '\0';
-		stash = ft_strjoin(stash, buffer);
 	}
 } 
 
-void ft_strcut(char *join_stash)
-{
-	char	offset;
+// void ft_strcut(char *join_stash)
+// {
+// 	char	offset;
 	
-	if ()
-}
+// 	if ()
+// }
 
 #include <fcntl.h>
 #include <unistd.h>
 int main(void)
 {
-	int 	fd;
+	int		fd;
 	char	*str;
 
-	fd = open("temp.txt", O_RDONLY);
+	fd = open("test.txt", O_RDONLY);
 	str = get_next_line(fd);
 
 	printf("%s\n", str);
