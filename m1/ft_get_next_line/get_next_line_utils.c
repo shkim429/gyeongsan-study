@@ -6,25 +6,25 @@
 /*   By: sohuikim <sohuikim@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/22 14:52:48 by sohuikim          #+#    #+#             */
-/*   Updated: 2025/09/25 22:04:13 by sohuikim         ###   ########.fr       */
+/*   Updated: 2025/09/26 22:13:37 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-int	get_idx_find_first_chr(char	*stash, int find_chr)
+int	get_idx_find_first_chr(char	*buffer, int find_chr)
 {
 	int				idx;
 	int				offset;
 	unsigned char	find_chr_copy;
 
-	if (stash == NULL)
+	if (buffer == NULL) // 검토 필요(read() 호출 직후, 에러인지 확인해도 될 것 같음)
 		return (-1);
 	idx = 0;
 	find_chr_copy = (unsigned char)find_chr;
-	while (stash[idx] != find_chr_copy)
+	while (buffer[idx] != find_chr_copy)
 	{
-		if (stash[idx + 1] == '\0')
+		if (buffer[idx] == '\0')
 			break ;
 		idx++;
 	}
@@ -43,21 +43,24 @@ size_t	ft_strlen(const char *s)
 }
 
 
-char	*ft_strcut(char *stash, char *buffer, int *offset)
+char	*ft_strcut(char *buffer, int *offset)
 {
 	char	*cut_str;
 	int		idx;
+	int		cut_str_len;
 
+	if (*offset < 0)
+		return (NULL);
 	idx = 0;
-	offset = 0;
-	offset = get_idx_find_first_chr(stash, "\n");
-	if (offset < 0)
-		return (-1);
-	else if (offset == 0) // 수정 필요
-		cut_str = append_str(&stash, &buffer, &offset);
+	*offset = 0;
+	*offset = get_idx_find_first_chr(buffer, '\n'); // 수정 필요: 호출하는 쪽에서 offset 계산
+	cut_str_len = *offset - idx;
+	cut_str = (char *)malloc(cut_str_len + 1);
+	if (*offset == 0) // 수정 필요
+		cut_str = ""; // 빈 문자열 동적 할당
 	else
 	{
-		while (idx <= offset)
+		while (idx <= cut_str_len)
 		{
 			cut_str[idx] = buffer[idx];
 			idx++;
@@ -73,36 +76,47 @@ char	*ft_realloc(char *stash, size_t capacity_stash, size_t need_size)
 
 	realloc_join_stash = malloc(need_size);
 	if (realloc_join_stash == NULL)
-		reuturn (NULL);
+		return (NULL);
 	realloc_join_stash = ft_memcpy(realloc_join_stash, stash, capacity_stash);
+	free(stash);
+	return (realloc_join_stash);
 }
 
-char	*append_str(char *stash, char *buffer, int *offset)
+char	*append_str(char *cut_str)
 {
-	char	*join_stash;
-	size_t	capacity_stash;
-	size_t	need_size;
-	size_t	copy_len;
-	size_t	i;
+	static char			*join_stash;
+	static size_t		capacity_stash;
+	size_t				need_size;
+	int					join_stash_end_idx;
+	size_t				cutstr_len;
+	size_t				i;
 
-	if (stash == NULL)
+	if (join_stash == NULL) // 수정 필요: 초기값으로 NULL이 안 들어오는 경우도 있을 것 같음
 	{
-		join_stash = malloc(ft_strlen(buffer));
+		join_stash = malloc(ft_strlen(cut_str));
 		capacity_stash = BUFFER_SIZE;
+		join_stash = cut_str;
+		join_stash_end_idx = 0;
 	}
 	else
 	{
-		need_size = ft_strlen(stash) + ft_strlen(buffer);
+		cutstr_len = ft_strlen(cut_str);
+		need_size = ft_strlen(join_stash) + cutstr_len;
 		if (capacity_stash < need_size)
-			join_stash = ft_realloc(&stash, capacity_stash, need_size);
+		{
+			join_stash = ft_realloc(join_stash, capacity_stash, need_size); // i) t = abc\ndb  => abc
+			capacity_stash = need_size;
+			join_stash_end_idx = ft_strlen(join_stash);
+			i = 0;
+			while (i <= cutstr_len)
+				join_stash[join_stash_end_idx++] = cut_str[i++];
+			join_stash[join_stash_end_idx] = '\0';
+		}
 	}
-	stash  = ft_strcut(&stash, &buffer, &offset);
-	copy_len = offset - i;
-	while (copy_len)
-	{
-		join_stash[]
-	}
+	return (join_stash);
 }
+
+
 
 void	*ft_memcpy(void *dest, const void *src, size_t n)
 {
@@ -110,6 +124,7 @@ void	*ft_memcpy(void *dest, const void *src, size_t n)
 	unsigned char	*s_copy;
 	size_t			i;
 
+	i = 0;
 	d_copy = (unsigned char *)dest;
 	s_copy = (unsigned char *)src;
 
