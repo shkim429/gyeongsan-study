@@ -6,7 +6,10 @@ int main()
 
 	fd = open("text.txt", O_RDONLY);
 	if (fd > 0)
-		test(fd);
+	{
+		char *str = get_next_line(fd);
+		printf("%s", str);
+	}
 	else
 		return (-1);
 }

@@ -6,7 +6,7 @@
 /*   By: sohuikim <sohuikim@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 01:25:17 by sohuikim          #+#    #+#             */
-/*   Updated: 2025/09/26 22:09:19 by sohuikim         ###   ########.fr       */
+/*   Updated: 2025/09/27 16:49:55 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 # include <fcntl.h>
 # include <stdlib.h>
 # include <stdint.h>
-# include <limits.h>
+# include <stdio.h>
 
 char	*get_next_line(int fd);
 char	*ft_strcut(char *buffer, int *offset);
@@ -25,8 +25,8 @@ int	get_idx_find_first_chr(char	*buffer, int find_chr);
 char	*ft_realloc(char *stash, size_t capacity_stash, size_t need_size);
 void	*ft_memcpy(void *dest, const void *src, size_t n);
 size_t	ft_strlen(const char *s);
-int	test(int fd);
-
+char	*update_stash(char *buffer, int *offset);
+char	*ft_strdup(const char *s);
 
 #endif
 

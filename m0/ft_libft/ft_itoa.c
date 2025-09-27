@@ -24,14 +24,12 @@ char	*ft_itoa(int n)
 
 	i = nlen(n);
 	min_idx = sign_idx(n);
-	str = (char *)malloc((nlen(n) + 1) * sizeof(char));
+	if (n == -2147483648)
+		return (ft_strdup("-2147483648"));
+	str = ft_calloc((i + 1), sizeof(char));
 	if (str == NULL)
 		return (NULL);
 	str[i--] = '\0';
-	if (n == -2147483648)
-	{
-		return (ft_strcpy(str, "-2147483648"));
-	}
 	if (n < 0)
 	{
 		str[0] = '-';
@@ -85,4 +83,12 @@ char	*ft_strcpy(char *dest, const char *src)
 	}
 	dest[j] = '\0';
 	return (dest);
+}
+
+#include <stdio.h>
+int main(void)
+{
+	char	*num1 = ft_itoa(-2147483648);
+	printf("%s\n", num1);
+	free(num1);
 }

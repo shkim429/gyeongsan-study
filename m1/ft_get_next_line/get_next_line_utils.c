@@ -6,7 +6,7 @@
 /*   By: sohuikim <sohuikim@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/22 14:52:48 by sohuikim          #+#    #+#             */
-/*   Updated: 2025/09/26 22:13:37 by sohuikim         ###   ########.fr       */
+/*   Updated: 2025/09/27 19:40:35 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	get_idx_find_first_chr(char	*buffer, int find_chr)
 	while (buffer[idx] != find_chr_copy)
 	{
 		if (buffer[idx] == '\0')
-			break ;
+			return (-1);
 		idx++;
 	}
 	offset = idx;
@@ -41,28 +41,33 @@ size_t	ft_strlen(const char *s)
 		len++;
 	return (len);
 }
+char	*update_stash(char *stash, int *offset)
+{
+	int	i;
 
+	i = 0;
+	while (stash[*offset] != '\0')
+		stash[i++] = stash[*offset++];
+	stash[i] = '\0';
+	return (stash);
+}
 
-char	*ft_strcut(char *buffer, int *offset)
+char	*ft_strcut(char *stash, int *offset)
 {
 	char	*cut_str;
 	int		idx;
 	int		cut_str_len;
 
-	if (*offset < 0)
-		return (NULL);
+	if (*offset <= 0)
+		cut_str_len = ft_strlen(stash);
 	idx = 0;
-	*offset = 0;
-	*offset = get_idx_find_first_chr(buffer, '\n'); // 수정 필요: 호출하는 쪽에서 offset 계산
-	cut_str_len = *offset - idx;
-	cut_str = (char *)malloc(cut_str_len + 1);
-	if (*offset == 0) // 수정 필요
-		cut_str = ""; // 빈 문자열 동적 할당
-	else
+	if (*offset > 0)
 	{
+		cut_str_len = *offset - idx;
+		cut_str = (char *)malloc(cut_str_len + 1);
 		while (idx <= cut_str_len)
 		{
-			cut_str[idx] = buffer[idx];
+			cut_str[idx] = stash[idx];
 			idx++;
 		}
 	}
@@ -91,28 +96,27 @@ char	*append_str(char *cut_str)
 	size_t				cutstr_len;
 	size_t				i;
 
-	if (join_stash == NULL) // 수정 필요: 초기값으로 NULL이 안 들어오는 경우도 있을 것 같음
+	cutstr_len = ft_strlen(cut_str);
+	if (join_stash == NULL)
 	{
-		join_stash = malloc(ft_strlen(cut_str));
+		join_stash = malloc(cutstr_len);
 		capacity_stash = BUFFER_SIZE;
-		join_stash = cut_str;
 		join_stash_end_idx = 0;
 	}
 	else
 	{
-		cutstr_len = ft_strlen(cut_str);
 		need_size = ft_strlen(join_stash) + cutstr_len;
 		if (capacity_stash < need_size)
 		{
-			join_stash = ft_realloc(join_stash, capacity_stash, need_size); // i) t = abc\ndb  => abc
+			join_stash = ft_realloc(join_stash, capacity_stash, need_size);
 			capacity_stash = need_size;
 			join_stash_end_idx = ft_strlen(join_stash);
-			i = 0;
-			while (i <= cutstr_len)
-				join_stash[join_stash_end_idx++] = cut_str[i++];
-			join_stash[join_stash_end_idx] = '\0';
 		}
 	}
+	i = 0;
+	while (i < cutstr_len)
+		join_stash[join_stash_end_idx++] = cut_str[i++];
+	join_stash[join_stash_end_idx] = '\0';
 	return (join_stash);
 }
 
@@ -134,4 +138,24 @@ void	*ft_memcpy(void *dest, const void *src, size_t n)
 		i++;
 	}
 	return (d_copy);
+}
+
+char	*ft_strdup(const char *s)
+{
+	char	*s_copy;
+	int		i;
+
+	if (s == NULL)
+		return (NULL);
+	s_copy = (char *)malloc((ft_strlen(s) + 1) * sizeof(char));
+	if (s_copy == NULL)
+		return (NULL);
+	i = 0;
+	while (s[i])
+	{
+		s_copy[i] = s[i];
+		i++;
+	}
+	s_copy[i] = '\0';
+	return (s_copy);
 }

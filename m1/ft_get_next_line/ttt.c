@@ -13,7 +13,7 @@ int	get_idx_find_first_chr(char	*stash, int find_chr)
 	while (stash[idx] != find_chr_copy)
 	{
 		if (stash[idx] == '\0')
-			break ;
+			return (-1);
 		idx++;
 	}
 	offset = idx;
