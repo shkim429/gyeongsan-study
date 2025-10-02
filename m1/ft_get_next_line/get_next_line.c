@@ -6,7 +6,7 @@
 /*   By: sohuikim <sohuikim@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 01:24:36 by sohuikim          #+#    #+#             */
-/*   Updated: 2025/10/03 05:50:42 by sohuikim         ###   ########.fr       */
+/*   Updated: 2025/10/03 06:21:29 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,13 +30,13 @@ char	*get_next_line(int fd)
 	{
 		read_len = read(fd, buffer, BUFFER_SIZE);
 		if (read_len < 0)
-			return (end_get_next_line(line, &stash, buffer, read_len));
+			return (end_get_next_line(line, &stash, read_len));
 		buffer[read_len] = '\0';
 		stash = append_str(stash, buffer);
 		if (get_idx_find_first_chr(stash, '\n') >= 0 || read_len == 0)
 		{
 			line = make_line(stash);
-			return (end_get_next_line(line, &stash, buffer, read_len));
+			return (end_get_next_line(line, &stash, read_len));
 		}
 	}
 	return (line);
@@ -98,9 +98,8 @@ char	*append_str(char *pre_stash, char *cut_str)
 	return (join_stash);
 }
 
-char	*end_get_next_line(char *line, char **stash, char *buffer, int read_len)
+char	*end_get_next_line(char *line, char **stash, int read_len)
 {
-	free(buffer);
 	if (read_len < 0)
 	{
 		free(*stash);
