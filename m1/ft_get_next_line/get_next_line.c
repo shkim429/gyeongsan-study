@@ -6,7 +6,7 @@
 /*   By: sohuikim <sohuikim@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 01:24:36 by sohuikim          #+#    #+#             */
-/*   Updated: 2025/10/03 03:46:25 by sohuikim         ###   ########.fr       */
+/*   Updated: 2025/10/03 05:50:42 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,34 +16,24 @@ char	*make_line(char *buffer);
 
 char	*get_next_line(int fd)
 {
-	char			*buffer;
+	char			buffer[BUFFER_SIZE + 1];
 	int				read_len;
 	static char		*stash;
 	char			*line;
 
-	if (BUFFER_SIZE < 0)
-		return (NULL);
-	buffer = (char *)malloc(BUFFER_SIZE + 1);
-	if (buffer == NULL)
+	if (BUFFER_SIZE < 0 || BUFFER_SIZE > 8000000)
 		return (NULL);
 	if (stash == NULL)
 		stash = ft_strdup("");
 	line = NULL;
-	read_len = 1;
-
-	while (read_len > 0)
+	while (1)
 	{
 		read_len = read(fd, buffer, BUFFER_SIZE);
 		if (read_len < 0)
 			return (end_get_next_line(line, &stash, buffer, read_len));
 		buffer[read_len] = '\0';
 		stash = append_str(stash, buffer);
-		if (read_len == 0)
-		{
-			line = make_line(stash);
-			return (end_get_next_line(line, &stash, buffer, read_len));
-		}
-		if (get_idx_find_first_chr(stash, '\n') >= 0)
+		if (get_idx_find_first_chr(stash, '\n') >= 0 || read_len == 0)
 		{
 			line = make_line(stash);
 			return (end_get_next_line(line, &stash, buffer, read_len));
@@ -129,5 +119,3 @@ char	*end_get_next_line(char *line, char **stash, char *buffer, int read_len)
 		}
 	}
 }
-
-

@@ -6,7 +6,7 @@
 /*   By: sohuikim <sohuikim@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/22 14:52:48 by sohuikim          #+#    #+#             */
-/*   Updated: 2025/10/03 01:38:49 by sohuikim         ###   ########.fr       */
+/*   Updated: 2025/10/03 04:19:39 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ char	*ft_remalloc(char *stash, size_t need_capacity)
 	int		copy_len;
 	int		i;
 
-	remalloc_join_stash = ft_calloc(need_capacity + 1, sizeof(char));
+	remalloc_join_stash = (char *)malloc(need_capacity + 1);
 	if (remalloc_join_stash == NULL)
 		return (NULL);
 	copy_len = ft_strlen(stash) + 1;

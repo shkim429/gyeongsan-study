@@ -6,7 +6,7 @@
 /*   By: sohuikim <sohuikim@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 01:25:17 by sohuikim          #+#    #+#             */
-/*   Updated: 2025/10/02 23:14:36 by sohuikim         ###   ########.fr       */
+/*   Updated: 2025/10/03 04:14:38 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,4 @@ void	*ft_memcpy(void *dest, const void *src, size_t n);
 size_t	ft_strlen(const char *s);
 char	*update_stash(char *buffer, int *offset);
 char	*ft_strdup(const char *s);
-void	*ft_memset(void *s, int c, size_t n);
-void	*ft_calloc(size_t nmemb, size_t size);
 #endif
