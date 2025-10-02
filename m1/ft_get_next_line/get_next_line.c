@@ -6,7 +6,7 @@
 /*   By: sohuikim <sohuikim@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 01:24:36 by sohuikim          #+#    #+#             */
-/*   Updated: 2025/09/30 04:54:29 by sohuikim         ###   ########.fr       */
+/*   Updated: 2025/10/03 03:46:25 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,29 +16,38 @@ char	*make_line(char *buffer);
 
 char	*get_next_line(int fd)
 {
-	char			buffer[BUFFER_SIZE + 1];
+	char			*buffer;
 	int				read_len;
 	static char		*stash;
 	char			*line;
 
+	if (BUFFER_SIZE < 0)
+		return (NULL);
+	buffer = (char *)malloc(BUFFER_SIZE + 1);
+	if (buffer == NULL)
+		return (NULL);
 	if (stash == NULL)
 		stash = ft_strdup("");
 	line = NULL;
 	read_len = 1;
-	while (1)
+
+	while (read_len > 0)
 	{
-		if (get_idx_find_first_chr(stash, '\n'))
-			return (line = make_line(stash));
+		read_len = read(fd, buffer, BUFFER_SIZE);
 		if (read_len < 0)
-			return (free(stash), NULL);
+			return (end_get_next_line(line, &stash, buffer, read_len));
+		buffer[read_len] = '\0';
+		stash = append_str(stash, buffer);
 		if (read_len == 0)
 		{
 			line = make_line(stash);
-			return (end_get_next_line(line, stash));
+			return (end_get_next_line(line, &stash, buffer, read_len));
 		}
-		read_len = read(fd, buffer, BUFFER_SIZE);
-		buffer[read_len] = '\0';
-		stash = append_str(stash, buffer);
+		if (get_idx_find_first_chr(stash, '\n') >= 0)
+		{
+			line = make_line(stash);
+			return (end_get_next_line(line, &stash, buffer, read_len));
+		}
 	}
 	return (line);
 }
@@ -62,12 +71,12 @@ char	*ft_strcut(char *stash, int *offset)
 	int		cut_str_len;
 
 	idx = 0;
-	if (*offset <= 0)
+	if (*offset < 0)
 	{
 		cut_str_len = ft_strlen(stash);
 		*offset = cut_str_len;
 	}
-	if (*offset > 0)
+	if (*offset >= 0)
 		cut_str_len = *offset + 1;
 	cut_str = (char *)malloc(cut_str_len + 1);
 	while (idx < cut_str_len)
@@ -99,14 +108,26 @@ char	*append_str(char *pre_stash, char *cut_str)
 	return (join_stash);
 }
 
-char	*end_get_next_line(char *line, char *stash)
+char	*end_get_next_line(char *line, char **stash, char *buffer, int read_len)
 {
-	if (*line != '\0')
-		return (line);
-	else
+	free(buffer);
+	if (read_len < 0)
 	{
-		free(line);
-		free(stash);
+		free(*stash);
+		*stash = NULL;
 		return (NULL);
 	}
+	else
+	{
+		if (*line != '\0')
+			return (line);
+		else
+		{
+			free(*stash);
+			*stash = NULL;
+			return (free(line), NULL);
+		}
+	}
 }
+
+

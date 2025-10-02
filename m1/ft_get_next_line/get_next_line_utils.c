@@ -6,26 +6,26 @@
 /*   By: sohuikim <sohuikim@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/22 14:52:48 by sohuikim          #+#    #+#             */
-/*   Updated: 2025/09/30 03:47:57 by sohuikim         ###   ########.fr       */
+/*   Updated: 2025/10/03 01:38:49 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-int	get_idx_find_first_chr(char	*buffer, int find_chr)
+int	get_idx_find_first_chr(char	*stash, int find_chr)
 {
 	int				idx;
 	int				offset;
 	unsigned char	find_chr_copy;
 
-	if (buffer == NULL)
+	if (stash == NULL)
 		return (-1);
 	idx = 0;
 	find_chr_copy = (unsigned char)find_chr;
-	while (buffer[idx] != find_chr_copy)
+	while (stash[idx] != find_chr_copy)
 	{
-		if (buffer[idx] == '\0')
-			return (0);
+		if (stash[idx] == '\0')
+			return (-1);
 		idx++;
 	}
 	offset = idx;
@@ -60,7 +60,7 @@ char	*ft_remalloc(char *stash, size_t need_capacity)
 	int		copy_len;
 	int		i;
 
-	remalloc_join_stash = malloc(need_capacity + 1);
+	remalloc_join_stash = ft_calloc(need_capacity + 1, sizeof(char));
 	if (remalloc_join_stash == NULL)
 		return (NULL);
 	copy_len = ft_strlen(stash) + 1;

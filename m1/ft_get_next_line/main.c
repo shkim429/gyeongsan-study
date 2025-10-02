@@ -6,24 +6,19 @@ int main()
 	int		fd;
 	char	*line;
 
-	fd = open("tt.txt", O_RDONLY);
+	// fd = 1000;
+	fd = open("errorCase1.txt", O_RDONLY);
 	if (fd > 0)
 	{
 		line = get_next_line(fd);
-		printf("%s", line);
+		printf("%s\n", line);
 		while (line != NULL)
 		{
 			free(line);
 			line = get_next_line(fd);
-			printf("%s", line);
-			// if (line == NULL)
-			// 	return (write(1, "(null)", ft_strlen("(null)")));
-			// else
-			// 	write(1, line, ft_strlen(line));
+			printf("%s\n", line);
 		}
 		close(fd);
-		// if (line == NULL)
-		// 	write(1, "(null)", ft_strlen("(null)"));
 	}
 	else
 		return (-1);
