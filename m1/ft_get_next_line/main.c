@@ -7,16 +7,16 @@ int main()
 	char	*line;
 
 	// fd = 1000;
-	fd = open("errorCase1.txt", O_RDONLY);
+	fd = open("t3.txt", O_RDONLY);
 	if (fd > 0)
 	{
 		line = get_next_line(fd);
-		printf("%s\n", line);
+		printf("%s", line);
 		while (line != NULL)
 		{
 			free(line);
 			line = get_next_line(fd);
-			printf("%s\n", line);
+			printf("%s", line);
 		}
 		close(fd);
 	}
