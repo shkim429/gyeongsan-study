@@ -1,30 +1,42 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_memset.c                                        :+:      :+:    :+:   */
+/*   ft_utoa.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sohuikim <sohuikim@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/28 20:29:10 by sohuikim          #+#    #+#             */
-/*   Updated: 2025/07/30 15:48:20 by sohuikim         ###   ########.fr       */
+/*   Created: 2025/08/01 15:26:28 by sohuikim          #+#    #+#             */
+/*   Updated: 2025/08/19 18:55:00 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-void	*ft_memset(void *s, int c, size_t n)
+int	unsigned_nlen(unsigned int n)
 {
-	unsigned char	c_copy;
-	unsigned char	*s_copy;
-	size_t			i;
+	unsigned int	len;
 
-	c_copy = (unsigned char) c;
-	s_copy = (unsigned char *)s;
-	i = 0;
-	while (i < n)
+	len = 0;
+	if (n > 9)
+		len += unsigned_nlen(n / 10);
+	len++;
+	return (len);
+}
+
+char	*ft_utoa(unsigned int n)
+{
+	char	*str;
+	int		i;
+
+	i = unsigned_nlen(n);
+	str = (char *)malloc(i + 1);
+	if (str == NULL)
+		return (NULL);
+	str[i--] = '\0';
+	while (i >= 0)
 	{
-		s_copy[i] = c_copy;
-		i++;
+		str[i--] = (n % 10 + '0');
+		n /= 10;
 	}
-	return (s_copy);
+	return (str);
 }

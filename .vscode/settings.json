@@ -2,6 +2,10 @@
 	"files.associations": {
 		"stdio.h": "c",
 		"stdlib.h": "c",
-		"unistd.h": "c"
+		"unistd.h": "c",
+		"ft_printf.h": "c",
+		"get_next_line.h": "c",
+		"fcntl.h": "c",
+		"limits.h": "c"
 	}
 }

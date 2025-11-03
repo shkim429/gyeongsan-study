@@ -1,23 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*   ft_print_u.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sohuikim <sohuikim@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/29 15:28:27 by sohuikim          #+#    #+#             */
-/*   Updated: 2025/07/29 15:29:56 by sohuikim         ###   ########.fr       */
+/*   Created: 2025/08/01 07:16:31 by sohuikim          #+#    #+#             */
+/*   Updated: 2025/08/19 15:53:30 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-size_t	ft_strlen(const char *s)
+int	ft_print_u(unsigned int u_num)
 {
-	int	len;
+	char	*str;
+	int		len;
 
-	len = 0;
-	while (s[len])
-		len++;
+	str = ft_utoa(u_num);
+	len = ft_strlen(str);
+	write(1, str, len);
+	free(str);
 	return (len);
 }
