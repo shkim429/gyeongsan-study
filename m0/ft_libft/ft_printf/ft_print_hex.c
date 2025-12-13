@@ -1,33 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   push_swap.h                                        :+:      :+:    :+:   */
+/*   ft_print_hex.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sohuikim <sohuikim@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/10/26 18:25:19 by sohuikim          #+#    #+#             */
-/*   Updated: 2025/12/12 22:11:32 by sohuikim         ###   ########.fr       */
+/*   Created: 2025/08/02 14:22:50 by sohuikim          #+#    #+#             */
+/*   Updated: 2025/09/14 14:50:32 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PUSH_SWAP_H
-# define PUSH_SWAP_H
-# include <stdlib.h>
-# include "libft.h"
+#include "ft_printf.h"
 
-typedef struct s_node
+int	ft_print_hex(unsigned int x_num, int uppercase)
 {
-	int				data;
-	struct s_node	*next;
-}	t_node;
+	char	*str;
+	int		len;
 
-typedef struct s_stack
-{
-	int		size;
-	t_node	*head;
-	t_node	*tail;
-}	t_stack;
-
-void	creat_stack_a(void *data);
-
-#endif
+	str = ft_utoa_base(x_num, 16, uppercase);
+	len = ft_strlen(str);
+	write(1, str, len);
+	free(str);
+	return (len);
+}

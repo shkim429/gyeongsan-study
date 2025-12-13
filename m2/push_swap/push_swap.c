@@ -6,89 +6,101 @@
 /*   By: sohuikim <sohuikim@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/26 18:28:32 by sohuikim          #+#    #+#             */
-/*   Updated: 2025/12/06 22:11:29 by sohuikim         ###   ########.fr       */
+/*   Updated: 2025/12/13 17:12:30 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 #include <stdio.h>
 
-int	ft_atoi(const char *nptr);
-
+int		ft_atoi(const char *nptr);
+char	*handling_input_data(char *argv);
 int	main(int argc, char **argv)
 {
-	// int	*num_arr;
-	int	num_arr[5];
-
-	int	i;
-	int	j;
+	int		i;
+	char	*reasult;
 
 	if (argc > 1)
 	{
-		// *num_arr = malloc((argc - 1) * sizeof(int));
 		i = 1;
-		j = 0;
 		while (argv[i])
-		{
-			num_arr[j] = ft_atoi(argv[i]);
-			printf("%d", num_arr[j]);
-			i++;
-			j++;
-		}
+			reasult = handling_input_data(argv[i++]);
+		// creat_stack_a(&num_arr);
+		printf("%s", reasult);
 	}
 }
 
-int	ft_sign(const char *nptr)
+char	*handling_input_data(char *argv)
 {
-	int	i;
-	int	sign;
+	char	**splitstr_arr;
+	int		i;
 
 	i = 0;
-	sign = 1;
-	if (nptr[i] == '+')
-		sign = 1;
-	else if (nptr[i] == '-')
-		sign = -1;
-	return (sign);
+	splitstr_arr = ft_split(argv, ' ');
+	check_input_error(&splitstr_arr);
+	return ("error");
 }
 
-int	ft_atoi(const char *nptr)
+char	*check_input_error(char **splitstr_arr)
 {
-	int	num;
-	int	sign;
 	int	i;
 
-	sign = 1;
 	i = 0;
-	num = 0;
-	while (nptr[i])
+	while (splitstr_arr[i])
 	{
-		while ((nptr[i] >= 9 && nptr[i] <= 13) || nptr[i] == 32)
+		if (splitstr_arr[i] == '+' | splitstr_arr[i] == '-')
 			i++;
-		if (nptr[i] == '+' || nptr[i] == '-')
-		{
-			sign = ft_sign(&nptr[i]);
-			i++;
-		}
-		while (nptr[i] >= '0' && nptr[i] <= '9')
-		{
-			num = num * 10 + (nptr[i] - '0');
-			i++;
-		}
-		return (num * sign);
 	}
-	return (0);
 }
 
-void	init(t_stack *s)
-{
-	s->head = NULL;
-	s->size = 0;
-}
 
-void push(t_stack *s)
-{
-	
-}
+
+// void	creat_stack_a(void *data)
+// {
+// 	int	node_cnt;
+
+// 	node_cnt = ft_strlen(data);
+// 	printf("%d\n", node_cnt);
+
+// }
+
+
+// int	ft_atoi(const char *nptr)
+// {
+// 	int	num;
+// 	int	sign;
+// 	int	i;
+
+// 	num = 0;
+// 	sign = 1;
+// 	i = 0;
+
+// 	if (nptr[i] == '+')
+// 		i++;
+// 	if (nptr[i] == '-')
+// 	{
+// 		sign = -1;
+// 		i++;
+// 	}
+// 	while (nptr[i])
+// 	{
+// 		if (!(nptr[i] >= '0' && nptr[i] <= '9'))
+// 			return (-1);
+// 		num = num * 10 + (nptr[i] - '0');
+// 		i++;
+// 	}
+// 	return (num * sign);
+
+// }
+// void	init(t_stack *s)
+// {
+// 	s->head = NULL;
+// 	s->size = 0;
+// }
+
+// void push(t_stack *s)
+// {
+
+// }
 
 

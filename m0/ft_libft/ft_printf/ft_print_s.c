@@ -1,33 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   push_swap.h                                        :+:      :+:    :+:   */
+/*   ft_print_s.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sohuikim <sohuikim@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/10/26 18:25:19 by sohuikim          #+#    #+#             */
-/*   Updated: 2025/12/12 22:11:32 by sohuikim         ###   ########.fr       */
+/*   Created: 2025/07/31 16:52:49 by sohuikim          #+#    #+#             */
+/*   Updated: 2025/08/19 16:53:18 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PUSH_SWAP_H
-# define PUSH_SWAP_H
-# include <stdlib.h>
-# include "libft.h"
+#include "ft_printf.h"
 
-typedef struct s_node
+int	ft_print_s(char *str)
 {
-	int				data;
-	struct s_node	*next;
-}	t_node;
+	int	len;
 
-typedef struct s_stack
-{
-	int		size;
-	t_node	*head;
-	t_node	*tail;
-}	t_stack;
-
-void	creat_stack_a(void *data);
-
-#endif
+	if (str == NULL)
+		return (write(1, "(null)", ft_strlen("(null)")));
+	len = ft_strlen(str);
+	return (write(1, str, len));
+}

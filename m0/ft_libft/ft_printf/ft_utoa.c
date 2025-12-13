@@ -1,33 +1,42 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   push_swap.h                                        :+:      :+:    :+:   */
+/*   ft_utoa.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sohuikim <sohuikim@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/10/26 18:25:19 by sohuikim          #+#    #+#             */
-/*   Updated: 2025/12/12 22:11:32 by sohuikim         ###   ########.fr       */
+/*   Created: 2025/08/01 15:26:28 by sohuikim          #+#    #+#             */
+/*   Updated: 2025/08/19 18:55:00 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PUSH_SWAP_H
-# define PUSH_SWAP_H
-# include <stdlib.h>
-# include "libft.h"
+#include "ft_printf.h"
 
-typedef struct s_node
+int	unsigned_nlen(unsigned int n)
 {
-	int				data;
-	struct s_node	*next;
-}	t_node;
+	unsigned int	len;
 
-typedef struct s_stack
+	len = 0;
+	if (n > 9)
+		len += unsigned_nlen(n / 10);
+	len++;
+	return (len);
+}
+
+char	*ft_utoa(unsigned int n)
 {
-	int		size;
-	t_node	*head;
-	t_node	*tail;
-}	t_stack;
+	char	*str;
+	int		i;
 
-void	creat_stack_a(void *data);
-
-#endif
+	i = unsigned_nlen(n);
+	str = (char *)malloc(i + 1);
+	if (str == NULL)
+		return (NULL);
+	str[i--] = '\0';
+	while (i >= 0)
+	{
+		str[i--] = (n % 10 + '0');
+		n /= 10;
+	}
+	return (str);
+}

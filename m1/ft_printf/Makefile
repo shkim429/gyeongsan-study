@@ -8,10 +8,13 @@ SRCS = ft_printf.c ft_print_c.c ft_print_id.c ft_print_u.c ft_print_hex.c ft_pri
 OBJS = ${SRCS:.c=.o}
 OBJ_DIR = obj
 OBJS_FILES = $(addprefix $(OBJ_DIR)/, $(SRCS:.c=.o))
-LIBS_PATH = -L. -L./ft_libft
-LIBS_DIR_PATH = ./ft_libft
+LIBS_PATH = -L. \
+			-L../../m0/ft_libft/libft
+LIBS_DIR_PATH = ../../m0/ft_libft/libft
 LIBS = -lftprintf -lft
-INC = -I./include -I./ft_libft
+
+INC = -I./include \
+	  -I../../m0/ft_libft/libft
 
 MAIN = main.c
 MAIN_EXE = a.out
@@ -20,10 +23,7 @@ all : $(NAME)
 
 $(NAME) : $(OBJS_FILES)
 	make -C $(LIBS_DIR_PATH)
-	ar -x ./ft_libft/libft.a
-	mv *.o $(OBJ_DIR)
 	ar -rcs $(NAME) $(OBJ_DIR)/*.o
-	make -C $(LIBS_DIR_PATH) clean
 
 $(OBJ_DIR) :
 	mkdir -p $(OBJ_DIR)
@@ -36,6 +36,8 @@ $(MAIN_EXE) : $(NAME) $(MAIN)
 
 clean :
 	$(RM) $(OBJ_DIR) $(MAIN_EXE)
+	make -C $(LIBS_DIR_PATH) clean
+
 
 fclean : clean
 	$(RM) $(NAME) $(MAIN_EXE)

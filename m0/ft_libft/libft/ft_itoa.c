@@ -6,7 +6,7 @@
 /*   By: sohuikim <sohuikim@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/04 16:21:20 by sohuikim          #+#    #+#             */
-/*   Updated: 2025/07/30 15:57:07 by sohuikim         ###   ########.fr       */
+/*   Updated: 2025/12/12 21:30:21 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,12 +83,4 @@ char	*ft_strcpy(char *dest, const char *src)
 	}
 	dest[j] = '\0';
 	return (dest);
-}
-
-#include <stdio.h>
-int main(void)
-{
-	char	*num1 = ft_itoa(-2147483648);
-	printf("%s\n", num1);
-	free(num1);
 }

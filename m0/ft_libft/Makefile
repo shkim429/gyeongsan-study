@@ -1,45 +1,59 @@
-NAME = libft.a
+NAME = libftprintfgnl.a
 CC = cc
 CFLAGS = -Wall -Wextra -Werror
 RM = rm -rf
-SRCS = ft_isalpha.c ft_isdigit.c ft_isalnum.c ft_isascii.c\
-ft_isprint.c  ft_strlen.c  ft_memset.c  ft_bzero.c ft_memcpy.c\
-ft_memmove.c ft_strlcpy.c ft_strlcat.c ft_toupper.c ft_tolower.c ft_strchr.c ft_strrchr.c\
-ft_strncmp.c ft_memchr.c ft_memcmp.c ft_strnstr.c ft_atoi.c\
-ft_calloc.c ft_strdup.c ft_substr.c ft_strjoin.c ft_strtrim.c\
-ft_split.c ft_itoa.c\
-ft_strmapi.c ft_striteri.c ft_putchar_fd.c ft_putstr_fd.c ft_putendl_fd.c\
-ft_putnbr_fd.c
 
-BONUS_SRCS = ft_lstnew_bonus.c ft_lstadd_front_bonus.c ft_lstsize_bonus.c ft_lstlast_bonus.c\
-ft_lstadd_back_bonus.c ft_lstdelone_bonus.c ft_lstclear_bonus.c ft_lstiter_bonus.c ft_lstmap_bonus.c
+OBJ_DIR = obj
+OBJ = $(OBJ_DIR)/libftprintfgnl.o 
 
-OBJS = ${SRCS:.c=.o}
-BONUS_OBJS = $(BONUS_SRCS:.c=.o)
+DIR_PATH =../../m0/ft_libft
+LIBFT_DIR_PATH = $(DIR_PATH)/libft
+PRINTF_DIR_PATH = $(DIR_PATH)/ft_printf
+GNL_DIR_PATH = $(DIR_PATH)/ft_get_next_line
 
-ifdef WITH_BONUS
-	OBJ = $(OBJS) $(BONUS_OBJS)
-else
-	OBJ = $(OBJS)
-endif
+LIBFT_A = $(LIBFT_DIR_PATH)/libft.a
+PRINTF_A = $(PRINTF_DIR_PATH)/printf.a
+GNL_A = $(GNL_DIR_PATH)/getnextline.a
 
 all : $(NAME)
+
+$(LIBFT_A) : 
+	make -C $(LIBFT_DIR_PATH)
+
+$(PRINTF_A) :
+	make -C $(PRINTF_DIR_PATH)
+$(GNL_A) :
+	make -C $(GNL_DIR_PATH)
+
+$(OBJ_DIR) :
+	mkdir -p $(OBJ_DIR)
+	
+$(OBJ) : $(LIBFT_A) $(PRINTF_A) $(GNL_A) | $(OBJ_DIR)
+	ld -r --whole-archive $(LIBFT_A) $(PRINTF_A) $(GNL_A) -o $(OBJ)
+
+
 
 $(NAME) : $(OBJ)
 	ar -rcs $(NAME) $(OBJ)
 
-%.o : %.c
+$(OBJ_DIR)/%.o : %.c | $(OBJ_DIR)
 	$(CC) $(CFLAGS) -c $< -o $@
 
+
 clean :
-	$(RM) $(OBJS) $(BONUS_OBJS)
+	$(RM) $(OBJ_DIR) 
+	make -C $(LIBFT_DIR_PATH) clean
+	make -C $(PRINTF_DIR_PATH) clean
+	make -C $(GNL_DIR_PATH) clean
 
 fclean : clean
 	$(RM) $(NAME)
+	make -C $(LIBFT_DIR_PATH) fclean
+	make -C $(PRINTF_DIR_PATH) fclean
+	make -C $(GNL_DIR_PATH) fclean
+	
+
 
 re : fclean all
-
-bonus : 
-	make WITH_BONUS=1 all 
 	
 .PHONY : all clean fclean re

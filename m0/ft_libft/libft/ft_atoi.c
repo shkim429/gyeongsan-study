@@ -6,7 +6,7 @@
 /*   By: sohuikim <sohuikim@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/28 17:21:03 by sohuikim          #+#    #+#             */
-/*   Updated: 2025/07/22 14:18:25 by sohuikim         ###   ########.fr       */
+/*   Updated: 2025/12/12 21:34:21 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,3 +53,9 @@ int	ft_atoi(const char *nptr)
 	}
 	return (0);
 }
+
+// #include <stdio.h>
+// int main()
+// {
+// 	printf("%d\n", ft_atoi("--123"));
+// }
