@@ -6,7 +6,7 @@
 /*   By: sohuikim <sohuikim@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/26 18:28:32 by sohuikim          #+#    #+#             */
-/*   Updated: 2025/12/13 17:12:30 by sohuikim         ###   ########.fr       */
+/*   Updated: 2025/12/13 22:30:34 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,42 +15,65 @@
 
 int		ft_atoi(const char *nptr);
 char	*handling_input_data(char *argv);
+char	*check_input_error(char **splitstr_arr);
+
 int	main(int argc, char **argv)
 {
 	int		i;
 	char	*reasult;
 
-	if (argc > 1)
+	if (argc <= 1)
+		printf("%s", "input error");
+	else
 	{
 		i = 1;
 		while (argv[i])
-			reasult = handling_input_data(argv[i++]);
+		{
+			reasult = handling_input_data(argv[i]);
+			i++;
+		}
 		// creat_stack_a(&num_arr);
-		printf("%s", reasult);
 	}
 }
 
 char	*handling_input_data(char *argv)
 {
 	char	**splitstr_arr;
-	int		i;
+	int		j;
 
-	i = 0;
+	j = 0;
 	splitstr_arr = ft_split(argv, ' ');
-	check_input_error(&splitstr_arr);
-	return ("error");
+	while (splitstr_arr[j])
+	{
+		check_input_error(&splitstr_arr[j]);
+		j++;
+	}
 }
 
 char	*check_input_error(char **splitstr_arr)
 {
-	int	i;
+	int	k;
+	int	l;
 
-	i = 0;
-	while (splitstr_arr[i])
+	k = 0;
+	while (splitstr_arr[k])
 	{
-		if (splitstr_arr[i] == '+' | splitstr_arr[i] == '-')
-			i++;
+		l = 0;
+		if (splitstr_arr[k][l] == '+' || splitstr_arr[k][l] == '-')
+			l++;
+		while (splitstr_arr[k][l] >= '0' && splitstr_arr[k][l] <= '9')
+		{
+			if (splitstr_arr[k][l + 1] == '\0')
+			{
+				printf("%s\n", splitstr_arr[k]);
+				return (splitstr_arr[k]);
+			}
+			l++;
+		}
+		k++;
 	}
+	printf("%s\n", "input_error");
+	return ("error1");
 }
 
 
@@ -102,5 +125,3 @@ char	*check_input_error(char **splitstr_arr)
 // {
 
 // }
-
-

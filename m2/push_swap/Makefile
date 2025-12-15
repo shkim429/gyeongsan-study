@@ -1,6 +1,6 @@
 NAME = push_swap.a
 CC = cc
-CFLAGS = $(INC)
+CFLAGS = $(INC) -g
 RM = rm -rf
 SRCS = push_swap.c
 
