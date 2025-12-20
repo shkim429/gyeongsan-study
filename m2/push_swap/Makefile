@@ -2,7 +2,7 @@ NAME = push_swap.a
 CC = cc
 CFLAGS = $(INC) -g
 RM = rm -rf
-SRCS = push_swap.c
+SRCS = push_swap.c error.c
 
 OBJ_DIR = obj
 OBJS_FILES = $(addprefix $(OBJ_DIR)/, $(SRCS:.c=.o))
@@ -33,6 +33,7 @@ $(NAME) : $(OBJS_FILES)
 
 $(MAIN_EXE) : $(NAME)
 	$(CC) $(CFLAGS) $(NAME) $(LIBS_PATH) $(LIBS) -o $(MAIN_EXE)
+	$(RM) $(NAME)
 
 clean :
 	$(RM) $(OBJ_DIR) $(MAIN_EXE)

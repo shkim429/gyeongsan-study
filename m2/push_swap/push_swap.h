@@ -6,13 +6,12 @@
 /*   By: sohuikim <sohuikim@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/26 18:25:19 by sohuikim          #+#    #+#             */
-/*   Updated: 2025/12/12 22:11:32 by sohuikim         ###   ########.fr       */
+/*   Updated: 2025/12/20 21:38:23 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PUSH_SWAP_H
 # define PUSH_SWAP_H
-# include <stdlib.h>
 # include "libft.h"
 
 typedef struct s_node
@@ -29,5 +28,5 @@ typedef struct s_stack
 }	t_stack;
 
 void	creat_stack_a(void *data);
-
+void	print_error(void);
 #endif
