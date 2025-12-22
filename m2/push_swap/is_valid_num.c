@@ -1,34 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   push_swap.h                                        :+:      :+:    :+:   */
+/*   is_valid_num.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sohuikim <sohuikim@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/10/26 18:25:19 by sohuikim          #+#    #+#             */
-/*   Updated: 2025/12/21 20:25:09 by sohuikim         ###   ########.fr       */
+/*   Created: 2025/12/21 13:37:51 by sohuikim          #+#    #+#             */
+/*   Updated: 2025/12/21 19:20:32 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PUSH_SWAP_H
-# define PUSH_SWAP_H
-# include "libft.h"
+#include "push_swap.h"
 
-typedef struct s_node
+int	is_valid_num(char *input_str)
 {
-	int				data;
-	struct s_node	*next;
-}	t_node;
+	int	i;
 
-typedef struct s_stack
-{
-	int		size;
-	t_node	*head;
-	t_node	*tail;
-}	t_stack;
+	i = 0;
+	if (ft_strncmp(input_str, "error", ft_strlen(input_str)) == 0)
+		return (1);
+	return (0);
+}
 
-void	creat_stack_a(void *data);
-int		is_valid_num(char *input_str);
-void	print_error(void);
-void	free_split(char **splitstr_arr);
-#endif
+

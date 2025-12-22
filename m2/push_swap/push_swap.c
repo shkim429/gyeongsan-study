@@ -6,16 +6,20 @@
 /*   By: sohuikim <sohuikim@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/26 18:28:32 by sohuikim          #+#    #+#             */
-/*   Updated: 2025/12/20 22:18:26 by sohuikim         ###   ########.fr       */
+/*   Updated: 2025/12/22 21:18:30 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 #include <unistd.h>
+#include <stdio.h>
+#include <stdlib.h>
 
 int		ft_atoi(const char *nptr);
-char	*handling_input_data(char **argv);
-char	**check_input_error(char **splitstr_arr);
+char	**handling_input_data(char **argv);
+char	*flag_invalid_num(char *splitstr_arr);
+char	**flag_invalid_int_len(char **str_num);
+int		cnt_input_data(char **argv);
 
 int	main(int argc, char **argv)
 {
@@ -28,140 +32,129 @@ int	main(int argc, char **argv)
 		print_error();
 	else
 	{
+		i = 0;
 		ft_bzero(&a_stack, sizeof(a_stack));
 		ft_bzero(&b_stack, sizeof(b_stack));
 		result = handling_input_data(argv);
-
-		// handling_input_data(&argv);
-		// while (argv[i])
-		// {
-		// 	reasult = handling_input_data(argv[i]);
-		// 	if (reasult == "error1")
-		// 	{
-		// 		printf("%s\n", "input error");
-		// 		return (-1);
-		// 	}
-		// 	i++;
-		// }
-		// creat_stack_a(&num_arr);
+		if (!result)
+			return (0);
+		while (result[i])
+		{
+			write(1, result[i], ft_strlen(result[i])); //임시 출력용
+ 			write(1, "\n", 1);
+			i++;
+		}
+		// return (0);
 	}
 }
 
-// char	*handling_input_data(char **argv) // 에러 판단(정상 입력이면 atoi 변환하여 넘기기, 비정상 입력이면 error 넘기고, 즉시 중단)
-// {
-// 	char	**splitstr_arr;
-// 	char	**check_input_arr;
-// 	int		i;
-// 	int		j;
-
-// 	i = 1;
-// 	while (argv[i])
-// 	{
-// 		j = 0;
-// 		splitstr_arr = ft_split(argv[i], ' ');
-// 		check_input_arr = check_input_error(splitstr_arr);
-// 		while (check_input_arr[j])
-// 		{
-// 			if (check_input_arr[j] == "error")
-// 			{
-// 				print_error();
-// 				return ;
-// 			}
-// 			// write(1, check_input_arr[j], ft_strlen(check_input_arr[j])); //임시 출력용
-// 			// write(1, "\n", 1);
-// 			j++;
-// 		}
-// 		i++;
-// 	}
-// 	if(!argv[i])
-// 	{
-// 		i = 1;
-// 		while (argv[i])
-// 		{
-// 			j = 0;
-// 			while (check_input_arr[j])
-// 			{
-// 				write(1, check_input_arr[j], ft_strlen(check_input_arr[j])); //임시 출력용
-// 				write(1, "\n", 1);
-// 				j++;
-// 			}
-// 			i++;
-// 		}
-// 	}
-// }
-
-char	*handling_input_data(char **argv) // 에러 판단(정상 입력이면 atoi 변환하여 넘기기, 비정상 입력이면 error 넘기고, 즉시 중단)
+/* 입력값 배열 저장을 위한 입력 요소 길이 카운트 */
+int	cnt_input_data(char **argv)
 {
 	char	**splitstr_arr;
-	char	**check_input_arr;
+	int		cnt_input;
 	int		i;
 	int		j;
 
 	i = 1;
+	cnt_input = 0;
 	while (argv[i])
 	{
 		j = 0;
 		splitstr_arr = ft_split(argv[i], ' ');
-		check_input_arr[k] = check_input_error(splitstr_arr);
-		while (check_input_arr[j])
+		while (splitstr_arr[j])
 		{
-			if (check_input_arr[j] == "error")
+			cnt_input++;
+			j++;
+		}
+		free_split(splitstr_arr);
+		i++;
+	}
+	return (cnt_input);
+}
+
+
+/* 에러 판단(정상 입력이면 atoi 변환하여 넘기기, 비정상 입력이면 error 넘기고, 즉시 중단) */
+char	**handling_input_data(char **argv)
+{
+	char	**splitstr_arr;
+	char	**input_arr;
+	int		i;
+	int		j;
+	int		k;
+
+	i = 1;
+	k = 0;
+	input_arr = (char **)ft_calloc((cnt_input_data(argv) + 1), sizeof(char *));
+	while (argv[i])
+	{
+		j = 0;
+		splitstr_arr = ft_split(argv[i], ' '); // 입력값 분리(공백)
+		while (splitstr_arr[j])
+		{
+			input_arr[k] = flag_invalid_num(splitstr_arr[j]);
+			if (is_valid_num(input_arr[k]))
 			{
 				print_error();
-				return ;
+				return (NULL);
 			}
-			// write(1, check_input_arr[j], ft_strlen(check_input_arr[j])); //임시 출력용
-			// write(1, "\n", 1);
+			j++;
+			k++;
+		}
+		i++;
+	}
+	return(push_swap_atoi(flag_invalid_int_len(input_arr)));
+}
+
+/* int 범위 오버/언더 여부 확인(10) */
+char	**flag_invalid_int_len(char **str_num)
+{
+	int	i;
+	int	j;
+	int	num_len;
+
+	i = 0;
+	while (str_num[i]) // 3번 루프
+	{
+		j = 0;
+		num_len = 0;
+		if (str_num[i][j] == '+' || str_num[i][j] == '-')
+			j++;
+		while (str_num[i][j] >= '0' && str_num[i][j] <= '9')
+		{
+			num_len++;
+			if (num_len > 10)
+			{
+				print_error();
+				return (NULL);
+			}
 			j++;
 		}
 		i++;
 	}
-	if(!argv[i])
-	{
-		i = 1;
-		while (argv[i])
-		{
-			j = 0;
-			while (check_input_arr[j])
-			{
-				write(1, check_input_arr[j], ft_strlen(check_input_arr[j])); //임시 출력용
-				write(1, "\n", 1);
-				j++;
-			}
-			i++;
-		}
-	}
+	return (str_num);
 }
 
-char	**check_input_error(char **splitstr_arr) // 입력값 형태 확인(숫자인지)
+/* 입력값 = 숫자 확인 */
+char	*flag_invalid_num(char *splitstr)
 {
 	char	*str_arr;
-	int		k;
 	int		l;
 
-	k = 0;
-	while (splitstr_arr[k])
+	l = 0;
+	if (splitstr[l] == '+' || splitstr[l] == '-')
+		l++;
+	while (splitstr[l] >= '0' && splitstr[l] <= '9')
 	{
-		l = 0;
-		if (splitstr_arr[k][l] == '+' || splitstr_arr[k][l] == '-')
-			l++;
-		while (splitstr_arr[k][l] >= '0' && splitstr_arr[k][l] <= '9')
-		{
-			if (splitstr_arr[k][l + 1] == '\0')
-				break ;
-			l++;
-		}
-		if ((splitstr_arr[k][l] == '+' || splitstr_arr[k][l] == '-') || \
-		((!(splitstr_arr[k][l] >= '0' && splitstr_arr[k][l] <= '9'))) || \
-			splitstr_arr[k][l + 1] != '\0')
-			splitstr_arr[k] = "error";
-		if (splitstr_arr[k][l + 1] == '\0' && splitstr_arr[k + 1] == NULL)
+		if (splitstr[l + 1] == '\0')
 			break ;
-		k++;
+		l++;
 	}
-	return (splitstr_arr);
+	if ((splitstr[l] == '+' || splitstr[l] == '-') || \
+	((!(splitstr[l] >= '0' && splitstr[l] <= '9'))))
+		splitstr = "error";
+	return (splitstr);
 }
-
 
 // void	creat_stack_a(void *data)
 // {
@@ -172,33 +165,36 @@ char	**check_input_error(char **splitstr_arr) // 입력값 형태 확인(숫자�
 
 // }
 
+int	ft_atol (char **nptr)
+{
+	int64_t	num;
+	int		sign;
+	int		i;
+	int		j;
 
-// int	ft_atoi(const char *nptr)
-// {
-// 	int	num;
-// 	int	sign;
-// 	int	i;
+	num = 0;
+	sign = 1;
+	i = 0;
+	while (nptr[i])
+	{
+		j = 0;
+		if (nptr[i][j] == '+')
+ 			j++;
+ 		if (nptr[i][j] == '-')
+ 		{
+ 			sign = -1;
+ 			j++;
+ 		}
+ 		while (nptr[i][j])
+ 		{
+ 			num = num * 10 + (nptr[i][j] - '0');
+ 			j++;
+ 		}
+		i++;
+	}
+	return (num * sign);
 
-// 	num = 0;
-// 	sign = 1;
-// 	i = 0;
-
-// 	if (nptr[i] == '+')
-// 		i++;
-// 	if (nptr[i] == '-')
-// 	{
-// 		sign = -1;
-// 		i++;
-// 	}
-// 	while (nptr[i])
-// 	{
-// 		if (!(nptr[i] >= '0' && nptr[i] <= '9'))
-// 			return (-1);
-// 		num = num * 10 + (nptr[i] - '0');
-// 		i++;
-// 	}
-// 	return (num * sign);
-
+}
 // }
 // void	init(t_stack *s)
 // {

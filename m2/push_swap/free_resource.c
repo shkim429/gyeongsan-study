@@ -1,34 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   push_swap.h                                        :+:      :+:    :+:   */
+/*   free_resource.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sohuikim <sohuikim@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/10/26 18:25:19 by sohuikim          #+#    #+#             */
-/*   Updated: 2025/12/21 20:25:09 by sohuikim         ###   ########.fr       */
+/*   Created: 2025/12/21 20:17:06 by sohuikim          #+#    #+#             */
+/*   Updated: 2025/12/21 21:05:45 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PUSH_SWAP_H
-# define PUSH_SWAP_H
-# include "libft.h"
+#include "push_swap.h"
 
-typedef struct s_node
+void	free_split(char **splitstr_arr)
 {
-	int				data;
-	struct s_node	*next;
-}	t_node;
+	int	i;
 
-typedef struct s_stack
-{
-	int		size;
-	t_node	*head;
-	t_node	*tail;
-}	t_stack;
-
-void	creat_stack_a(void *data);
-int		is_valid_num(char *input_str);
-void	print_error(void);
-void	free_split(char **splitstr_arr);
-#endif
+	i = 0;
+	while (splitstr_arr[i])
+	{
+		free(splitstr_arr[i]);
+		i++;
+	}
+	free(splitstr_arr);
+}
