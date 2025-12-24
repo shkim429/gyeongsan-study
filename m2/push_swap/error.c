@@ -25,7 +25,20 @@ void	free_resource(char **a, t_stack *stack)
 	}
 }
 
-void	print_error()
+void	print_error(void)
 {
 	write(STDERR_FILENO, "Error\n", 6);
+}
+
+void	handle_error_case(t_error_case error, t_malloc_resource *var)
+{
+	t_malloc_resource	*var
+	print_error();
+	if (error == ERROR_NUM || ERROR_INT_LEN)
+		free_split(splitstr_arr);
+	else if (error == ERROR_INT_BOUNDARY)
+	
+	else if (error == ERROR_DUPLICATE_NUM)
+	
+	exit(EXIT_FAILURE);
 }

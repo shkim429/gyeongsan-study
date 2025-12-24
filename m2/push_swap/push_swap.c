@@ -6,7 +6,7 @@
 /*   By: sohuikim <sohuikim@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/26 18:28:32 by sohuikim          #+#    #+#             */
-/*   Updated: 2025/12/22 21:18:30 by sohuikim         ###   ########.fr       */
+/*   Updated: 2025/12/24 21:48:55 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,16 @@
 #include <unistd.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
 
-int		ft_atoi(const char *nptr);
-char	**handling_input_data(char **argv);
-char	*flag_invalid_num(char *splitstr_arr);
-char	**flag_invalid_int_len(char **str_num);
+long	ft_atol(char *splitstr);
+int		**ft_atol_arr(char **argv, char **splitstr_arr);
+int		handling_input_data(char **argv);
+void	check_invalid_num(char **splitstr);
+void	check_invalid_int_len(char **splitstr);
+void	check_invalid_int_boundary(long num);
 int		cnt_input_data(char **argv);
+
 
 int	main(int argc, char **argv)
 {
@@ -75,97 +79,96 @@ int	cnt_input_data(char **argv)
 
 
 /* 에러 판단(정상 입력이면 atoi 변환하여 넘기기, 비정상 입력이면 error 넘기고, 즉시 중단) */
-char	**handling_input_data(char **argv)
+int	handling_input_data(char **argv)
 {
 	char	**splitstr_arr;
-	char	**input_arr;
+	int		**num_arr;
 	int		i;
 	int		j;
 	int		k;
 
+	// num_arr = (int **)ft_calloc((cnt_input_data(argv) + 1), sizeof(int));
 	i = 1;
 	k = 0;
-	input_arr = (char **)ft_calloc((cnt_input_data(argv) + 1), sizeof(char *));
 	while (argv[i])
 	{
+		splitstr_arr = ft_split(argv[i], ' ');
+		check_invalid_num(splitstr_arr);
+		check_invalid_int_len(splitstr_arr);
 		j = 0;
-		splitstr_arr = ft_split(argv[i], ' '); // 입력값 분리(공백)
 		while (splitstr_arr[j])
 		{
-			input_arr[k] = flag_invalid_num(splitstr_arr[j]);
-			if (is_valid_num(input_arr[k]))
-			{
-				print_error();
-				return (NULL);
-			}
-			j++;
-			k++;
+			num_arr[k] = ft_atol(splitstr_arr[j]);
+			check_invalid_int_boundary(num_arr[k]);
+			check_duplicate_num(num_arr[k]);
 		}
 		i++;
 	}
-	return(push_swap_atoi(flag_invalid_int_len(input_arr)));
+	return (num_arr);
 }
 
+
 /* int 범위 오버/언더 여부 확인(10) */
-char	**flag_invalid_int_len(char **str_num)
+void	check_invalid_int_len(char **splitstr_arr)
 {
 	int	i;
 	int	j;
 	int	num_len;
 
 	i = 0;
-	while (str_num[i]) // 3번 루프
+	num_len = 0;
+	while (splitstr_arr[i])
 	{
 		j = 0;
-		num_len = 0;
-		if (str_num[i][j] == '+' || str_num[i][j] == '-')
+		if (is_sign(splitstr_arr[i][j]))
 			j++;
-		while (str_num[i][j] >= '0' && str_num[i][j] <= '9')
+		while (is_num(splitstr_arr[i][j]))
 		{
 			num_len++;
 			if (num_len > 10)
-			{
-				print_error();
-				return (NULL);
-			}
+				return (handle_error_case(ERROR_INT_LEN, splitstr_arr));
 			j++;
 		}
 		i++;
 	}
-	return (str_num);
+	return ;
 }
 
 /* 입력값 = 숫자 확인 */
-char	*flag_invalid_num(char *splitstr)
+void	check_invalid_num(char **splitstr_arr)
 {
-	char	*str_arr;
-	int		l;
+	int	i;
+	int	j;
 
-	l = 0;
-	if (splitstr[l] == '+' || splitstr[l] == '-')
-		l++;
-	while (splitstr[l] >= '0' && splitstr[l] <= '9')
+	i = 0;
+	while (splitstr_arr[i])
 	{
-		if (splitstr[l + 1] == '\0')
-			break ;
-		l++;
+		j = 0;
+		if (is_sign(splitstr_arr[i][j]))
+			j++;
+		while (is_num(splitstr_arr[i][j]))
+		{
+			if (splitstr_arr[j + 1] == '\0')
+				break ;
+			j++;
+		}
+		if ((is_sign(splitstr_arr[i][j])) || (!(is_num(splitstr_arr[i][j]))))
+			return (handle_error_case(ERROR_NUM), splitstr_arr);
+		i++;
 	}
-	if ((splitstr[l] == '+' || splitstr[l] == '-') || \
-	((!(splitstr[l] >= '0' && splitstr[l] <= '9'))))
-		splitstr = "error";
-	return (splitstr);
+	return ;
 }
 
-// void	creat_stack_a(void *data)
-// {
-// 	int	node_cnt;
 
-// 	node_cnt = ft_strlen(data);
-// 	printf("%d\n", node_cnt);
+/* 보류
+int	**ft_atol_arr(char **argv, char **splitstr_arr)
+{
+	while (argv[i])
+}
+*/
 
-// }
-
-int	ft_atol (char **nptr)
+/* 입력 문자열 -> 숫자 변환 */
+long	ft_atol(char *splitstr)
 {
 	int64_t	num;
 	int		sign;
@@ -175,26 +178,63 @@ int	ft_atol (char **nptr)
 	num = 0;
 	sign = 1;
 	i = 0;
-	while (nptr[i])
+	while (splitstr[i])
 	{
-		j = 0;
-		if (nptr[i][j] == '+')
- 			j++;
- 		if (nptr[i][j] == '-')
- 		{
- 			sign = -1;
- 			j++;
- 		}
- 		while (nptr[i][j])
- 		{
- 			num = num * 10 + (nptr[i][j] - '0');
- 			j++;
- 		}
+		num = 0;
+		if (splitstr[i] == '+')
+			i++;
+		if (splitstr[i] == '-')
+		{
+			sign = -1;
+			i++;
+		}
+		num = num * 10 + (splitstr[i] - '0');
 		i++;
 	}
 	return (num * sign);
+}
+
+/* int 범위 경계값(길이: 10) 오버/언더 확인 */
+void	check_invalid_int_boundary(long num)
+{
+	if (num < 0)
+	{
+		if (num < -2147483648)
+			return (handling_input_data(ERROR_INT_BOUNDARY));
+	}
+	else
+	{
+		if (num > 2147483647)
+			print_error();
+			return ;
+	}
+}
+
+/* 입력 숫자 중복 확인 */
+void	check_duplicate_num(int **num_arr)
+{
 
 }
+
+/* 입력값 형태: 부호 확인 */
+int	is_sign(char c)
+{
+	if (c == '+' || c == '-')
+		return (1);
+	else
+		return (0);
+
+}
+
+/* 입력값 형태: 숫자 확인 */
+int	is_num(char c)
+{
+	if (c >= '0' && c <= '9')
+		return (1);
+	else
+		return (0);
+}
+
 // }
 // void	init(t_stack *s)
 // {
@@ -204,5 +244,15 @@ int	ft_atol (char **nptr)
 
 // void push(t_stack *s)
 // {
+
+// }
+
+
+// void	creat_stack_a(void *data)
+// {
+// 	int	node_cnt;
+
+// 	node_cnt = ft_strlen(data);
+// 	printf("%d\n", node_cnt);
 
 // }
