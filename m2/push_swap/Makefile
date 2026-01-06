@@ -2,7 +2,7 @@ NAME = push_swap.a
 CC = cc
 CFLAGS = $(INC) -g
 RM = rm -rf
-SRCS = push_swap.c error.c is_valid_num.c free_resource.c
+SRCS = push_swap.c error.c free_resource.c input_validation.c stack_operations.c
 
 OBJ_DIR = obj
 OBJS_FILES = $(addprefix $(OBJ_DIR)/, $(SRCS:.c=.o))

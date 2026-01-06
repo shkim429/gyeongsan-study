@@ -6,26 +6,25 @@
 /*   By: sohuikim <sohuikim@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/26 18:25:19 by sohuikim          #+#    #+#             */
-/*   Updated: 2025/12/28 23:07:54 by sohuikim         ###   ########.fr       */
+/*   Updated: 2026/01/06 04:28:06 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PUSH_SWAP_H
 # define PUSH_SWAP_H
-# include "libft.h"
 
-// typedef struct s_node
-// {
-// 	int				data;
-// 	struct s_node	*next;
-// }	t_node;
+typedef struct s_node
+{
+	long			data;
+	struct s_node	*next;
+}	t_node;
 
-// typedef struct s_stack
-// {
-// 	int		size;
-// 	t_node	*head;
-// 	t_node	*tail;
-// }	t_stack;
+typedef struct s_list_node
+{
+	int		size;
+	t_node	*head;
+	t_node	*tail;
+}	t_list_node;
 
 typedef enum s_error_case
 {
@@ -43,6 +42,9 @@ typedef struct s_malloc_resource
 	int		cnt_input;
 }	t_malloc_resource;
 
+int		is_sign(char c);
+int		is_num(char c);
+int		is_zero(char c);
 long	ft_atol(char *splitstr);
 long	*handling_input_data(char **argv);
 void	check_invalid_num(t_malloc_resource *var);
@@ -54,5 +56,9 @@ void	free_num_arr(long *num_arr);
 void	print_error(void);
 void	handle_error_case(t_error_case error, t_malloc_resource *var);
 void	check_duplicate_num(t_malloc_resource *var);
+void	swap_stack(t_list_node *stack);
+void	add_node_back(t_list_node *stack);
+void	rotate_node(t_list_node *stack);
+void	rrotate_node(t_list_node *stack);
 
 #endif

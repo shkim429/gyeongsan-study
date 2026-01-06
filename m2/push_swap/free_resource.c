@@ -6,11 +6,12 @@
 /*   By: sohuikim <sohuikim@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/21 20:17:06 by sohuikim          #+#    #+#             */
-/*   Updated: 2025/12/28 22:55:16 by sohuikim         ###   ########.fr       */
+/*   Updated: 2025/12/31 23:13:08 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
+#include <stdlib.h>
 
 void	free_split(char **splitstr_arr)
 {

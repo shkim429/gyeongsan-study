@@ -6,7 +6,7 @@
 /*   By: sohuikim <sohuikim@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/26 18:28:32 by sohuikim          #+#    #+#             */
-/*   Updated: 2025/12/28 23:09:18 by sohuikim         ###   ########.fr       */
+/*   Updated: 2026/01/06 04:27:48 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,47 +14,78 @@
 #include <unistd.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include "libft.h"
 
 long	ft_atol(char *splitstr);
 long	*handling_input_data(char **argv);
-void	check_invalid_num(t_malloc_resource *var);
-void	check_invalid_int_len(t_malloc_resource *var);
-void	check_invalid_int_boundary(t_malloc_resource *var);
 int		cnt_input_data(char **argv);
-void	check_duplicate_num(t_malloc_resource *var);
-int		is_sign(char c);
-int		is_num(char c);
-int		is_zero(char c);
+void	init_stack(t_list_node *stack);
+t_node	*create_new_node(long num);
+void	create_stack(t_list_node *stack, long *num_arr, int node_cnt);
 
 int	main(int argc, char **argv)
 {
-	int		i;
-	long	*num_arr;
-	// t_stack	a_stack;
-	// t_stack	b_stack;
+	int			i;
+	long		*num_arr;
+	t_list_node	stack_a;
+	t_list_node	stack_b;
+	t_malloc_resource var;
 
 	if (argc <= 1)
 		print_error();
 	else
 	{
-		i = 0;
-		// ft_bzero(&a_stack, sizeof(a_stack));
-		// ft_bzero(&b_stack, sizeof(b_stack));
+		var.cnt_input = cnt_input_data(argv);
 		num_arr = handling_input_data(argv);
+		init_stack(&stack_a);
+		init_stack(&stack_b);
+		create_stack(&stack_a, num_arr, var.cnt_input);
+		// swap_stack(&stack_a);
+		// rotate_node(&stack_a);
+		rrotate_node(&stack_a);
 		printf("%ld\n", num_arr[0]);
 		printf("%ld\n", num_arr[1]);
-		printf("%ld\n", num_arr[2]);
-		// printf("%d\n", num_arr[1]);
-		// printf("%d\n", num_arr[2]);
-
-		// while (num_arr[i])
-		// {
-		// 	write(1, result[i], ft_strlen(result[i])); //임시 출력용
- 		// 	write(1, "\n", 1);
-		// 	i++;
-		// }
-		// return (0);
 	}
+}
+
+/* 스택 초기화 */
+void	init_stack(t_list_node *stack)
+{
+	ft_bzero(stack, sizeof(stack));
+}
+
+/* 스택 생성 */
+void	create_stack(t_list_node *stack, long *num_arr, int node_cnt)
+{
+	stack->head = create_new_node(num_arr[stack->size]);
+	stack->tail = stack->head;
+	while (++(stack->size) < node_cnt)
+	{
+		stack->tail->next = create_new_node(num_arr[stack->size]);
+		stack->tail = stack->tail->next;
+	}
+}
+
+/* 노드 생성 */
+t_node	*create_new_node(long num)
+{
+	t_node	*new_node;
+
+	new_node = (t_node *)malloc(sizeof(t_node));
+	if (!new_node)
+		return (NULL);
+	new_node->data = num;
+	new_node->next = NULL;
+	return (new_node);
+}
+
+/* 노드 연결 */
+t_node	*addnode_back(t_node **cur_lst, t_node *new_node)
+{
+	if (*cur_lst == NULL)
+		*cur_lst = new_node;
+	else
+		(*cur_lst)->next = new_node;
 }
 
 /* 입력값 배열 저장을 위한 입력 요소 길이 카운트 */
@@ -81,7 +112,6 @@ int	cnt_input_data(char **argv)
 	}
 	return (cnt_input);
 }
-
 
 /* 에러 판단(정상 입력이면 atoi 변환하여 넘기기, 비정상 입력이면 error 넘기고, 즉시 중단) */
 long	*handling_input_data(char **argv)
@@ -112,130 +142,6 @@ long	*handling_input_data(char **argv)
 	return (var.num_arr);
 }
 
-/* int 범위 오버/언더 여부 확인(10) */
-void	check_invalid_int_len(t_malloc_resource *var)
-{
-	int	i;
-	int	j;
-	int	num_len;
-
-	i = 0;
-	num_len = 0;
-	while (var->splitstr_arr[i])
-	{
-		j = 0;
-		if (is_sign(var->splitstr_arr[i][j]))
-			j++;
-		while (is_zero(var->splitstr_arr[i][j]))
-			j++;
-		while (is_num(var->splitstr_arr[i][j]))
-		{
-			num_len++;
-			if (num_len > 10)
-				return (handle_error_case(ERROR_INT_LEN, var));
-			j++;
-		}
-		i++;
-	}
-	return ;
-}
-
-/* 입력값 = 숫자 확인 */
-void	check_invalid_num(t_malloc_resource *var)
-{
-	int	i;
-	int	j;
-
-	i = 0;
-	while (var->splitstr_arr[i])
-	{
-		j = 0;
-		if (is_sign(var->splitstr_arr[i][j]))
-			j++;
-		while (is_num(var->splitstr_arr[i][j]))
-		{
-			if (var->splitstr_arr[i][j + 1] == '\0')
-				break ;
-			j++;
-		}
-		if ((is_sign(var->splitstr_arr[i][j])) || \
-		(!(is_num(var->splitstr_arr[i][j]))))
-			return (handle_error_case(ERROR_NUM, var));
-		i++;
-	}
-	return ;
-}
-
-
-/* 보류
-int	**ft_atol_arr(char **argv, char **splitstr_arr)
-{
-	while (argv[i])
-}
-*/
-
-/* 입력 문자열 -> 숫자 변환 */
-long	ft_atol(char *splitstr)
-{
-	int64_t	num;
-	int		sign;
-	int		i;
-
-	num = 0;
-	sign = 1;
-	i = 0;
-	if (splitstr[i] == '+')
-		i++;
-	else if (splitstr[i] == '-')
-	{
-		sign = -1;
-		i++;
-	}
-	while (splitstr[i])
-	{
-		num = num * 10 + (splitstr[i] - '0');
-		i++;
-	}
-	return (num * sign);
-}
-
-/* int 범위 경계값(길이: 10) 오버/언더 확인 */
-void	check_invalid_int_boundary(t_malloc_resource *var)
-{
-	int	i;
-
-	i = 0;
-	if (var->num_arr[i] < 0)
-	{
-		if (var->num_arr[i] < -2147483648)
-			return (handle_error_case(ERROR_INT_BOUNDARY, var));
-	}
-	else
-	{
-		if (var->num_arr[i] > 2147483647)
-			return (handle_error_case(ERROR_INT_BOUNDARY, var));
-	}
-}
-
-/* 입력 숫자 중복 확인 */
-void	check_duplicate_num(t_malloc_resource *var)
-{
-	int	i;
-	int	j;
-
-	i = 0;
-	while (i < var->cnt_input)
-	{
-		j = i + 1;
-		while (j < var->cnt_input)
-		{
-			if (var->num_arr[i] == var->num_arr[j])
-				return (handle_error_case(ERROR_DUPLICATE_NUM, var));
-			j++;
-		}
-		i++;
-	}
-}
 /* 입력값 길이 검사: 0 건너뛰기*/
 int	is_zero(char c)
 {
