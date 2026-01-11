@@ -6,12 +6,16 @@
 /*   By: sohuikim <sohuikim@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/26 18:25:19 by sohuikim          #+#    #+#             */
-/*   Updated: 2026/01/06 04:28:06 by sohuikim         ###   ########.fr       */
+/*   Updated: 2026/01/11 06:07:31 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PUSH_SWAP_H
 # define PUSH_SWAP_H
+
+# define SUCCESS 1
+# define FAILURE 0
+
 
 typedef struct s_node
 {
@@ -26,14 +30,36 @@ typedef struct s_list_node
 	t_node	*tail;
 }	t_list_node;
 
+typedef struct s_stack
+{
+	t_list_node	a;
+	t_list_node	b;
+}	t_stack;
+
 typedef enum s_error_case
 {
 	ERROR_NUM,
 	ERROR_INT_LEN,
 	ERROR_INT_BOUNDARY,
 	ERROR_DUPLICATE_NUM,
-	ERROR_NONE
+	ERROR_MALLOC,
+	ERROR_NONE,
 }	t_error_case;
+
+typedef enum s_stack_op_cmd
+{
+	SWAP_A,
+	SWAP_B,
+	SWAP_AB,
+	PUSH_A,
+	PUSH_B,
+	ROTATE_A,
+	ROTATE_B,
+	ROTATE_AB,
+	REVERSE_ROTATE_A,
+	REVERSE_ROTATE_B,
+	REVERSE_ROTATE_AB
+}	t_stack_op_cmd;
 
 typedef struct s_malloc_resource
 {
@@ -42,17 +68,19 @@ typedef struct s_malloc_resource
 	int		cnt_input;
 }	t_malloc_resource;
 
+
 int		is_sign(char c);
 int		is_num(char c);
 int		is_zero(char c);
 long	ft_atol(char *splitstr);
-long	*handling_input_data(char **argv);
+int		handling_input_data(char **argv, t_malloc_resource *var);
 void	check_invalid_num(t_malloc_resource *var);
 void	check_invalid_int_len(t_malloc_resource *var);
 void	check_invalid_int_boundary(t_malloc_resource *var);
 int		cnt_input_data(char **argv);
 void	free_split(char **splitstr_arr);
 void	free_num_arr(long *num_arr);
+void	free_resource(t_error_case error, t_stack *stacks, t_malloc_resource *var);
 void	print_error(void);
 void	handle_error_case(t_error_case error, t_malloc_resource *var);
 void	check_duplicate_num(t_malloc_resource *var);
@@ -60,5 +88,14 @@ void	swap_stack(t_list_node *stack);
 void	add_node_back(t_list_node *stack);
 void	rotate_node(t_list_node *stack);
 void	rrotate_node(t_list_node *stack);
+void	push_node(t_list_node *stack1, t_list_node *stack2);
+void	swap_operations(t_stack_op_cmd cmd, t_stack *stacks);
+void	push_operations(t_stack_op_cmd cmd, t_stack *stacks);
+void	rotate_operations(t_stack_op_cmd cmd, t_stack *stacks);
+void	rrotate_operations(t_stack_op_cmd cmd, t_stack *stacks);
+int		find_max_value(t_list_node *stack);
+int		max_bit_len(long num);
+void	binary_radix_sort(t_stack *stacks, int stack_size);
+void	sort(t_stack *stacks, int stack_size);
 
 #endif

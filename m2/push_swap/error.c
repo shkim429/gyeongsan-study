@@ -6,7 +6,7 @@
 /*   By: sohuikim <sohuikim@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/29 22:20:13 by sohuikim          #+#    #+#             */
-/*   Updated: 2026/01/03 14:07:00 by sohuikim         ###   ########.fr       */
+/*   Updated: 2026/01/11 02:33:33 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,29 +14,46 @@
 #include <unistd.h>
 #include <stdlib.h>
 
-// void	free_resource(char **a, t_stack *stack)
-// {
-// 	int	i;
+void	free_stack(t_list_node *stack);
 
-// 	i = 0;
-// 	while (a[i])
-// 	{
-// 		free(a[i]);
-// 		i++;
-// 	}
-// 	free(a);
+void	free_resource(t_error_case error, t_stack *stacks, t_malloc_resource *var)
+{
+	if (error == ERROR_MALLOC)
+	{
+		if (var->num_arr == NULL)
+			free_split(var->splitstr_arr);
+		else
+		{
+			free_split(var->splitstr_arr);
+			free_num_arr(var->num_arr);
+			free_stack(&(stacks->a));
+		}
+	}
+	else if (error == ERROR_NONE)
+	{
+		free_split(var->splitstr_arr);
+		free_num_arr(var->num_arr);
+		free_stack(&(stacks->a));
+	}
 
-// 	t_node	*tmp;
-// 	t_node	*current_node;
+}
 
-// 	current_node = stack->head;
-// 	while (current_node)
-// 	{
-// 		tmp = current_node->next;
-// 		free(current_node);
-// 		current_node = tmp;
-// 	}
-// }
+void	free_stack(t_list_node *stack)
+{
+	t_node	*tmp;
+	t_node	*current_node;
+
+	current_node = stack->head;
+	while (current_node)
+	{
+		tmp = current_node->next;
+		free(current_node);
+		current_node = tmp;
+	}
+	stack->head = NULL;
+	stack->tail = NULL;
+	stack->size = 0;
+}
 
 void	print_error(void)
 {

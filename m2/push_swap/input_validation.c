@@ -6,7 +6,7 @@
 /*   By: sohuikim <sohuikim@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/29 23:27:19 by sohuikim          #+#    #+#             */
-/*   Updated: 2025/12/31 23:11:56 by sohuikim         ###   ########.fr       */
+/*   Updated: 2026/01/11 04:00:11 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ void	check_invalid_int_len(t_malloc_resource *var)
 	num_len = 0;
 	while (var->splitstr_arr[i])
 	{
+		num_len = 0;
 		j = 0;
 		if (is_sign(var->splitstr_arr[i][j]))
 			j++;
