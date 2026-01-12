@@ -6,7 +6,7 @@
 /*   By: sohuikim <sohuikim@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/29 22:20:13 by sohuikim          #+#    #+#             */
-/*   Updated: 2026/01/11 02:33:33 by sohuikim         ###   ########.fr       */
+/*   Updated: 2026/01/12 15:27:26 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 
 void	free_stack(t_list_node *stack);
 
-void	free_resource(t_error_case error, t_stack *stacks, t_malloc_resource *var)
+void	free_resource(t_error_case error, t_stack *stacks, t_mem_res *var)
 {
 	if (error == ERROR_MALLOC)
 	{
@@ -26,6 +26,7 @@ void	free_resource(t_error_case error, t_stack *stacks, t_malloc_resource *var)
 		{
 			free_split(var->splitstr_arr);
 			free_num_arr(var->num_arr);
+			free_index_arr(var->index_arr);
 			free_stack(&(stacks->a));
 		}
 	}
@@ -33,6 +34,7 @@ void	free_resource(t_error_case error, t_stack *stacks, t_malloc_resource *var)
 	{
 		free_split(var->splitstr_arr);
 		free_num_arr(var->num_arr);
+		free_index_arr(var->index_arr);
 		free_stack(&(stacks->a));
 	}
 
@@ -60,7 +62,7 @@ void	print_error(void)
 	write(STDERR_FILENO, "Error\n", 6);
 }
 
-void	handle_error_case(t_error_case error, t_malloc_resource *var)
+void	handle_error_case(t_error_case error, t_mem_res *var)
 {
 	print_error();
 	free_split(var->splitstr_arr);

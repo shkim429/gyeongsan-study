@@ -6,60 +6,24 @@
 /*   By: sohuikim <sohuikim@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/06 15:11:27 by sohuikim          #+#    #+#             */
-/*   Updated: 2026/01/11 06:26:20 by sohuikim         ###   ########.fr       */
+/*   Updated: 2026/01/12 17:09:39 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
+#include "libft.h"
 #include <stdlib.h>
 
 t_node	*find_midnode_pos(t_list_node *stack_a);
 int		max_bit_len(long num);
-int		is_sorted_asc(t_list_node *stack);
-int		is_sorted_des(t_list_node *stack_a);
+int		is_sorted_asc(t_node *start_node);
+int		is_sorted_des(t_node *start_node);
 void	sort_asc(t_stack *stacks);
-
-/*
-void	quick_sort(t_list_node *stack_a, t_list_node *stack_b)
-{
-	t_node	*pivot;
-	t_node	*cur_node;
-
-	pivot = find_midnode_pos(&stack_a);
-	cur_node = stack_a->head;
-	while (cur_node != NULL)
-	{
-		if (cur_node->data < pivot)
-			push_node(&stack_a, &stack_b);
-		cur_node = cur_node->next;
-
-	}
-}
-*/
-
-/*
-t_node	*find_midnode_pos(t_list_node *stack_a)
-{
-	t_node	*mid_node;
-	int		mid_idx;
-	int		cnt;
-
-	mid_idx = (stack_a->size) / 2;
-	mid_node = stack_a->head;
-	cnt = 0;
-	while (cnt < mid_idx)
-	{
-		mid_node = mid_node->next;
-		cnt++;
-	}
-	return (mid_node);
-}
-*/
 
 int	find_max_value(t_list_node *stack)
 {
 	t_node	*cur_node;
-	long	max_value;
+	int		max_value;
 	int		i;
 
 	cur_node = stack->head;
@@ -74,11 +38,44 @@ int	find_max_value(t_list_node *stack)
 	return (max_value);
 }
 
-void	sort(t_stack *stacks, int stack_size)
+int	find_min_value(t_list_node *stack)
 {
-	if (stacks->b.size == 0 && is_sorted_des(&(stacks->a)))
-		return (sort_asc(stacks));
-	binary_radix_sort(stacks, stack_size);
+	t_node	*cur_node;
+	int		min_value;
+	int		i;
+
+	cur_node = stack->head;
+	min_value = cur_node->data;
+	i = 0;
+	while (++i < stack->size)
+	{
+		cur_node = cur_node->next;
+		if (min_value > cur_node->data)
+			min_value = cur_node->data;
+	}
+	return (min_value);
+}
+
+// void	sort(t_stack *stacks, int stack_size)
+// {
+// 	if (stacks->b.size == 0 && is_sorted_des(stacks->a.head))
+// 		return (sort_asc(stacks));
+// 	binary_radix_sort(stacks, stack_size);
+// }
+
+int	run_sort(t_stack *stacks, t_mem_res *var, t_sort_utils *sort_utils)
+{
+	if (stacks->b.size == 0 && is_sorted_des(stacks->a.head))
+		return (sort_asc(stacks), SUCCESS);
+	if (var->cnt_input <= 5)
+		insert_sort_controller(stacks, sort_utils);
+	else
+	{
+		if (!indexing_stack_data(var))
+			return (FAILURE);
+		binary_radix_sort(stacks, var->cnt_input, sort_utils);
+	}
+	return (SUCCESS);
 }
 
 void	sort_asc(t_stack *stacks)
@@ -88,47 +85,109 @@ void	sort_asc(t_stack *stacks)
 	i = 0;
 	while (i < stacks->a.size)
 	{
-		rotate_operations(ROTATE_A, stacks);
+		rotate_ops(ROTATE_A, stacks);
 		i++;
 	}
 }
-void	binary_radix_sort(t_stack *stacks, int stack_size)
+
+void	binary_radix_sort(t_stack *stacks, int stack_size, t_sort_utils *sort_utils)
 {
-	int		max_value;
 	int		bit_len;
 	int		bit;
 	int		i;
 
-	max_value = find_max_value(&(stacks->a));
-	bit_len = max_bit_len(max_value);
+	sort_utils->max_value = find_max_value(&(stacks->a));
+	bit_len = max_bit_len(sort_utils->max_value);
+	bit = 0;
 	while (bit < bit_len)
 	{
 		i = 0;
 		while (i < stack_size)
 		{
 			if (((stacks->a.head->data >> bit) & 1) == 0)
-			{
-				push_operations(PUSH_B, stacks);
-			}
+				push_ops(PUSH_B, stacks);
 			else
 			{
-				rotate_operations(ROTATE_A, stacks);
-				if (stacks->b.size == 0 && is_sorted_asc(&(stacks->a)))
+				if (stacks->a.size == 1)
+					break ;
+				rotate_ops(ROTATE_A, stacks);
+				if (stacks->b.size == 0 && is_sorted_asc(stacks->a.head))
 					return ;
 			}
 			i++;
 		}
 		while (stacks->b.size)
-			push_operations(PUSH_A, stacks);
+			push_ops(PUSH_A, stacks);
 		bit++;
 	}
 }
 
-int	is_sorted_asc(t_list_node *stack)
+void	insert_sort_controller(t_stack *stacks, t_sort_utils *sort_utils)
+{
+	int	stack_a_size;
+	int	i;
+
+	stack_a_size = stacks->a.size;
+	sort_utils->key = stacks->a.head;
+	sort_utils->min_value = find_min_value(&(stacks->a));
+	sort_utils->max_value = find_max_value(&(stacks->a));
+	while (1)
+	{
+		i = 0;
+		if ((stacks->a.size == stack_a_size) && is_sorted_asc(stacks->a.head))
+			return ;
+		if (/*stacks->b.size == 0 &&*/ sort_utils->key->data == sort_utils->max_value && is_sorted_asc(stacks->a.head->next)) // 계속 확인,  key->next != NULL 삭제 검토
+		{
+		// return (rotate_ops(ROTATE_A, stacks));
+			rotate_ops(ROTATE_A, stacks);
+			sort_utils->key = stacks->a.head;
+
+		}
+		if ((stacks->b.size != 0) && is_sorted_des(stacks->b.head) && is_sorted_asc(stacks->a.head))
+		{
+			while (stacks->b.size)
+				push_ops(PUSH_A, stacks);
+			return ;
+		}
+		insert_sort(stacks, sort_utils);
+	}
+}
+
+void	insert_sort(t_stack *stacks, t_sort_utils *sort_utils)
+{
+	if (sort_utils->key->data == sort_utils->min_value)
+	{
+		push_ops(PUSH_B, stacks);
+		sort_utils->key = stacks->a.head;
+		sort_utils->min_value = find_min_value(&(stacks->a));
+	}
+	if (sort_utils->key->data > sort_utils->key->next->data)
+	{
+		swap_ops(SWAP_A, stacks);
+		sort_utils->key = stacks->a.head;
+		if (sort_utils->key->next == NULL)
+			return ;
+		if (sort_utils->min_value == stacks->a.head->data)
+		{
+			push_ops(PUSH_B, stacks);
+			sort_utils->min_value = find_min_value(&(stacks->a));
+		}
+		else
+			rotate_ops(ROTATE_A, stacks);
+		sort_utils->key = stacks->a.head;
+		return ;
+	}
+	else
+		rotate_ops(ROTATE_A, stacks);
+	sort_utils->key = stacks->a.head;
+	return ;
+}
+
+int	is_sorted_asc(t_node *start_node)
 {
 	t_node	*cur_node;
 
-	cur_node = stack->head;
+	cur_node = start_node;
 	while (cur_node->next != NULL)
 	{
 		if (cur_node->data > cur_node->next->data)
@@ -140,11 +199,11 @@ int	is_sorted_asc(t_list_node *stack)
 	return (1);
 }
 
-int	is_sorted_des(t_list_node *stack)
+int	is_sorted_des(t_node *start_node)
 {
 	t_node	*cur_node;
 
-	cur_node = stack->head;
+	cur_node = start_node;
 	while (cur_node->next != NULL)
 	{
 		if (cur_node->data < cur_node->next->data)
@@ -154,31 +213,7 @@ int	is_sorted_des(t_list_node *stack)
 	return (1);
 }
 
-/*
-void	binary_radix_sort(t_malloc_resource *var, t_stack *stack)
-{
-	int	max_value;
-	int	bit_len;
-	int	bit;
-	int	i;
 
-	max_value = find_max_value();
-	bit_len = max_bit_len(max_value);
-	bit = 0;
-	i = 0;
-	while (bit < bit_len)
-	{
-		while (i < var->cnt_input)
-		{
-			if ((var->num_arr[i] >> bit) & 1 == 0)
-				push_operations(PUSH_B, &stack);
-			
-		}
-		bit++;
-	}
-
-}
-*/
 int	max_bit_len(long num)
 {
 	int	bit_len;
@@ -190,5 +225,47 @@ int	max_bit_len(long num)
 		bit_len++;
 	}
 	return (bit_len);
+}
+int	is_visited(t_mem_res *var)
+{
+	int	k;
+
+	k = 0;
+	while (k < var->cnt_input)
+	{
+		if (var->index_arr[k] == -1)
+			return (k);
+		k++;
+	}
+	return (k);
+}
+
+int	indexing_stack_data(t_mem_res *var)
+{
+	int		i;
+	int		j;
+	int		min;
+
+	var->index_arr = malloc((var->cnt_input) * sizeof(*var->index_arr));
+	if (var->index_arr == NULL)
+		return (FAILURE);
+	ft_memset(var->index_arr, -1, (var->cnt_input * sizeof(*var->index_arr)));
+	i = 0;
+	while (i < var->cnt_input)
+	{
+
+		min = is_visited(var);
+		if (min == var->cnt_input)
+			return (SUCCESS);
+		j = min + 1;
+		while (j < var->cnt_input)
+		{
+			if (var->index_arr[j] == -1 && var->num_arr[min] > var->num_arr[j])
+				min = j;
+			j++;
+		}
+		var->index_arr[min] = i++;
+	}
+	return (SUCCESS);
 }
 

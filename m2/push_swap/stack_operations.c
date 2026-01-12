@@ -6,7 +6,7 @@
 /*   By: sohuikim <sohuikim@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/03 16:39:48 by sohuikim          #+#    #+#             */
-/*   Updated: 2026/01/10 23:24:35 by sohuikim         ###   ########.fr       */
+/*   Updated: 2026/01/12 02:16:27 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include <unistd.h>
 
 
-void	swap_operations(t_stack_op_cmd cmd, t_stack *stacks)
+void	swap_ops(t_stack_op_cmd cmd, t_stack *stacks)
 {
 	if (cmd == SWAP_A)
 	{
@@ -35,7 +35,7 @@ void	swap_operations(t_stack_op_cmd cmd, t_stack *stacks)
 	}
 }
 
-void	push_operations(t_stack_op_cmd cmd, t_stack *stacks)
+void	push_ops(t_stack_op_cmd cmd, t_stack *stacks)
 {
 	if (cmd == PUSH_A)
 	{
@@ -49,7 +49,7 @@ void	push_operations(t_stack_op_cmd cmd, t_stack *stacks)
 	}
 }
 
-void	rotate_operations(t_stack_op_cmd cmd, t_stack *stacks)
+void	rotate_ops(t_stack_op_cmd cmd, t_stack *stacks)
 {
 	if (cmd == ROTATE_A)
 	{
@@ -69,7 +69,7 @@ void	rotate_operations(t_stack_op_cmd cmd, t_stack *stacks)
 	}
 }
 
-void	rrotate_operations(t_stack_op_cmd cmd, t_stack *stacks)
+void	rrotate_ops(t_stack_op_cmd cmd, t_stack *stacks)
 {
 	if (cmd == REVERSE_ROTATE_A)
 	{
@@ -119,6 +119,8 @@ void	rotate_node(t_list_node *stack)
 {
 	t_node	*tmp;
 
+	if (stack->size == 1)
+		return ;
 	tmp = stack->head->next;
 	stack->tail->next = stack->head;
 	stack->tail = stack->head;
@@ -131,6 +133,8 @@ void	rrotate_node(t_list_node *stack)
 	t_node	*tmp;
 	int		i;
 
+	if (stack->size == 1)
+		return ;
 	i = 1;
 	tmp = stack->head;
 	while (i < (stack->size) - 1)

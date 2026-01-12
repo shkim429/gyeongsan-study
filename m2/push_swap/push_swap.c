@@ -6,7 +6,7 @@
 /*   By: sohuikim <sohuikim@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/26 18:28:32 by sohuikim          #+#    #+#             */
-/*   Updated: 2026/01/11 06:21:17 by sohuikim         ###   ########.fr       */
+/*   Updated: 2026/01/12 16:12:58 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,25 +17,25 @@
 #include "libft.h"
 
 long	ft_atol(char *splitstr);
-int		handling_input_data(char **argv, t_malloc_resource *var);
+int		handling_input_data(char **argv, t_mem_res *var);
 int		cnt_input_data(char **argv);
-void	init_all_stack(t_malloc_resource *var, t_stack *stack);
+void	init_all_struct(t_mem_res *var, t_stack *stack);
 t_node	*create_new_node(long num);
-int		create_stack_a(t_list_node *stack_a, t_malloc_resource *var);
-int		check_vaild_sort_state(t_malloc_resource *var);
-int		run_push_swap(char **argv, t_malloc_resource *var, t_stack *stacks);
+int		create_stack_a(t_list_node *stack_a, t_mem_res *var);
+int		check_vaild_sort_state(t_mem_res *var);
+int		run_push_swap(char **argv, t_mem_res *var, t_stack *stacks);
 
 int	main(int argc, char **argv)
 {
 	t_stack				stacks;
-	t_malloc_resource	var;
+	t_mem_res			var;
 	int					i;
 
 	if (argc <= 1)
 		print_error();
 	else
 	{
-		init_all_stack(&var, &stacks);
+		init_all_struct(&var, &stacks);
 		if ((run_push_swap(argv, &var, &stacks)) == FAILURE)
 		{
 			printf("%d", 1);
@@ -44,13 +44,16 @@ int	main(int argc, char **argv)
 		else
 		{
 			printf("%d", 0);
-			return (free_resource(ERROR_NONE, &stacks, &var), FAILURE);
+			return (free_resource(ERROR_NONE, &stacks, &var), SUCCESS);
 		}
 	}
 }
 
-int	run_push_swap(char **argv, t_malloc_resource *var, t_stack *stacks)
+int	run_push_swap(char **argv, t_mem_res *var, t_stack *stacks)
 {
+	t_sort_utils		sort_utils;
+
+	ft_bzero(&sort_utils, sizeof(t_sort_utils));
 	var->cnt_input = cnt_input_data(argv);
 	if (!var->cnt_input)
 		return (FAILURE); // ft_split 실패
@@ -60,23 +63,29 @@ int	run_push_swap(char **argv, t_malloc_resource *var, t_stack *stacks)
 		return (FAILURE);
 	printf("%d", 2);
 	if (!create_stack_a(&(stacks->a), var))
+	{
+		printf("%d", 3);
 		return (FAILURE);
+	}
 	else
 	{
-		sort(stacks, var->cnt_input);
+		printf("%d", 4);
+		// insert_sort_controller(stacks, &sort_utils);
+		if (!run_sort(stacks, var, &sort_utils))
+			return (FAILURE);
 		return (SUCCESS);
 	}
 }
 
-/* 스택 초기화 */
-void	init_all_stack(t_malloc_resource *var, t_stack *stack)
+/* 구조체 초기화 */
+void	init_all_struct(t_mem_res *var, t_stack *stack)
 {
-	ft_bzero(var, sizeof(t_malloc_resource));
+	ft_bzero(var, sizeof(t_mem_res));
 	ft_bzero(stack, sizeof(t_stack)); // sizeof(*stack) 다시 확인하기
 }
 
 /* 스택 생성 */
-int	create_stack_a(t_list_node *stack_a, t_malloc_resource *var)
+int	create_stack_a(t_list_node *stack_a, t_mem_res *var)
 {
 	stack_a->head = create_new_node(var->num_arr[stack_a->size]);
 	if (stack_a->head == NULL)
@@ -141,7 +150,7 @@ int	cnt_input_data(char **argv)
 	return (cnt_input);
 }
 /* 에러 판단(정상 입력이면 atoi 변환하여 넘기기, 비정상 입력이면 error 넘기고, 즉시 중단) */
-int	handling_input_data(char **argv, t_malloc_resource *var)
+int	handling_input_data(char **argv, t_mem_res *var)
 {
 	int		i;
 	int		j;
@@ -154,8 +163,10 @@ int	handling_input_data(char **argv, t_malloc_resource *var)
 	k = 0;
 	while (argv[i])
 	{
+		if (var->splitstr_arr != NULL)
+			free_split(var->splitstr_arr);
 		var->splitstr_arr = ft_split(argv[i], ' ');
-		if (var->splitstr_arr == NULL)
+		if (!var->splitstr_arr)
 			return (FAILURE);
 		check_invalid_num(var);
 		check_invalid_int_len(var);
@@ -198,7 +209,7 @@ int	is_num(char c)
 		return (0);
 }
 
-int	check_vaild_sort_state(t_malloc_resource *var)
+int	check_vaild_sort_state(t_mem_res *var)
 {
 	int	i;
 	int	j;

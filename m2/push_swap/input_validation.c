@@ -6,7 +6,7 @@
 /*   By: sohuikim <sohuikim@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/29 23:27:19 by sohuikim          #+#    #+#             */
-/*   Updated: 2026/01/11 04:00:11 by sohuikim         ###   ########.fr       */
+/*   Updated: 2026/01/11 22:15:55 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include <stdint.h>
 
 /* 입력값 = 숫자 확인 */
-void	check_invalid_num(t_malloc_resource *var)
+void	check_invalid_num(t_mem_res *var)
 {
 	int	i;
 	int	j;
@@ -40,7 +40,7 @@ void	check_invalid_num(t_malloc_resource *var)
 }
 
 /* int 범위 오버/언더 여부 확인(10) */
-void	check_invalid_int_len(t_malloc_resource *var)
+void	check_invalid_int_len(t_mem_res *var)
 {
 	int	i;
 	int	j;
@@ -94,7 +94,7 @@ long	ft_atol(char *splitstr)
 }
 
 /* int 범위 경계값(길이: 10) 오버/언더 확인 */
-void	check_invalid_int_boundary(t_malloc_resource *var)
+void	check_invalid_int_boundary(t_mem_res *var)
 {
 	int	i;
 
@@ -112,7 +112,7 @@ void	check_invalid_int_boundary(t_malloc_resource *var)
 }
 
 /* 입력 숫자 중복 확인 */
-void	check_duplicate_num(t_malloc_resource *var)
+void	check_duplicate_num(t_mem_res *var)
 {
 	int	i;
 	int	j;

@@ -6,7 +6,7 @@
 /*   By: sohuikim <sohuikim@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/21 20:17:06 by sohuikim          #+#    #+#             */
-/*   Updated: 2025/12/31 23:13:08 by sohuikim         ###   ########.fr       */
+/*   Updated: 2026/01/12 15:24:52 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,4 +31,10 @@ void	free_num_arr(long *num_arr)
 {
 	free(num_arr);
 	num_arr = NULL;
+}
+
+void	free_index_arr(int *index_arr)
+{
+	free(index_arr);
+	index_arr = NULL;
 }
