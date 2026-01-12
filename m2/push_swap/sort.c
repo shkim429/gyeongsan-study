@@ -6,7 +6,7 @@
 /*   By: sohuikim <sohuikim@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/06 15:11:27 by sohuikim          #+#    #+#             */
-/*   Updated: 2026/01/12 17:09:39 by sohuikim         ###   ########.fr       */
+/*   Updated: 2026/01/12 23:29:27 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ t_node	*find_midnode_pos(t_list_node *stack_a);
 int		max_bit_len(long num);
 int		is_sorted_asc(t_node *start_node);
 int		is_sorted_des(t_node *start_node);
-void	sort_asc(t_stack *stacks);
 
 int	find_max_value(t_list_node *stack)
 {
@@ -56,55 +55,33 @@ int	find_min_value(t_list_node *stack)
 	return (min_value);
 }
 
-// void	sort(t_stack *stacks, int stack_size)
-// {
-// 	if (stacks->b.size == 0 && is_sorted_des(stacks->a.head))
-// 		return (sort_asc(stacks));
-// 	binary_radix_sort(stacks, stack_size);
-// }
-
 int	run_sort(t_stack *stacks, t_mem_res *var, t_sort_utils *sort_utils)
 {
-	if (stacks->b.size == 0 && is_sorted_des(stacks->a.head))
-		return (sort_asc(stacks), SUCCESS);
 	if (var->cnt_input <= 5)
 		insert_sort_controller(stacks, sort_utils);
 	else
 	{
 		if (!indexing_stack_data(var))
 			return (FAILURE);
-		binary_radix_sort(stacks, var->cnt_input, sort_utils);
+		binary_radix_sort(stacks, var, sort_utils);
 	}
 	return (SUCCESS);
 }
 
-void	sort_asc(t_stack *stacks)
+void	binary_radix_sort(t_stack *stacks, t_mem_res *var, t_sort_utils *sort_utils)
 {
-	int	i;
-
-	i = 0;
-	while (i < stacks->a.size)
-	{
-		rotate_ops(ROTATE_A, stacks);
-		i++;
-	}
-}
-
-void	binary_radix_sort(t_stack *stacks, int stack_size, t_sort_utils *sort_utils)
-{
-	int		bit_len;
 	int		bit;
 	int		i;
+	int		rank;
 
-	sort_utils->max_value = find_max_value(&(stacks->a));
-	bit_len = max_bit_len(sort_utils->max_value);
 	bit = 0;
-	while (bit < bit_len)
+	while (bit < var->cnt_input)
 	{
 		i = 0;
-		while (i < stack_size)
+		while (i < var->cnt_input)
 		{
-			if (((stacks->a.head->data >> bit) & 1) == 0)
+			rank = find_stack_data_rank(stacks->a.head, var);
+			if (((rank >> bit) & 1) == 0)
 				push_ops(PUSH_B, stacks);
 			else
 			{
@@ -136,13 +113,14 @@ void	insert_sort_controller(t_stack *stacks, t_sort_utils *sort_utils)
 		i = 0;
 		if ((stacks->a.size == stack_a_size) && is_sorted_asc(stacks->a.head))
 			return ;
-		if (/*stacks->b.size == 0 &&*/ sort_utils->key->data == sort_utils->max_value && is_sorted_asc(stacks->a.head->next)) // 계속 확인,  key->next != NULL 삭제 검토
+		if (sort_utils->key->data == sort_utils->max_value)
 		{
-		// return (rotate_ops(ROTATE_A, stacks));
-			rotate_ops(ROTATE_A, stacks);
-			sort_utils->key = stacks->a.head;
-
+			if (is_sorted_des(stacks->a.head))
+				rotate_ops(ROTATE_A, stacks);
+			else
+				rotate_ops(ROTATE_A, stacks);
 		}
+		sort_utils->key = stacks->a.head;
 		if ((stacks->b.size != 0) && is_sorted_des(stacks->b.head) && is_sorted_asc(stacks->a.head))
 		{
 			while (stacks->b.size)
@@ -165,6 +143,7 @@ void	insert_sort(t_stack *stacks, t_sort_utils *sort_utils)
 	{
 		swap_ops(SWAP_A, stacks);
 		sort_utils->key = stacks->a.head;
+		return ;
 		if (sort_utils->key->next == NULL)
 			return ;
 		if (sort_utils->min_value == stacks->a.head->data)
@@ -269,3 +248,19 @@ int	indexing_stack_data(t_mem_res *var)
 	return (SUCCESS);
 }
 
+int	find_stack_data_rank(t_node *cur_node, t_mem_res *var)
+{
+	int	i;
+	int	rank;
+
+	i = 0;
+	rank = 0;
+	while (i < var->cnt_input)
+	{
+		if (cur_node->data == var->num_arr[i])
+			break ;
+		i++;
+	}
+	rank = var->index_arr[i];
+	return (rank);
+}

@@ -6,7 +6,7 @@
 /*   By: sohuikim <sohuikim@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/03 16:39:48 by sohuikim          #+#    #+#             */
-/*   Updated: 2026/01/12 02:16:27 by sohuikim         ###   ########.fr       */
+/*   Updated: 2026/01/12 18:48:41 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ void	rrotate_ops(t_stack_op_cmd cmd, t_stack *stacks)
 	if (cmd == REVERSE_ROTATE_A)
 	{
 		rrotate_node(&(stacks->a));
-		write(1, "rra\n", 3);
+		write(1, "rra\n", 4);
 	}
 	else if (cmd == REVERSE_ROTATE_B)
 	{

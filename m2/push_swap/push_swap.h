@@ -6,7 +6,7 @@
 /*   By: sohuikim <sohuikim@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/26 18:25:19 by sohuikim          #+#    #+#             */
-/*   Updated: 2026/01/12 15:27:44 by sohuikim         ###   ########.fr       */
+/*   Updated: 2026/01/12 23:12:49 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,6 +108,7 @@ void	insert_sort(t_stack *stacks, t_sort_utils *sort_utils);
 void	insert_sort_controller(t_stack *stacks, t_sort_utils *sort_utils);
 int	indexing_stack_data(t_mem_res *var);
 int	run_sort(t_stack *stacks, t_mem_res *var, t_sort_utils *sort_utils);
-void	binary_radix_sort(t_stack *stacks, int stack_size, t_sort_utils *sort_utils);
+void	binary_radix_sort(t_stack *stacks, t_mem_res *var, t_sort_utils *sort_utils);
 void	free_index_arr(int *index_arr);
+int	find_stack_data_rank(t_node *cur_node, t_mem_res *var);
 #endif
