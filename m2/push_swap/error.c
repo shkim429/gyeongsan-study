@@ -6,17 +6,15 @@
 /*   By: sohuikim <sohuikim@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/29 22:20:13 by sohuikim          #+#    #+#             */
-/*   Updated: 2026/01/12 15:27:26 by sohuikim         ###   ########.fr       */
+/*   Updated: 2026/01/13 02:28:28 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "push_swap.h"
+#include "error.h"
 #include <unistd.h>
 #include <stdlib.h>
 
-void	free_stack(t_list_node *stack);
-
-void	free_resource(t_error_case error, t_stack *stacks, t_mem_res *var)
+void	free_res(t_error_case error, t_stack *stacks, t_mem_res *var)
 {
 	if (error == ERROR_MALLOC)
 	{
@@ -26,7 +24,7 @@ void	free_resource(t_error_case error, t_stack *stacks, t_mem_res *var)
 		{
 			free_split(var->splitstr_arr);
 			free_num_arr(var->num_arr);
-			free_index_arr(var->index_arr);
+			free_rank_arr(var->index_arr);
 			free_stack(&(stacks->a));
 		}
 	}
@@ -34,32 +32,10 @@ void	free_resource(t_error_case error, t_stack *stacks, t_mem_res *var)
 	{
 		free_split(var->splitstr_arr);
 		free_num_arr(var->num_arr);
-		free_index_arr(var->index_arr);
+		free_rank_arr(var->index_arr);
 		free_stack(&(stacks->a));
 	}
 
-}
-
-void	free_stack(t_list_node *stack)
-{
-	t_node	*tmp;
-	t_node	*current_node;
-
-	current_node = stack->head;
-	while (current_node)
-	{
-		tmp = current_node->next;
-		free(current_node);
-		current_node = tmp;
-	}
-	stack->head = NULL;
-	stack->tail = NULL;
-	stack->size = 0;
-}
-
-void	print_error(void)
-{
-	write(STDERR_FILENO, "Error\n", 6);
 }
 
 void	handle_error_case(t_error_case error, t_mem_res *var)
@@ -69,4 +45,9 @@ void	handle_error_case(t_error_case error, t_mem_res *var)
 	if (error == ERROR_INT_BOUNDARY || error == ERROR_DUPLICATE_NUM)
 		free_num_arr(var->num_arr);
 	exit(EXIT_FAILURE);
+}
+
+void	print_error(void)
+{
+	write(STDERR_FILENO, "Error\n", 6);
 }

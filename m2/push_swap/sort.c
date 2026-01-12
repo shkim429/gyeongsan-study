@@ -6,54 +6,13 @@
 /*   By: sohuikim <sohuikim@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/06 15:11:27 by sohuikim          #+#    #+#             */
-/*   Updated: 2026/01/12 23:29:27 by sohuikim         ###   ########.fr       */
+/*   Updated: 2026/01/13 02:24:48 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "push_swap.h"
-#include "libft.h"
+#include "sort.h"
+#include "stack_ops.h"
 #include <stdlib.h>
-
-t_node	*find_midnode_pos(t_list_node *stack_a);
-int		max_bit_len(long num);
-int		is_sorted_asc(t_node *start_node);
-int		is_sorted_des(t_node *start_node);
-
-int	find_max_value(t_list_node *stack)
-{
-	t_node	*cur_node;
-	int		max_value;
-	int		i;
-
-	cur_node = stack->head;
-	max_value = cur_node->data;
-	i = 0;
-	while (++i < stack->size)
-	{
-		cur_node = cur_node->next;
-		if (max_value < cur_node->data)
-			max_value = cur_node->data;
-	}
-	return (max_value);
-}
-
-int	find_min_value(t_list_node *stack)
-{
-	t_node	*cur_node;
-	int		min_value;
-	int		i;
-
-	cur_node = stack->head;
-	min_value = cur_node->data;
-	i = 0;
-	while (++i < stack->size)
-	{
-		cur_node = cur_node->next;
-		if (min_value > cur_node->data)
-			min_value = cur_node->data;
-	}
-	return (min_value);
-}
 
 int	run_sort(t_stack *stacks, t_mem_res *var, t_sort_utils *sort_utils)
 {
@@ -61,14 +20,14 @@ int	run_sort(t_stack *stacks, t_mem_res *var, t_sort_utils *sort_utils)
 		insert_sort_controller(stacks, sort_utils);
 	else
 	{
-		if (!indexing_stack_data(var))
+		if (!rank_stack_data(var))
 			return (FAILURE);
-		binary_radix_sort(stacks, var, sort_utils);
+		radix_sort(stacks, var, sort_utils);
 	}
 	return (SUCCESS);
 }
 
-void	binary_radix_sort(t_stack *stacks, t_mem_res *var, t_sort_utils *sort_utils)
+void	radix_sort(t_stack *stacks, t_mem_res *var, t_sort_utils *sort_utils)
 {
 	int		bit;
 	int		i;
@@ -162,105 +121,8 @@ void	insert_sort(t_stack *stacks, t_sort_utils *sort_utils)
 	return ;
 }
 
-int	is_sorted_asc(t_node *start_node)
-{
-	t_node	*cur_node;
-
-	cur_node = start_node;
-	while (cur_node->next != NULL)
-	{
-		if (cur_node->data > cur_node->next->data)
-		{
-			return (0); // not sorted
-		}
-		cur_node = cur_node->next;
-	}
-	return (1);
-}
-
-int	is_sorted_des(t_node *start_node)
-{
-	t_node	*cur_node;
-
-	cur_node = start_node;
-	while (cur_node->next != NULL)
-	{
-		if (cur_node->data < cur_node->next->data)
-			return (0); // not sorted
-		cur_node = cur_node->next;
-	}
-	return (1);
-}
 
 
-int	max_bit_len(long num)
-{
-	int	bit_len;
 
-	bit_len = 0;
-	while (num != 0)
-	{
-		num = num >> 1;
-		bit_len++;
-	}
-	return (bit_len);
-}
-int	is_visited(t_mem_res *var)
-{
-	int	k;
 
-	k = 0;
-	while (k < var->cnt_input)
-	{
-		if (var->index_arr[k] == -1)
-			return (k);
-		k++;
-	}
-	return (k);
-}
 
-int	indexing_stack_data(t_mem_res *var)
-{
-	int		i;
-	int		j;
-	int		min;
-
-	var->index_arr = malloc((var->cnt_input) * sizeof(*var->index_arr));
-	if (var->index_arr == NULL)
-		return (FAILURE);
-	ft_memset(var->index_arr, -1, (var->cnt_input * sizeof(*var->index_arr)));
-	i = 0;
-	while (i < var->cnt_input)
-	{
-
-		min = is_visited(var);
-		if (min == var->cnt_input)
-			return (SUCCESS);
-		j = min + 1;
-		while (j < var->cnt_input)
-		{
-			if (var->index_arr[j] == -1 && var->num_arr[min] > var->num_arr[j])
-				min = j;
-			j++;
-		}
-		var->index_arr[min] = i++;
-	}
-	return (SUCCESS);
-}
-
-int	find_stack_data_rank(t_node *cur_node, t_mem_res *var)
-{
-	int	i;
-	int	rank;
-
-	i = 0;
-	rank = 0;
-	while (i < var->cnt_input)
-	{
-		if (cur_node->data == var->num_arr[i])
-			break ;
-		i++;
-	}
-	rank = var->index_arr[i];
-	return (rank);
-}
