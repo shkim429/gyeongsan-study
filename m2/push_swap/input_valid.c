@@ -6,7 +6,7 @@
 /*   By: sohuikim <sohuikim@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/29 23:27:19 by sohuikim          #+#    #+#             */
-/*   Updated: 2026/01/13 17:06:26 by sohuikim         ###   ########.fr       */
+/*   Updated: 2026/01/14 02:25:51 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 #include "error.h"
 #include <stdint.h>
 
-/* 입력값 = 숫자 확인 */
 void	check_invalid_num(t_mem_res *var)
 {
 	int	i;
@@ -40,7 +39,6 @@ void	check_invalid_num(t_mem_res *var)
 	return ;
 }
 
-/* int 범위 오버/언더 여부 확인(10) */
 void	check_invalid_int_len(t_mem_res *var)
 {
 	int	i;
@@ -69,7 +67,6 @@ void	check_invalid_int_len(t_mem_res *var)
 	return ;
 }
 
-/* 입력 문자열 -> 숫자 변환 */
 long	ft_atol(char *splitstr)
 {
 	int64_t	num;
@@ -94,25 +91,20 @@ long	ft_atol(char *splitstr)
 	return (num * sign);
 }
 
-/* int 범위 경계값(길이: 10) 오버/언더 확인 */
-void	check_invalid_int_boundary(t_mem_res *var)
+void	check_invalid_int_boundary(long num, t_mem_res *var)
 {
-	int	i;
-
-	i = 0;
-	if (var->num_arr[i] < 0)
+	if (num < 0)
 	{
-		if (var->num_arr[i] < -2147483648)
+		if (num < -2147483648)
 			return (handle_error_case(ERROR_INT_BOUNDARY, var));
 	}
 	else
 	{
-		if (var->num_arr[i] > 2147483647)
+		if (num > 2147483647)
 			return (handle_error_case(ERROR_INT_BOUNDARY, var));
 	}
 }
 
-/* 입력 숫자 중복 확인 */
 void	check_duplicate_num(t_mem_res *var)
 {
 	int	i;

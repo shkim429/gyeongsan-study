@@ -6,11 +6,9 @@
 /*   By: sohuikim <sohuikim@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/13 02:02:08 by sohuikim          #+#    #+#             */
-/*   Updated: 2026/01/13 17:15:45 by sohuikim         ###   ########.fr       */
+/*   Updated: 2026/01/14 02:26:22 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-#include "sort.h"
 
 #include "push_swap.h"
 #include "libft.h"

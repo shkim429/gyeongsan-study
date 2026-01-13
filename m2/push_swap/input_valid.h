@@ -6,7 +6,7 @@
 /*   By: sohuikim <sohuikim@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/13 01:42:01 by sohuikim          #+#    #+#             */
-/*   Updated: 2026/01/13 17:06:37 by sohuikim         ###   ########.fr       */
+/*   Updated: 2026/01/14 02:27:20 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ long	ft_atol(char *splitstr);
 int		check_valid_sort_state(t_mem_res *var);
 void	check_invalid_num(t_mem_res *var);
 void	check_invalid_int_len(t_mem_res *var);
-void	check_invalid_int_boundary(t_mem_res *var);
+void	check_invalid_int_boundary(long num, t_mem_res *var);
 void	check_duplicate_num(t_mem_res *var);
 
 #endif

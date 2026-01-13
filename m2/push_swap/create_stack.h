@@ -6,7 +6,7 @@
 /*   By: sohuikim <sohuikim@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/13 01:36:48 by sohuikim          #+#    #+#             */
-/*   Updated: 2026/01/13 17:06:02 by sohuikim         ###   ########.fr       */
+/*   Updated: 2026/01/13 18:03:54 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,5 @@
 
 int		create_stack_a(t_list_node *stack_a, t_mem_res *var);
 t_node	*create_new_node(long num);
-t_node	*addnode_back(t_node **cur_lst, t_node *new_node);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: sohuikim <sohuikim@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/29 22:20:13 by sohuikim          #+#    #+#             */
-/*   Updated: 2026/01/13 17:14:59 by sohuikim         ###   ########.fr       */
+/*   Updated: 2026/01/14 01:33:58 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,10 +39,10 @@ void	free_res(t_error_case error, t_stack *stack, t_mem_res *var)
 
 void	handle_error_case(t_error_case error, t_mem_res *var)
 {
+	(void) error;
 	print_error();
+	free_num_arr(var->num_arr);
 	free_split(var->splitstr_arr);
-	if (error == ERROR_INT_BOUNDARY || error == ERROR_DUPLICATE_NUM)
-		free_num_arr(var->num_arr);
 	exit(EXIT_FAILURE);
 }
 

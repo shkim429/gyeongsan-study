@@ -6,7 +6,7 @@
 /*   By: sohuikim <sohuikim@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/26 18:28:32 by sohuikim          #+#    #+#             */
-/*   Updated: 2026/01/13 17:40:51 by sohuikim         ###   ########.fr       */
+/*   Updated: 2026/01/14 02:25:59 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ int	main(int argc, char **argv)
 {
 	t_stack				stack;
 	t_mem_res			var;
-	int					i;
 
 	if (argc <= 1)
 		print_error();
@@ -58,14 +57,12 @@ int	run_push_swap(char **argv, t_mem_res *var, t_stack *stack)
 	}
 }
 
-/* 구조체 초기화 */
 void	init_all_struct(t_mem_res *var, t_stack *stack)
 {
 	ft_bzero(var, sizeof(t_mem_res));
 	ft_bzero(stack, sizeof(t_stack));
 }
 
-/* 입력값 배열 저장을 위한 입력 요소 길이 카운트 */
 int	cnt_input_data(char **argv)
 {
 	char	**split_input_arr;
@@ -92,7 +89,6 @@ int	cnt_input_data(char **argv)
 	return (cnt_input);
 }
 
-/* 에러 판단(정상 입력이면 atoi 변환하여 넘기기, 비정상 입력이면 error 넘기고, 즉시 중단) */
 int	handle_input_data(char **argv, t_mem_res *var)
 {
 	static int	i;
@@ -100,7 +96,7 @@ int	handle_input_data(char **argv, t_mem_res *var)
 	static int	k;
 
 	var->num_arr = ft_calloc(((var->cnt_input)), sizeof(*(var->num_arr)));
-	if (!var->num_arr)
+	if (var->num_arr == NULL)
 		return (FAILURE);
 	while (argv[++i])
 	{
@@ -114,8 +110,8 @@ int	handle_input_data(char **argv, t_mem_res *var)
 		j = 0;
 		while (var->splitstr_arr[j])
 		{
-			var->num_arr[k++] = ft_atol(var->splitstr_arr[j++]);
-			check_invalid_int_boundary(var);
+			var->num_arr[k] = ft_atol(var->splitstr_arr[j++]);
+			check_invalid_int_boundary(var->num_arr[k++], var);
 		}
 	}
 	check_duplicate_num(var);
