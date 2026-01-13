@@ -6,7 +6,7 @@
 /*   By: sohuikim <sohuikim@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/26 18:25:19 by sohuikim          #+#    #+#             */
-/*   Updated: 2026/01/13 17:06:58 by sohuikim         ###   ########.fr       */
+/*   Updated: 2026/01/13 17:47:59 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ void	init_all_struct(t_mem_res *var, t_stack *stack);
 int		run_push_swap(char **argv, t_mem_res *var, t_stack *stack);
 int		run_sort(t_stack *stack, t_mem_res *var, t_sort_utils *sort_utils);
 void	insert_sort(t_stack *stack, t_sort_utils *sort_utils);
-void	insert_sort_controller(t_stack *stack, t_sort_utils *sort_utils);
+void	run_insert_sort(t_stack *stack, t_sort_utils *sort_utils, int a_size);
 void	radix_sort(t_stack *stack, t_mem_res *var, t_sort_utils *sort_utils);
 
 #endif

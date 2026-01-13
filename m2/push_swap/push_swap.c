@@ -6,7 +6,7 @@
 /*   By: sohuikim <sohuikim@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/26 18:28:32 by sohuikim          #+#    #+#             */
-/*   Updated: 2026/01/13 17:06:45 by sohuikim         ###   ########.fr       */
+/*   Updated: 2026/01/13 17:40:51 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int	run_push_swap(char **argv, t_mem_res *var, t_stack *stack)
 		return (FAILURE);
 	if (!handle_input_data(argv, var))
 		return (FAILURE);
-	if (!check_vaild_sort_state(var))
+	if (!check_valid_sort_state(var))
 		return (FAILURE);
 	if (!create_stack_a(&(stack->a), var))
 		return (FAILURE);

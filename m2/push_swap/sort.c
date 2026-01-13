@@ -6,7 +6,7 @@
 /*   By: sohuikim <sohuikim@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/06 15:11:27 by sohuikim          #+#    #+#             */
-/*   Updated: 2026/01/13 17:18:34 by sohuikim         ###   ########.fr       */
+/*   Updated: 2026/01/13 17:47:55 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 int	run_sort(t_stack *stack, t_mem_res *var, t_sort_utils *sort_utils)
 {
 	if (var->cnt_input <= 5)
-		insert_sort_controller(stack, sort_utils);
+		run_insert_sort(stack, sort_utils, var->cnt_input);
 	else
 	{
 		if (!rank_stack_data(var))
