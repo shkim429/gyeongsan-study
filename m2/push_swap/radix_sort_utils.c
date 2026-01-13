@@ -6,7 +6,7 @@
 /*   By: sohuikim <sohuikim@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/13 02:02:08 by sohuikim          #+#    #+#             */
-/*   Updated: 2026/01/13 02:26:44 by sohuikim         ###   ########.fr       */
+/*   Updated: 2026/01/13 17:15:45 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@ int	rank_stack_data(t_mem_res *var)
 	i = 0;
 	while (i < var->cnt_input)
 	{
-
 		min = is_visited(var);
 		if (min == var->cnt_input)
 			return (SUCCESS);

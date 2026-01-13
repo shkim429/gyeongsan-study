@@ -6,7 +6,7 @@
 /*   By: sohuikim <sohuikim@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/26 18:25:19 by sohuikim          #+#    #+#             */
-/*   Updated: 2026/01/13 03:58:01 by sohuikim         ###   ########.fr       */
+/*   Updated: 2026/01/13 17:06:58 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 
 # define SUCCESS 1
 # define FAILURE 0
-
 
 typedef struct s_node
 {
@@ -69,4 +68,5 @@ int		run_sort(t_stack *stack, t_mem_res *var, t_sort_utils *sort_utils);
 void	insert_sort(t_stack *stack, t_sort_utils *sort_utils);
 void	insert_sort_controller(t_stack *stack, t_sort_utils *sort_utils);
 void	radix_sort(t_stack *stack, t_mem_res *var, t_sort_utils *sort_utils);
+
 #endif

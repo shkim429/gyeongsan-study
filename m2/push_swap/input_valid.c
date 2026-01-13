@@ -6,7 +6,7 @@
 /*   By: sohuikim <sohuikim@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/29 23:27:19 by sohuikim          #+#    #+#             */
-/*   Updated: 2026/01/13 02:27:52 by sohuikim         ###   ########.fr       */
+/*   Updated: 2026/01/13 17:06:26 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	check_invalid_num(t_mem_res *var)
 			j++;
 		}
 		if ((is_sign(var->splitstr_arr[i][j])) || \
-(!(is_num(var->splitstr_arr[i][j]))))
+			(!(is_num(var->splitstr_arr[i][j]))))
 			return (handle_error_case(ERROR_NUM, var));
 		i++;
 	}
@@ -131,4 +131,3 @@ void	check_duplicate_num(t_mem_res *var)
 		i++;
 	}
 }
-

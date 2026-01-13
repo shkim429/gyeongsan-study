@@ -6,7 +6,7 @@
 /*   By: sohuikim <sohuikim@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/13 01:57:26 by sohuikim          #+#    #+#             */
-/*   Updated: 2026/01/13 02:06:27 by sohuikim         ###   ########.fr       */
+/*   Updated: 2026/01/13 17:15:49 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ int	is_sorted_des(t_node *start_node)
 	while (cur_node->next != NULL)
 	{
 		if (cur_node->data < cur_node->next->data)
-			return (0); // not sorted
+			return (0);
 		cur_node = cur_node->next;
 	}
 	return (1);
@@ -75,17 +75,9 @@ int	is_sorted_asc(t_node *start_node)
 	{
 		if (cur_node->data > cur_node->next->data)
 		{
-			return (0); // not sorted
+			return (0);
 		}
 		cur_node = cur_node->next;
 	}
 	return (1);
 }
-
-
-
-
-
-
-
-

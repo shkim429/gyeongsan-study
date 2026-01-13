@@ -6,7 +6,7 @@
 /*   By: sohuikim <sohuikim@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/26 18:28:32 by sohuikim          #+#    #+#             */
-/*   Updated: 2026/01/13 03:56:40 by sohuikim         ###   ########.fr       */
+/*   Updated: 2026/01/13 17:06:45 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,10 +43,10 @@ int	run_push_swap(char **argv, t_mem_res *var, t_stack *stack)
 	ft_bzero(&sort_utils, sizeof(t_sort_utils));
 	var->cnt_input = cnt_input_data(argv);
 	if (!var->cnt_input)
-		return (FAILURE); // ft_split 실패
-	if (!handle_input_data(argv, var)) // num_arr 실패 or split 실패
 		return (FAILURE);
-	if (!check_vaild_sort_state(var)) // split과 num free 필요
+	if (!handle_input_data(argv, var))
+		return (FAILURE);
+	if (!check_vaild_sort_state(var))
 		return (FAILURE);
 	if (!create_stack_a(&(stack->a), var))
 		return (FAILURE);
@@ -62,7 +62,7 @@ int	run_push_swap(char **argv, t_mem_res *var, t_stack *stack)
 void	init_all_struct(t_mem_res *var, t_stack *stack)
 {
 	ft_bzero(var, sizeof(t_mem_res));
-	ft_bzero(stack, sizeof(t_stack)); // sizeof(*stack) 다시 확인하기
+	ft_bzero(stack, sizeof(t_stack));
 }
 
 /* 입력값 배열 저장을 위한 입력 요소 길이 카운트 */

@@ -6,12 +6,13 @@
 /*   By: sohuikim <sohuikim@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/13 01:09:26 by sohuikim          #+#    #+#             */
-/*   Updated: 2026/01/13 03:57:59 by sohuikim         ###   ########.fr       */
+/*   Updated: 2026/01/13 17:07:40 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef STACK_OPS_H
 # define STACK_OPS_H
+
 # include "push_swap.h"
 
 typedef enum s_stack_op_cmd

@@ -6,12 +6,13 @@
 /*   By: sohuikim <sohuikim@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/13 01:36:48 by sohuikim          #+#    #+#             */
-/*   Updated: 2026/01/13 01:38:57 by sohuikim         ###   ########.fr       */
+/*   Updated: 2026/01/13 17:06:02 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CREATE_STACK_H
 # define CREATE_STACK_H
+
 # include "push_swap.h"
 
 int		create_stack_a(t_list_node *stack_a, t_mem_res *var);

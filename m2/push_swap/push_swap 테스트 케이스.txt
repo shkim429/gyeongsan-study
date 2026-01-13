@@ -1,0 +1,128 @@
+# push_swap 테스트 케이스
+
+## 1. 기본 정상 테스트 (Basic Valid Tests)
+./push_swap 2 1 3
+./push_swap 1 5 2 4 3
+./push_swap "4 67 3 87 23"
+./push_swap 0 1 2 3 4 5
+./push_swap -1 -2 -3 -4 -5
+./push_swap 5 4 3 2 1
+./push_swap "2 1" "3 6" "8 5"
+./push_swap 42
+./push_swap 0
+
+## 2. 중간 크기 정렬 테스트 (Medium Size Tests)
+./push_swap 9 8 7 6 5 4 3 2 1 0
+./push_swap 10 20 30 40 50 60 70 80 90 100
+./push_swap 100 -100 50 -50 0 25 -25 75 -75
+./push_swap "1 2 3 4 5" "10 9 8 7 6"
+./push_swap 42 21 84 63 105 -42 -21 -84 -63 -105
+
+## 3. 큰 숫자 테스트 (Large Numbers)
+./push_swap 2147483647 -2147483648 0
+./push_swap 2147483647 2147483646 2147483645
+./push_swap -2147483648 -2147483647 -2147483646
+./push_swap 2147483647 0 -2147483648 1 -1
+
+## 4. 에러 테스트 - 중복 (Duplicate Numbers)
+./push_swap 1 2 3 3 4
+./push_swap 5 5
+./push_swap 0 0 0
+./push_swap "1 2 3" "3 4 5"
+./push_swap 42 21 42
+
+## 5. 에러 테스트 - 범위 초과 (Out of Range)
+./push_swap 2147483648
+./push_swap -2147483649
+./push_swap 999999999999
+./push_swap 2147483647 2147483648
+./push_swap -2147483648 -2147483649
+
+## 6. 에러 테스트 - 잘못된 입력 (Invalid Input)
+./push_swap abc
+./push_swap 1 2 three
+./push_swap "1 2 a"
+./push_swap 1.5 2.3
+./push_swap 1 2 3+4
+./push_swap 1 2 3-4
+./push_swap ""
+./push_swap " "
+./push_swap "   "
+./push_swap "1 2  3"
+
+## 7. 에러 테스트 - 특수문자 (Special Characters)
+./push_swap 1@2
+./push_swap 1 2 3!
+./push_swap "1 #2 3"
+./push_swap 1 2 3*4
+
+## 8. 이미 정렬된 케이스 (Already Sorted)
+./push_swap 1 2 3 4 5
+./push_swap -5 -4 -3 -2 -1
+./push_swap 0 1 2 3 4 5 6 7 8 9
+
+## 9. 역순 정렬 (Reverse Sorted)
+./push_swap 5 4 3 2 1
+./push_swap 10 9 8 7 6 5 4 3 2 1
+./push_swap 0 -1 -2 -3 -4 -5
+
+## 10. 단일/소수 요소 (Single/Few Elements)
+./push_swap 42
+./push_swap 1 2
+./push_swap 2 1
+./push_swap 1 2 3
+
+## 11. 100개 랜덤 테스트 (100 Random Numbers)
+./push_swap 41 67 34 0 69 24 78 58 62 64 5 45 81 27 61 91 95 42 27 36 10 63 75 13 82 96 12 47 68 17 6 85 44 3 73 1 52 70 9 84 87 35 19 22 59 77 23 31 15 80 30 50 71 88 93 26 38 37 57 39 54 53 49 29 18 2 8 94 21 48 79 65 51 32 14 11 97 76 33 66 74 7 20 86 92 40 56 55 4 25 89 60 83 46 90 28 72 16 98 43
+
+## 12. 500개 랜덤 테스트 샘플 (500 Random Numbers Sample)
+# 실제로는 더 많은 숫자 필요 - 예시만 제공
+./push_swap $(seq 1 500 | sort -R | tr '\n' ' ')
+./push_swap $(seq -250 250 | sort -R | tr '\n' ' ')
+
+## 13. 인자 없음 (No Arguments)
+./push_swap
+
+## 14. 공백으로 구분된 여러 인자 (Multiple Arguments with Spaces)
+./push_swap "5" "4" "3" "2" "1"
+./push_swap "100 200" "300 400" "500"
+./push_swap "  1  2  3  "
+
+## 15. 음수와 양수 혼합 (Mixed Negative and Positive)
+./push_swap -5 5 -10 10 0
+./push_swap 100 -100 50 -50 25 -25
+./push_swap -1 1 -2 2 -3 3 -4 4 -5 5
+
+## 16. 0을 포함한 케이스 (Cases with Zero)
+./push_swap 0
+./push_swap 0 0
+./push_swap 1 0 -1
+./push_swap 0 1 2 3 4
+./push_swap 5 4 3 2 1 0 -1 -2 -3 -4 -5
+
+## 17. 선행 0이 있는 숫자 (Numbers with Leading Zeros)
+./push_swap 01 02 03
+./push_swap 00 01 02
+./push_swap 0001 0002 0003
+
+## 18. 부호 테스트 (Sign Tests)
+./push_swap +1 +2 +3
+./push_swap +5 -5 +10 -10
+./push_swap ++1
+./push_swap --1
+./push_swap +-1
+
+## 19. 성능 측정용 (Performance Tests)
+# 3개
+./push_swap 2 1 0
+# 5개
+./push_swap 1 5 2 4 3
+# 100개 (최악의 경우 < 700 operations)
+./push_swap $(seq 1 100 | sort -R | tr '\n' ' ')
+# 500개 (최악의 경우 < 5500 operations)
+./push_swap $(seq 1 500 | sort -R | tr '\n' ' ')
+
+## 20. checker와 함께 사용 (Use with Checker if available)
+./push_swap 4 67 3 87 23 | ./checker 4 67 3 87 23
+./push_swap 2 1 0 | ./checker 2 1 0
+ARG="4 67 3 87 23"; ./push_swap $ARG | ./checker $ARG

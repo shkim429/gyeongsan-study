@@ -6,7 +6,7 @@
 /*   By: sohuikim <sohuikim@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/06 15:11:27 by sohuikim          #+#    #+#             */
-/*   Updated: 2026/01/13 14:37:15 by sohuikim         ###   ########.fr       */
+/*   Updated: 2026/01/13 17:18:34 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ void	run_insert_sort(t_stack *stack, t_sort_utils *sort_utils, int a_size)
 		}
 		sort_utils->key = stack->a.head;
 		if ((!stack->b.size) && is_sorted_des(stack->b.head) && \
-is_sorted_asc(stack->a.head))
+			is_sorted_asc(stack->a.head))
 		{
 			while (stack->b.size)
 				push_ops(PUSH_A, stack);
@@ -115,9 +115,3 @@ void	insert_sort(t_stack *stack, t_sort_utils *sort_utils)
 	sort_utils->key = stack->a.head;
 	return ;
 }
-
-
-
-
-
-

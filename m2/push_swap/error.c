@@ -6,7 +6,7 @@
 /*   By: sohuikim <sohuikim@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/29 22:20:13 by sohuikim          #+#    #+#             */
-/*   Updated: 2026/01/13 03:57:09 by sohuikim         ###   ########.fr       */
+/*   Updated: 2026/01/13 17:14:59 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ void	free_res(t_error_case error, t_stack *stack, t_mem_res *var)
 		free_rank_arr(var->index_arr);
 		free_stack(&(stack->a));
 	}
-
 }
 
 void	handle_error_case(t_error_case error, t_mem_res *var)

@@ -6,7 +6,7 @@
 /*   By: sohuikim <sohuikim@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/13 01:15:06 by sohuikim          #+#    #+#             */
-/*   Updated: 2026/01/13 01:44:11 by sohuikim         ###   ########.fr       */
+/*   Updated: 2026/01/13 17:15:29 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ int	is_sign(char c)
 		return (1);
 	else
 		return (0);
-
 }
 
 /* 입력값 형태: 숫자 확인 */
@@ -40,7 +39,7 @@ int	is_zero(char c)
 }
 
 /* 입력값 정렬 여부 검사 */
-int	check_vaild_sort_state(t_mem_res *var)
+int	check_valid_sort_state(t_mem_res *var)
 {
 	int	i;
 	int	j;
@@ -54,4 +53,3 @@ int	check_vaild_sort_state(t_mem_res *var)
 	}
 	return (FAILURE);
 }
-
