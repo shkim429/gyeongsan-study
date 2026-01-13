@@ -6,7 +6,7 @@
 /*   By: sohuikim <sohuikim@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/13 01:09:26 by sohuikim          #+#    #+#             */
-/*   Updated: 2026/01/13 01:47:00 by sohuikim         ###   ########.fr       */
+/*   Updated: 2026/01/13 03:57:59 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,9 +33,9 @@ void	swap_node(t_list_node *stack);
 void	push_node(t_list_node *stack1, t_list_node *stack2);
 void	rotate_node(t_list_node *stack);
 void	rrotate_node(t_list_node *stack);
-void	swap_ops(t_stack_op_cmd cmd, t_stack *stacks);
-void	push_ops(t_stack_op_cmd cmd, t_stack *stacks);
-void	rotate_ops(t_stack_op_cmd cmd, t_stack *stacks);
-void	rrotate_ops(t_stack_op_cmd cmd, t_stack *stacks);
+void	swap_ops(t_stack_op_cmd cmd, t_stack *stack);
+void	push_ops(t_stack_op_cmd cmd, t_stack *stack);
+void	rotate_ops(t_stack_op_cmd cmd, t_stack *stack);
+void	rrotate_ops(t_stack_op_cmd cmd, t_stack *stack);
 
 #endif

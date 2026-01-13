@@ -6,7 +6,7 @@
 /*   By: sohuikim <sohuikim@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/26 18:28:32 by sohuikim          #+#    #+#             */
-/*   Updated: 2026/01/13 02:21:48 by sohuikim         ###   ########.fr       */
+/*   Updated: 2026/01/13 03:56:40 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 
 int	main(int argc, char **argv)
 {
-	t_stack				stacks;
+	t_stack				stack;
 	t_mem_res			var;
 	int					i;
 
@@ -28,15 +28,15 @@ int	main(int argc, char **argv)
 		print_error();
 	else
 	{
-		init_all_struct(&var, &stacks);
-		if ((run_push_swap(argv, &var, &stacks)) == FAILURE)
-			return (free_res(ERROR_MALLOC, &stacks, &var), FAILURE);
+		init_all_struct(&var, &stack);
+		if ((run_push_swap(argv, &var, &stack)) == FAILURE)
+			return (free_res(ERROR_MALLOC, &stack, &var), FAILURE);
 		else
-			return (free_res(ERROR_NONE, &stacks, &var), SUCCESS);
+			return (free_res(ERROR_NONE, &stack, &var), SUCCESS);
 	}
 }
 
-int	run_push_swap(char **argv, t_mem_res *var, t_stack *stacks)
+int	run_push_swap(char **argv, t_mem_res *var, t_stack *stack)
 {
 	t_sort_utils		sort_utils;
 
@@ -48,11 +48,11 @@ int	run_push_swap(char **argv, t_mem_res *var, t_stack *stacks)
 		return (FAILURE);
 	if (!check_vaild_sort_state(var)) // split과 num free 필요
 		return (FAILURE);
-	if (!create_stack_a(&(stacks->a), var))
+	if (!create_stack_a(&(stack->a), var))
 		return (FAILURE);
 	else
 	{
-		if (!run_sort(stacks, var, &sort_utils))
+		if (!run_sort(stack, var, &sort_utils))
 			return (FAILURE);
 		return (SUCCESS);
 	}
@@ -91,19 +91,18 @@ int	cnt_input_data(char **argv)
 	}
 	return (cnt_input);
 }
+
 /* 에러 판단(정상 입력이면 atoi 변환하여 넘기기, 비정상 입력이면 error 넘기고, 즉시 중단) */
 int	handle_input_data(char **argv, t_mem_res *var)
 {
-	int		i;
-	int		j;
-	int		k;
+	static int	i;
+	int			j;
+	static int	k;
 
-	var->num_arr = ft_calloc(((var->cnt_input) + 1), sizeof(*(var->num_arr)));
-	if (var->num_arr == NULL)
+	var->num_arr = ft_calloc(((var->cnt_input)), sizeof(*(var->num_arr)));
+	if (!var->num_arr)
 		return (FAILURE);
-	i = 1;
-	k = 0;
-	while (argv[i])
+	while (argv[++i])
 	{
 		if (var->splitstr_arr != NULL)
 			free_split(var->splitstr_arr);
@@ -118,7 +117,6 @@ int	handle_input_data(char **argv, t_mem_res *var)
 			var->num_arr[k++] = ft_atol(var->splitstr_arr[j++]);
 			check_invalid_int_boundary(var);
 		}
-		i++;
 	}
 	check_duplicate_num(var);
 	return (SUCCESS);

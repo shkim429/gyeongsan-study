@@ -6,7 +6,7 @@
 /*   By: sohuikim <sohuikim@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/26 18:25:19 by sohuikim          #+#    #+#             */
-/*   Updated: 2026/01/13 02:18:43 by sohuikim         ###   ########.fr       */
+/*   Updated: 2026/01/13 03:58:01 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,9 +64,9 @@ typedef struct s_sort_utils
 int		cnt_input_data(char **argv);
 int		handle_input_data(char **argv, t_mem_res *var);
 void	init_all_struct(t_mem_res *var, t_stack *stack);
-int		run_push_swap(char **argv, t_mem_res *var, t_stack *stacks);
-int		run_sort(t_stack *stacks, t_mem_res *var, t_sort_utils *sort_utils);
-void	insert_sort(t_stack *stacks, t_sort_utils *sort_utils);
-void	insert_sort_controller(t_stack *stacks, t_sort_utils *sort_utils);
-void	radix_sort(t_stack *stacks, t_mem_res *var, t_sort_utils *sort_utils);
+int		run_push_swap(char **argv, t_mem_res *var, t_stack *stack);
+int		run_sort(t_stack *stack, t_mem_res *var, t_sort_utils *sort_utils);
+void	insert_sort(t_stack *stack, t_sort_utils *sort_utils);
+void	insert_sort_controller(t_stack *stack, t_sort_utils *sort_utils);
+void	radix_sort(t_stack *stack, t_mem_res *var, t_sort_utils *sort_utils);
 #endif

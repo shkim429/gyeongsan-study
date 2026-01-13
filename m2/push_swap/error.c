@@ -6,7 +6,7 @@
 /*   By: sohuikim <sohuikim@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/29 22:20:13 by sohuikim          #+#    #+#             */
-/*   Updated: 2026/01/13 02:28:28 by sohuikim         ###   ########.fr       */
+/*   Updated: 2026/01/13 03:57:09 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include <unistd.h>
 #include <stdlib.h>
 
-void	free_res(t_error_case error, t_stack *stacks, t_mem_res *var)
+void	free_res(t_error_case error, t_stack *stack, t_mem_res *var)
 {
 	if (error == ERROR_MALLOC)
 	{
@@ -25,7 +25,7 @@ void	free_res(t_error_case error, t_stack *stacks, t_mem_res *var)
 			free_split(var->splitstr_arr);
 			free_num_arr(var->num_arr);
 			free_rank_arr(var->index_arr);
-			free_stack(&(stacks->a));
+			free_stack(&(stack->a));
 		}
 	}
 	else if (error == ERROR_NONE)
@@ -33,7 +33,7 @@ void	free_res(t_error_case error, t_stack *stacks, t_mem_res *var)
 		free_split(var->splitstr_arr);
 		free_num_arr(var->num_arr);
 		free_rank_arr(var->index_arr);
-		free_stack(&(stacks->a));
+		free_stack(&(stack->a));
 	}
 
 }
