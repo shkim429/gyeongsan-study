@@ -6,7 +6,7 @@
 /*   By: sohuikim <sohuikim@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/26 18:28:32 by sohuikim          #+#    #+#             */
-/*   Updated: 2026/01/14 02:25:59 by sohuikim         ###   ########.fr       */
+/*   Updated: 2026/01/15 04:36:03 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,9 +70,8 @@ int	cnt_input_data(char **argv)
 	int		i;
 	int		j;
 
-	i = 1;
 	cnt_input = 0;
-	while (argv[i])
+	while (argv[++i])
 	{
 		j = 0;
 		split_input_arr = ft_split(argv[i], ' ');
@@ -84,7 +83,6 @@ int	cnt_input_data(char **argv)
 			j++;
 		}
 		free_split(split_input_arr);
-		i++;
 	}
 	return (cnt_input);
 }

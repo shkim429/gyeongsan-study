@@ -6,7 +6,7 @@
 /*   By: sohuikim <sohuikim@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/13 02:02:08 by sohuikim          #+#    #+#             */
-/*   Updated: 2026/01/14 02:26:22 by sohuikim         ###   ########.fr       */
+/*   Updated: 2026/01/15 03:58:27 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	rank_stack_data(t_mem_res *var)
 	i = 0;
 	while (i < var->cnt_input)
 	{
-		min = is_visited(var);
+		min = is_ranked(var);
 		if (min == var->cnt_input)
 			return (SUCCESS);
 		j = min + 1;
@@ -60,7 +60,7 @@ int	find_stack_data_rank(t_node *cur_node, t_mem_res *var)
 	return (rank);
 }
 
-int	is_visited(t_mem_res *var)
+int	is_ranked(t_mem_res *var)
 {
 	int	k;
 
@@ -72,17 +72,4 @@ int	is_visited(t_mem_res *var)
 		k++;
 	}
 	return (k);
-}
-
-int	max_bit_len(long num)
-{
-	int	bit_len;
-
-	bit_len = 0;
-	while (num != 0)
-	{
-		num = num >> 1;
-		bit_len++;
-	}
-	return (bit_len);
 }

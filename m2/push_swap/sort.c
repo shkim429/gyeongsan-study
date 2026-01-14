@@ -6,7 +6,7 @@
 /*   By: sohuikim <sohuikim@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/06 15:11:27 by sohuikim          #+#    #+#             */
-/*   Updated: 2026/01/14 02:24:10 by sohuikim         ###   ########.fr       */
+/*   Updated: 2026/01/15 04:27:48 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,12 +22,12 @@ int	run_sort(t_stack *stack, t_mem_res *var, t_sort_utils *sort_utils)
 	{
 		if (!rank_stack_data(var))
 			return (FAILURE);
-		radix_sort(stack, var);
+		binary_radix_sort(stack, var);
 	}
 	return (SUCCESS);
 }
 
-void	radix_sort(t_stack *stack, t_mem_res *var)
+void	binary_radix_sort(t_stack *stack, t_mem_res *var)
 {
 	static int	bit;
 	int			i;
