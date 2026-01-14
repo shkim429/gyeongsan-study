@@ -6,7 +6,7 @@
 /*   By: sohuikim <sohuikim@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/26 18:25:19 by sohuikim          #+#    #+#             */
-/*   Updated: 2026/01/13 17:57:31 by sohuikim         ###   ########.fr       */
+/*   Updated: 2026/01/15 05:25:45 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,6 @@ typedef struct s_mem_res
 
 typedef struct s_sort_utils
 {
-	t_node	*key;
 	int		max_value;
 	int		min_value;
 }	t_sort_utils;

@@ -6,7 +6,7 @@
 /*   By: sohuikim <sohuikim@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/06 15:11:27 by sohuikim          #+#    #+#             */
-/*   Updated: 2026/01/15 04:27:48 by sohuikim         ###   ########.fr       */
+/*   Updated: 2026/01/15 05:25:30 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,18 +57,16 @@ void	binary_radix_sort(t_stack *stack, t_mem_res *var)
 
 void	run_insert_sort(t_stack *stack, t_sort_utils *sort_utils, int a_size)
 {
-	sort_utils->key = stack->a.head;
 	sort_utils->min_value = find_min_value(&(stack->a));
 	sort_utils->max_value = find_max_value(&(stack->a));
 	while (1)
 	{
 		if ((stack->a.size == a_size) && is_sorted_asc(stack->a.head))
 			return ;
-		if (sort_utils->key->data == sort_utils->max_value)
+		if (stack->a.head->data == sort_utils->max_value)
 			rotate_ops(ROTATE_A, stack);
 		if (stack->b.size == 0 && is_sorted_asc(stack->a.head))
 			return ;
-		sort_utils->key = stack->a.head;
 		if ((stack->b.size != 0) && is_sorted_des(stack->b.head) && \
 			is_sorted_asc(stack->a.head))
 		{
@@ -76,22 +74,20 @@ void	run_insert_sort(t_stack *stack, t_sort_utils *sort_utils, int a_size)
 				push_ops(PUSH_A, stack);
 			return ;
 		}
-		sort_utils->key = insert_sort(stack, sort_utils);
+		insert_sort(stack, sort_utils);
 	}
 }
 
-t_node	*insert_sort(t_stack *stack, t_sort_utils *sort_utils)
+void	insert_sort(t_stack *stack, t_sort_utils *sort_utils)
 {
-	if (sort_utils->key->data == sort_utils->min_value)
+	if (stack->a.head->data == sort_utils->min_value)
 	{
 		push_ops(PUSH_B, stack);
-		sort_utils->key = stack->a.head;
 		sort_utils->min_value = find_min_value(&(stack->a));
 	}
-	if (sort_utils->key->data > sort_utils->key->next->data)
+	if (stack->a.head->data > stack->a.head->next->data)
 	{
-		swap_ops(SWAP_A, stack);
-		return (sort_utils->key = stack->a.head);
+		return (swap_ops(SWAP_A, stack));
 		if (sort_utils->min_value == stack->a.head->data)
 		{
 			push_ops(PUSH_B, stack);
@@ -99,9 +95,9 @@ t_node	*insert_sort(t_stack *stack, t_sort_utils *sort_utils)
 		}
 		else
 			rotate_ops(ROTATE_A, stack);
-		return (sort_utils->key = stack->a.head);
+		return ;
 	}
 	else
 		rotate_ops(ROTATE_A, stack);
-	return (sort_utils->key = stack->a.head);
+	return ;
 }

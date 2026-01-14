@@ -1,6 +1,6 @@
 NAME = push_swap.a
 CC = cc
-CFLAGS = -Wall -Wextra -Werror $(INC)
+CFLAGS = -Wall -Wextra -Werror $(INC) -g
 RM = rm -rf
 SRCS = push_swap.c \
 	   sort.c sort_utils.c radix_sort_utils.c \

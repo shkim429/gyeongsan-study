@@ -6,7 +6,7 @@
 /*   By: sohuikim <sohuikim@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/26 18:28:32 by sohuikim          #+#    #+#             */
-/*   Updated: 2026/01/15 04:36:03 by sohuikim         ###   ########.fr       */
+/*   Updated: 2026/01/15 05:27:37 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,12 +65,11 @@ void	init_all_struct(t_mem_res *var, t_stack *stack)
 
 int	cnt_input_data(char **argv)
 {
-	char	**split_input_arr;
-	int		cnt_input;
-	int		i;
-	int		j;
+	char		**split_input_arr;
+	static int	cnt_input;
+	static int	i;
+	int			j;
 
-	cnt_input = 0;
 	while (argv[++i])
 	{
 		j = 0;
