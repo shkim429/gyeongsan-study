@@ -11,19 +11,19 @@ SRCS = push_swap.c \
 OBJ_DIR = obj
 OBJS_FILES = $(addprefix $(OBJ_DIR)/, $(SRCS:.c=.o))
 LIBS_PATH = -L. \
-            -L../../m0/ft_libft
-LIBS_DIR_PATH = ../../m0/ft_libft
+            -L./ft_libft
+LIBS_DIR_PATH = ./ft_libft
 LIBS = -lftprintfgnl
 
 INC = -I. \
-	  -I../../m0/ft_libft/libft \
+	  -I./ft_libft/include
 
 MAIN_EXE = push_swap
 	
 all : $(MAIN_EXE)
 
 $(LIBPRINTFGNL_A) :
-	make -C $(LIBPRINTFGNL_DIR_PATH)
+	make -C $(LIBS_DIR_PATH)
 
 $(OBJ_DIR) :
 	mkdir -p $(OBJ_DIR)

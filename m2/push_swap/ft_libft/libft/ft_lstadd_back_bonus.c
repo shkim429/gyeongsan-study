@@ -1,28 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   input_valid.h                                      :+:      :+:    :+:   */
+/*   ft_lstadd_back.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sohuikim <sohuikim@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/01/13 01:42:01 by sohuikim          #+#    #+#             */
-/*   Updated: 2026/01/14 03:53:06 by sohuikim         ###   ########.fr       */
+/*   Created: 2025/07/11 16:24:53 by sohuikim          #+#    #+#             */
+/*   Updated: 2025/07/14 01:44:47 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef INPUT_VALID_H
-# define INPUT_VALID_H
+#include "libft.h"
 
-# include "push_swap.h"
-
-int		is_sign(char c);
-int		is_num(char c);
-int		is_zero(char c);
-long	ft_atol(char *splitstr);
-int		check_valid_sort_state(t_mem_res *var);
-void	check_invalid_num(t_mem_res *var);
-void	check_invalid_int_len(t_mem_res *var);
-void	check_invalid_int_boundary(long num, t_mem_res *var);
-void	check_duplicate_num(t_mem_res *var);
-
-#endif
+t_list	*ft_lstadd_back(t_list **lst, t_list *new)
+{
+	if (*lst == NULL)
+		*lst = new;
+	else
+		ft_lstlast(*lst)->next = new;
+	return (*lst);
+}

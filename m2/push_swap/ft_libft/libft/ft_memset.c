@@ -1,28 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   input_valid.h                                      :+:      :+:    :+:   */
+/*   ft_memset.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sohuikim <sohuikim@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/01/13 01:42:01 by sohuikim          #+#    #+#             */
-/*   Updated: 2026/01/14 03:53:06 by sohuikim         ###   ########.fr       */
+/*   Created: 2025/06/28 20:29:10 by sohuikim          #+#    #+#             */
+/*   Updated: 2025/07/21 19:10:11 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef INPUT_VALID_H
-# define INPUT_VALID_H
+#include "libft.h"
 
-# include "push_swap.h"
+void	*ft_memset(void *s, int c, size_t n)
+{
+	unsigned char	c_copy;
+	unsigned char	*s_copy;
+	size_t			i;
 
-int		is_sign(char c);
-int		is_num(char c);
-int		is_zero(char c);
-long	ft_atol(char *splitstr);
-int		check_valid_sort_state(t_mem_res *var);
-void	check_invalid_num(t_mem_res *var);
-void	check_invalid_int_len(t_mem_res *var);
-void	check_invalid_int_boundary(long num, t_mem_res *var);
-void	check_duplicate_num(t_mem_res *var);
-
-#endif
+	c_copy = (unsigned char) c;
+	s_copy = (unsigned char *)s;
+	i = 0;
+	while (i < n)
+	{
+		s_copy[i] = c_copy;
+		i++;
+	}
+	return (s_copy);
+}

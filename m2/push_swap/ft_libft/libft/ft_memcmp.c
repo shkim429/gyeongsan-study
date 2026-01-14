@@ -1,28 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   input_valid.h                                      :+:      :+:    :+:   */
+/*   ft_memcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sohuikim <sohuikim@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/01/13 01:42:01 by sohuikim          #+#    #+#             */
-/*   Updated: 2026/01/14 03:53:06 by sohuikim         ###   ########.fr       */
+/*   Created: 2025/07/02 18:47:01 by sohuikim          #+#    #+#             */
+/*   Updated: 2025/07/14 05:50:50 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef INPUT_VALID_H
-# define INPUT_VALID_H
+#include "libft.h"
 
-# include "push_swap.h"
+int	ft_memcmp(const void *s1, const void *s2, size_t n)
+{
+	unsigned char	*s1_copy;
+	unsigned char	*s2_copy;
+	size_t			i;
 
-int		is_sign(char c);
-int		is_num(char c);
-int		is_zero(char c);
-long	ft_atol(char *splitstr);
-int		check_valid_sort_state(t_mem_res *var);
-void	check_invalid_num(t_mem_res *var);
-void	check_invalid_int_len(t_mem_res *var);
-void	check_invalid_int_boundary(long num, t_mem_res *var);
-void	check_duplicate_num(t_mem_res *var);
-
-#endif
+	s1_copy = (unsigned char *)s1;
+	s2_copy = (unsigned char *)s2;
+	i = 0;
+	while (i < n)
+	{
+		if (s1_copy[i] != s2_copy[i])
+			return (s1_copy[i] - s2_copy[i]);
+		i++;
+	}
+	return (0);
+}

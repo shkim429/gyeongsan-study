@@ -1,28 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   input_valid.h                                      :+:      :+:    :+:   */
+/*   ft_strnstr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sohuikim <sohuikim@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/01/13 01:42:01 by sohuikim          #+#    #+#             */
-/*   Updated: 2026/01/14 03:53:06 by sohuikim         ###   ########.fr       */
+/*   Created: 2025/07/02 21:31:05 by sohuikim          #+#    #+#             */
+/*   Updated: 2025/07/14 03:14:53 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef INPUT_VALID_H
-# define INPUT_VALID_H
+#include "libft.h"
 
-# include "push_swap.h"
+char	*ft_strnstr(const char *big, const char *little, size_t len)
+{
+	size_t		i;
+	size_t		j;
 
-int		is_sign(char c);
-int		is_num(char c);
-int		is_zero(char c);
-long	ft_atol(char *splitstr);
-int		check_valid_sort_state(t_mem_res *var);
-void	check_invalid_num(t_mem_res *var);
-void	check_invalid_int_len(t_mem_res *var);
-void	check_invalid_int_boundary(long num, t_mem_res *var);
-void	check_duplicate_num(t_mem_res *var);
-
-#endif
+	i = 0;
+	if (little[0] == '\0')
+		return ((char *)big);
+	while (big[i] && i < len)
+	{
+		j = 0;
+		while ((i + j) < len && big[i + j] == little[j])
+		{
+			if (little[j + 1] == '\0')
+				return ((char *)&big[i]);
+			j++;
+		}
+		i++;
+	}
+	return (NULL);
+}

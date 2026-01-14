@@ -1,28 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   input_valid.h                                      :+:      :+:    :+:   */
+/*   ft_lstnew.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sohuikim <sohuikim@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/01/13 01:42:01 by sohuikim          #+#    #+#             */
-/*   Updated: 2026/01/14 03:53:06 by sohuikim         ###   ########.fr       */
+/*   Created: 2025/07/09 20:52:08 by sohuikim          #+#    #+#             */
+/*   Updated: 2025/07/14 16:06:28 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef INPUT_VALID_H
-# define INPUT_VALID_H
+#include "libft.h"
 
-# include "push_swap.h"
+t_list	*ft_lstnew(void *content)
+{
+	t_list	*new;
 
-int		is_sign(char c);
-int		is_num(char c);
-int		is_zero(char c);
-long	ft_atol(char *splitstr);
-int		check_valid_sort_state(t_mem_res *var);
-void	check_invalid_num(t_mem_res *var);
-void	check_invalid_int_len(t_mem_res *var);
-void	check_invalid_int_boundary(long num, t_mem_res *var);
-void	check_duplicate_num(t_mem_res *var);
-
-#endif
+	new = (t_list *)malloc(sizeof(t_list));
+	if (new == NULL)
+		return (NULL);
+	new->content = content;
+	new->next = NULL;
+	return (new);
+}

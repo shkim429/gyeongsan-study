@@ -1,28 +1,42 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   input_valid.h                                      :+:      :+:    :+:   */
+/*   ft_utoa.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sohuikim <sohuikim@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/01/13 01:42:01 by sohuikim          #+#    #+#             */
-/*   Updated: 2026/01/14 03:53:06 by sohuikim         ###   ########.fr       */
+/*   Created: 2025/08/01 15:26:28 by sohuikim          #+#    #+#             */
+/*   Updated: 2025/08/19 18:55:00 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef INPUT_VALID_H
-# define INPUT_VALID_H
+#include "ft_printf.h"
 
-# include "push_swap.h"
+int	unsigned_nlen(unsigned int n)
+{
+	unsigned int	len;
 
-int		is_sign(char c);
-int		is_num(char c);
-int		is_zero(char c);
-long	ft_atol(char *splitstr);
-int		check_valid_sort_state(t_mem_res *var);
-void	check_invalid_num(t_mem_res *var);
-void	check_invalid_int_len(t_mem_res *var);
-void	check_invalid_int_boundary(long num, t_mem_res *var);
-void	check_duplicate_num(t_mem_res *var);
+	len = 0;
+	if (n > 9)
+		len += unsigned_nlen(n / 10);
+	len++;
+	return (len);
+}
 
-#endif
+char	*ft_utoa(unsigned int n)
+{
+	char	*str;
+	int		i;
+
+	i = unsigned_nlen(n);
+	str = (char *)malloc(i + 1);
+	if (str == NULL)
+		return (NULL);
+	str[i--] = '\0';
+	while (i >= 0)
+	{
+		str[i--] = (n % 10 + '0');
+		n /= 10;
+	}
+	return (str);
+}
