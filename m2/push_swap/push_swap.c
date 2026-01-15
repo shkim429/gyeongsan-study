@@ -6,7 +6,7 @@
 /*   By: sohuikim <sohuikim@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/26 18:28:32 by sohuikim          #+#    #+#             */
-/*   Updated: 2026/01/15 05:27:37 by sohuikim         ###   ########.fr       */
+/*   Updated: 2026/01/15 18:52:06 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	main(int argc, char **argv)
 	t_mem_res			var;
 
 	if (argc <= 1)
-		print_error();
+		return (FAILURE);
 	else
 	{
 		init_all_struct(&var, &stack);
