@@ -1,4 +1,4 @@
-NAME = push_swap.a
+NAME = push_swap
 CC = cc
 CFLAGS = -Wall -Wextra -Werror $(INC) -g
 RM = rm -rf
@@ -17,13 +17,8 @@ LIBS = -lftprintfgnl
 
 INC = -I. \
 	  -I./ft_libft/include
-
-MAIN_EXE = push_swap
 	
-all : $(MAIN_EXE)
-
-$(LIBPRINTFGNL_A) :
-	make -C $(LIBS_DIR_PATH)
+all : $(NAME)
 
 $(OBJ_DIR) :
 	mkdir -p $(OBJ_DIR)
@@ -33,19 +28,15 @@ $(OBJ_DIR)/%.o : %.c | $(OBJ_DIR)
 
 $(NAME) : $(OBJS_FILES)
 	make -C $(LIBS_DIR_PATH)
-	ar -rcs $(NAME) $(OBJS_FILES)
-
-$(MAIN_EXE) : $(NAME)
-	$(CC) $(CFLAGS) $(NAME) $(LIBS_PATH) $(LIBS) -o $(MAIN_EXE)
-	$(RM) $(NAME)
+	$(CC) $(CFLAGS) $(OBJS_FILES) $(LIBS_PATH) $(LIBS) -o $(NAME)
 
 clean :
-	$(RM) $(OBJ_DIR) $(MAIN_EXE)
+	$(RM) $(OBJ_DIR)
 	make -C $(LIBS_DIR_PATH) clean
 
 
 fclean : clean
-	$(RM) $(NAME) $(MAIN_EXE)
+	$(RM) $(NAME)
 	make -C $(LIBS_DIR_PATH) fclean
 
 
