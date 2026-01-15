@@ -6,7 +6,7 @@
 /*   By: sohuikim <sohuikim@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/06 15:11:27 by sohuikim          #+#    #+#             */
-/*   Updated: 2026/01/15 05:25:30 by sohuikim         ###   ########.fr       */
+/*   Updated: 2026/01/15 05:36:43 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ void	run_insert_sort(t_stack *stack, t_sort_utils *sort_utils, int a_size)
 
 void	insert_sort(t_stack *stack, t_sort_utils *sort_utils)
 {
-	if (stack->a.head->data == sort_utils->min_value)
+	if (sort_utils->min_value == stack->a.head->data)
 	{
 		push_ops(PUSH_B, stack);
 		sort_utils->min_value = find_min_value(&(stack->a));

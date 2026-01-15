@@ -6,7 +6,7 @@
 /*   By: sohuikim <sohuikim@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/13 02:02:08 by sohuikim          #+#    #+#             */
-/*   Updated: 2026/01/15 03:58:27 by sohuikim         ###   ########.fr       */
+/*   Updated: 2026/01/15 14:09:57 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,8 @@ int	rank_stack_data(t_mem_res *var)
 		j = min + 1;
 		while (j < var->cnt_input)
 		{
-			if (var->index_arr[j] == -1 && var->num_arr[min] > var->num_arr[j])
+			if (var->index_arr[j] == NOT_RANKED && \
+				var->num_arr[min] > var->num_arr[j])
 				min = j;
 			j++;
 		}
@@ -67,7 +68,7 @@ int	is_ranked(t_mem_res *var)
 	k = 0;
 	while (k < var->cnt_input)
 	{
-		if (var->index_arr[k] == -1)
+		if (var->index_arr[k] == NOT_RANKED)
 			return (k);
 		k++;
 	}

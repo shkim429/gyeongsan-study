@@ -6,7 +6,7 @@
 /*   By: sohuikim <sohuikim@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/13 01:57:50 by sohuikim          #+#    #+#             */
-/*   Updated: 2026/01/15 05:14:51 by sohuikim         ###   ########.fr       */
+/*   Updated: 2026/01/15 14:09:12 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # define SORTED 1
 # define NOT_SORTED 0
+# define NOT_RANKED -1
 
 # include "push_swap.h"
 
