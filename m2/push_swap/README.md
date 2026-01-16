@@ -5,9 +5,11 @@
 + ### Overview
   ##### The goal of this project is to sort the input values in stack A in ascending order using stacks A and B with the fewest possible push_swap instructions.
  
+
 + ### Objectives  
   ##### Trough this project, you will learn how sorting algorithms work and how they operate step by step. <bar>
   ##### You will also implement them in the most efficient way possible to better understand time complexity. 
+
 
 ## **Instructions**
 + ### Comilaition
@@ -15,6 +17,7 @@
 	``` c
 	make
 	``` 
+
 
 + ### Usage
   ##### Run the executable with a list of integers as arguments.
@@ -24,6 +27,7 @@
 	``` c
 	./push_swap "10 -21456" "+33" -1
 	```
+
 
 ## Algorithms
 
@@ -36,6 +40,7 @@
   ##### The binary radix sort is a sorting algorithm that orders elements by their digits. <bar>
   ##### It uses buckets for each digit and distributes the elements starting from the least significant digit. <bar>
   ##### Afterward, the elements are gathered from the buckets in order to form the sorted result.
+
 
 ## **Resources** <bar>
 + ### References <bar>
@@ -51,6 +56,7 @@
   (https://www.interviewcake.com/concept/python/radix-sort) <bar>
 
   ##### - Convertin sorting logic into stack operations
+
 
 + ### AI Usage  
   ##### - AI was used to verify my understanding of sorting algroitms studied through blogs and documendtation. <bar> 
