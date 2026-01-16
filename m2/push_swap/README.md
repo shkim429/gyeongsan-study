@@ -1,5 +1,6 @@
 ##### *This project has been created as part of the 42 curriculum by sohuikim.*
 
+---
 ## **Description**
 + ### Overview
   ##### The goal of this project is to sort the input values in stack A in ascending order using stacks A and B with the fewest possible push_swap instructions.
