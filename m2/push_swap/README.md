@@ -9,7 +9,6 @@
   ##### Trough this project, you will learn how sorting algorithms work and how they operate step by step. <bar>
   ##### You will also implement them in the most efficient way possible to better understand time complexity. 
 
----
 ## **Instructions**
 + ### Comilaition
   ##### Run 'make' to compile the program and generate the 'push_swap' exectable. 
@@ -25,7 +24,7 @@
 	``` c
 	./push_swap "10 -21456" "+33" -1
 	```
----
+
 ## Algorithms
 
 ##### The following algorithm was used to solve the problem given in this project: <bar>
@@ -38,7 +37,6 @@
   ##### It uses buckets for each digit and distributes the elements starting from the least significant digit. <bar>
   ##### Afterward, the elements are gathered from the buckets in order to form the sorted result.
 
----
 ## **Resources** <bar>
 + ### References <bar>
   ##### - Sorting algorithms and time complexity:
