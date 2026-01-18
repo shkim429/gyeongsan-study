@@ -6,7 +6,7 @@
 /*   By: sohuikim <sohuikim@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/14 04:52:35 by sohuikim          #+#    #+#             */
-/*   Updated: 2026/01/17 20:02:27 by sohuikim         ###   ########.fr       */
+/*   Updated: 2026/01/18 17:21:39 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,17 @@
 # define FAILURE 0
 # define SUCCESS 1
 
+# define XK_ESC 	0xff1b
+# define XK_UP		0xff52
+# define XK_DOWN	0xff54
+# define XK_LEFT	0xff51
+# define XK_RIGHT	0xff53
+# define XK_W		0x0057
+# define XK_S		0x0053
+# define XK_D		0x0044
+# define XK_A		0x0041
+# define XK_BUTTON_LEFT	0xfee9
+
 typedef struct s_data
 {
 	void	*img;
@@ -24,5 +35,12 @@ typedef struct s_data
 	int		line_length;
 	int		endian;
 }	t_data;
+
+typedef struct s_vars
+{
+	void	*mlx;
+	void	*win;
+}	t_vars;
+
 
 #endif
