@@ -11,28 +11,53 @@
 /* ************************************************************************** */
 
 #include "so_long.h"
+#include "ft_libft.h"
 #include "mlx.h"
-#include "stdio.h"
+#include <stdio.h>
+#include <stdlib.h>
 
 void	my_mlx_pixel_put(t_data *data, int x, int y, int color);
 int		handle_exit_key(int keycode, t_vars *vars);
 int	close_game(t_vars *vars);
 int	handle_exit_mouse(t_vars *vars);
 
-int	main(void)
+int	main(int argc, char *argv[])
 {
+	int		fd;
+	char	*line;
+
+	if (argc > 1)
+	{
+		fd = open(argv[1], O_RDONLY);
+		if (fd > 0)
+		{
+			while (line != NULL)
+			{
+				line = get_next_line(fd);
+				if (line == NULL)
+					return (free(line), 0);
+				printf("%s", line);
+				free(line);
+			}
+			close(fd);
+		}
+	}
+	/*
 	t_vars	vars;
 	t_data	img;
 	char	*relative_path;
 	int		img_w;
 	int		img_h;
+	int		tile_size;
+
+	tile_size = 50;
 
 	vars.mlx = mlx_init();
-	relative_path = "test_img.xpm";
-	vars.win = mlx_new_window(vars.mlx, 2000, 2000, "Hello world");
+	relative_path = "./textures/road.xpm";
+	vars.win = mlx_new_window(vars.mlx, 1080, 1080, "Hello world");
 	img.img = mlx_xpm_file_to_image(vars.mlx, relative_path, &img_w, &img_h);
 	if (img.img == NULL)
-		return (NULL);
+		return (0);
 	mlx_put_image_to_window(vars.mlx, vars.win, img.img, 0, 0);
 
 	// img.img = mlx_new_image(vars.mlx, 500, 500);
@@ -42,6 +67,7 @@ int	main(void)
 	mlx_hook(vars.win, 2, 1L<<0, handle_exit_key, &vars);
 	mlx_loop(vars.mlx);
 	return (SUCCESS);
+	*/
 }
 
 int	handle_exit_key(int keycode, t_vars *vars)
