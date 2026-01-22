@@ -1,38 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   map.c                                              :+:      :+:    :+:   */
+/*   map_validate.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sohuikim <sohuikim@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/19 16:44:34 by sohuikim          #+#    #+#             */
-/*   Updated: 2026/01/22 14:11:20 by sohuikim         ###   ########.fr       */
+/*   Updated: 2026/01/22 15:56:06 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "map.h"
+#include "map_validate.h"
 #include "ft_libft.h"
 #include <stdio.h>
 
-/*
-int	main(int argc, char *argv[])
-{
-	int		fd;
-	char	*line;
-
-	if (argc > 1)
-	{
-		fd = open(argv[1], O_RDONLY);
-		if (fd > 0)
-		{
-			line = get_next_line(fd);
-			pritnf("%s", line);
-		}
-	}
-}
-*/
-
-/* map의 데이터 읽기 (row_arr 저장) (**메모리 free 필요 **)*/
+/* map의 데이터 읽기 (arr 저장) (**메모리 free 필요 **)*/
 int	read_map(char *argv, t_map	*map)
 {
 	int		fd;
@@ -42,63 +24,88 @@ int	read_map(char *argv, t_map	*map)
 	fd = open(argv, O_RDONLY);
 	if (fd < 0)
 		return (FAILURE);
-	map->cnt_row = cnt_map_row(argv); // map의 행 cnt (row_arr의 calloc 목적)
-	map->row_arr = ft_calloc((map->cnt_row) + 1, sizeof(*(map->row_arr)));
-	if (map->row_arr == NULL)
+	map->cnt_row = cnt_map_row(argv); // map의 행 cnt (arr의 calloc 목적)
+	map->arr = ft_calloc((map->cnt_row) + 1, sizeof(*(map->arr)));
+	if (map->arr == NULL)
 		return (FAILURE);
 	i = 0;
-	map->row_arr[i] = get_next_line(fd);
-	while (map->row_arr[i++] != NULL)
+	map->arr[i] = get_next_line(fd);
+	while (map->arr[i++] != NULL)
 	{
-		map->row_arr[i] = get_next_line(fd);
-		if (map->row_arr[i] == NULL)
+		map->arr[i] = get_next_line(fd);
+		if (map->arr[i] == NULL)
 			break ;
 	}
 	close(fd);
+	map->cnt_column = cnt_map_column(map); // 위치 검토 필요
 	return (SUCCESS);
 }
 
 int	is_enclosed_by_walls(t_map *map)
 {
-	int cnt = cnt_map_longest_row(map);
-	printf("%d\n", cnt);
-
-	/*
 	if (!is_row_filled(map))
 		return (FAILURE);
+	if (!is_column_filled(map))
+		return (FAILURE);
 	return (SUCCESS);
-	*/
 }
 
-int	is_row_filled(t_map *map)
+/* 열의 엣지 데이터 = 1(wall) 확인 */
+int	is_column_filled(t_map *map)
 {
-	int	last_row;
-	int	i;
-	int	j;
-	int	cnt_first_last_row;
+	int	row;
+	int	column;
+	int	last_column;
+	int	cnt_first_last_column;
 
-	last_row = map->cnt_row - 1;
-	cnt_first_last_row = 2;
-	map->cnt_column = cnt_map_column(map);
-	i = 0;
-	while (cnt_first_last_row--)
+	last_column = map->cnt_column - 1;
+	cnt_first_last_column = 2;
+	column = 0;
+	while (cnt_first_last_column--)
 	{
-		j = 0;
-		while (j < map->cnt_column)
+		row = 0;
+		while (row < map->cnt_row)
 		{
-			if (map->row_arr[i][j] == '1')
-				j++;
+			if (map->arr[row][column] == '1')
+				row++;
 			else
 				return (FAILURE); // 할당된 메모리 free 필요
 		}
-		if (map->row_arr[i][j] != '\n') // len_first_row < len_last_row인 경우
-			return (FAILURE);
-		i = last_row;
+		column = last_column;
 	}
 	return (SUCCESS);
 }
 
-int	cnt_map_longest_row(t_map *map)
+/* 행의 엣지 데이터 = 1(wall) 확인 */
+int	is_row_filled(t_map *map)
+{
+	int	row;
+	int	column;
+	int	last_row;
+	int	cnt_first_last_row;
+
+	last_row = map->cnt_row - 1;
+	cnt_first_last_row = 2;
+	row = 0;
+	while (cnt_first_last_row--)
+	{
+		column = 0;
+		while (column < map->cnt_column)
+		{
+			if (map->arr[row][column] == '1')
+				column++;
+			else
+				return (FAILURE); // 할당된 메모리 free 필요
+		}
+		if (map->arr[row][column] != '\n') // len_first_row < len_last_row인 경우
+			return (FAILURE);
+		row = last_row;
+	}
+	return (SUCCESS);
+}
+
+/* 맵의 열 수 세기 */
+int	cnt_map_column(t_map *map)
 {
 	int	i;
 	int	j;
@@ -110,7 +117,7 @@ int	cnt_map_longest_row(t_map *map)
 	while (i < map->cnt_row)
 	{
 		j = 0;
-		while (map->row_arr[i][j] != '\n' && map->row_arr[i][j] != '\0')
+		while (map->arr[i][j] != '\n' && map->arr[i][j] != '\0')
 			j++;
 		if (cnt_longest_row < j)
 			cnt_longest_row = j;
@@ -142,23 +149,3 @@ int	cnt_map_row(char *argv)
 	close(fd);
 	return (cnt_map_row);
 }
-
-int	cnt_map_column(t_map *map)
-{
-	int	column;
-
-	column = 0;
-	while (map->row_arr[0][column] != '\n')
-		column++;
-	return (column);
-}
-
-
-// /* 가장 긴 열의 문자 수 세기 */
-// cnt_map_lonest_column(t_map *map)
-// {
-// 	int	column;
-
-// 	column = 0;
-// 	while ()
-// }

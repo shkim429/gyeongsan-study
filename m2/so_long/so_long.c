@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #include "so_long.h"
-#include "map.h"
+#include "map_validate.h"
 #include "error.h"
 #include "ft_libft.h"
 #include "mlx.h"
@@ -37,36 +37,14 @@ int	main(int argc, char *argv[])
 	return (SUCCESS);
 }
 
+int	render_map(t_map *map)
+{
+	
+}
+
 /*
 int	main(int argc, char *argv[])
 {
-	int		fd;
-	char	*line;
-
-	if (argc > 1)
-	{
-		fd = open(argv[1], O_RDONLY);
-		if (fd > 0)
-		{
-			while (line != NULL)
-			{
-				line = get_next_line(fd);
-				if (line == NULL)
-					return (free(line), 0);
-				printf("%s", line);
-				free(line);
-			}
-			close(fd);
-		}
-	}
-	/*
-	t_vars	vars;
-	t_data	img;
-	char	*relative_path;
-	int		img_w;
-	int		img_h;
-	int		tile_size;
-
 	tile_size = 50;
 
 	vars.mlx = mlx_init();
