@@ -2,7 +2,7 @@ NAME = so_long
 CC = cc
 CFLAGS = $(INC) -g
 RM = rm -rf
-SRCS = so_long.c
+SRCS = so_long.c error.c map.c
 
 OBJ_DIR = obj
 OBJS_FILES = $(addprefix $(OBJ_DIR)/, $(SRCS:.c=.o))

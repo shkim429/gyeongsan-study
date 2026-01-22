@@ -11,6 +11,8 @@
 /* ************************************************************************** */
 
 #include "so_long.h"
+#include "map.h"
+#include "error.h"
 #include "ft_libft.h"
 #include "mlx.h"
 #include <stdio.h>
@@ -21,6 +23,21 @@ int		handle_exit_key(int keycode, t_vars *vars);
 int	close_game(t_vars *vars);
 int	handle_exit_mouse(t_vars *vars);
 
+int	main(int argc, char *argv[])
+{
+	t_map	map;
+
+	if (argc <= 1)
+		return (print_error(), 0);
+	ft_bzero(&map, sizeof(t_map));
+	if (!read_map(argv[1], &map))
+		return (FAILURE);
+	if (!is_enclosed_by_walls(&map))
+		return (FAILURE);
+	return (SUCCESS);
+}
+
+/*
 int	main(int argc, char *argv[])
 {
 	int		fd;
@@ -67,8 +84,7 @@ int	main(int argc, char *argv[])
 	mlx_hook(vars.win, 2, 1L<<0, handle_exit_key, &vars);
 	mlx_loop(vars.mlx);
 	return (SUCCESS);
-	*/
-}
+*/
 
 int	handle_exit_key(int keycode, t_vars *vars)
 {
