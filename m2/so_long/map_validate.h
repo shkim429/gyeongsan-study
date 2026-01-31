@@ -6,7 +6,7 @@
 /*   By: sohuikim <sohuikim@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 23:54:52 by sohuikim          #+#    #+#             */
-/*   Updated: 2026/01/22 15:54:48 by sohuikim         ###   ########.fr       */
+/*   Updated: 2026/01/29 21:09:36 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ typedef struct s_map
 int	read_map(char *argv, t_map	*map);
 int	is_enclosed_by_walls(t_map *map);
 int	is_row_filled(t_map *map);
+int	is_column_filled(t_map *map);
 int	cnt_map_column(t_map *map);
 int	cnt_map_row(char *argv);
 
