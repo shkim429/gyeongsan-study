@@ -6,12 +6,14 @@
 /*   By: sohuikim <sohuikim@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/19 16:35:19 by sohuikim          #+#    #+#             */
-/*   Updated: 2026/01/31 03:09:35 by sohuikim         ###   ########.fr       */
+/*   Updated: 2026/02/02 01:30:36 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef IMG_TO_XPM_H
 # define IMG_TO_XPM_H
+
+#include "map_validate.h"
 
 typedef struct s_tileset
 {
@@ -58,5 +60,6 @@ typedef struct s_img_path
 
 }	t_img_path;
 
-int	create_bg_layer(t_mlx_vars *vars, t_img *frame_buffer, t_tileset *tileset);
+int	create_bg_layer(t_mlx_vars *vars, t_img *frame_buffer, t_tileset *tileset, t_map *dst_size);
+
 #endif

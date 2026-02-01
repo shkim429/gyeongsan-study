@@ -59,7 +59,7 @@ int	render_map(t_map *map)
 	// frame_buffer.img = mlx_xpm_file_to_image(vars.mlx, "./textures/road.xpm", &frame_buffer.img_w, &frame_buffer.img_h);
 	// frame_buffer.addr = mlx_get_data_addr(frame_buffer.img, &frame_buffer.bits_per_pixel, &frame_buffer.line_length, &frame_buffer.endian); // 이미지의 픽셀 메모리 시작 위치 반환
 	// unsigned int color = *(unsigned int *)frame_buffer.addr;
-	create_bg_layer(&vars, &frame_buffer, &tileset);
+	create_bg_layer(&vars, &frame_buffer, &tileset, map);
 	/*
 	printf("pixel(0,0) = 0x%08X\n", color);
 	printf("line_length: %d\n", frame_buffer.line_length);
