@@ -72,7 +72,7 @@ int	render_map(t_map *map)
 
 	if (frame_buffer.img == NULL)
 		return (FAILURE);
-	// mlx_put_image_to_window(vars.mlx, vars.win, frame_buffer.img, 0, 0);
+	mlx_put_image_to_window(vars.mlx, vars.win, frame_buffer.img, 0, 0);
 	// mlx_put_image_to_window(vars.mlx, vars.win, frame_buffer.img, 50, 50);
 	mlx_hook(vars.win, 2, 1L<<0, handle_exit_key, &vars);
 	mlx_loop(vars.mlx);
