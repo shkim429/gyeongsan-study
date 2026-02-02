@@ -13,7 +13,7 @@
 #include "so_long.h"
 #include "map_validate.h"
 #include "error.h"
-#include "img_to_xpm.h"
+#include "load_res.h"
 #include "ft_libft.h"
 #include "mlx.h"
 #include <stdio.h>
@@ -56,24 +56,10 @@ int	render_map(t_map *map)
 	vars.win_x = tile_size * map->cnt_column;
 	vars.win_y = tile_size * map->cnt_row;
 	vars.win = mlx_new_window(vars.mlx, vars.win_x, vars.win_y, "Hello world");
-	// frame_buffer.img = mlx_xpm_file_to_image(vars.mlx, "./textures/road.xpm", &frame_buffer.img_w, &frame_buffer.img_h);
-	// frame_buffer.addr = mlx_get_data_addr(frame_buffer.img, &frame_buffer.bits_per_pixel, &frame_buffer.line_length, &frame_buffer.endian); // 이미지의 픽셀 메모리 시작 위치 반환
-	// unsigned int color = *(unsigned int *)frame_buffer.addr;
 	create_bg_layer(&vars, &frame_buffer, &tileset, map);
-	/*
-	printf("pixel(0,0) = 0x%08X\n", color);
-	printf("line_length: %d\n", frame_buffer.line_length);
-	printf("endian: %d\n", frame_buffer.endian);
-	printf("bits_per_pixel: %d\n", frame_buffer.bits_per_pixel);
-	printf("img_h: %d\n", frame_buffer.img_h);
-	printf("img_w: %d\n", frame_buffer.img_w);
-	*/
-
-
 	if (frame_buffer.img == NULL)
 		return (FAILURE);
 	mlx_put_image_to_window(vars.mlx, vars.win, frame_buffer.img, 0, 0);
-	// mlx_put_image_to_window(vars.mlx, vars.win, frame_buffer.img, 50, 50);
 	mlx_hook(vars.win, 2, 1L<<0, handle_exit_key, &vars);
 	mlx_loop(vars.mlx);
 	return (SUCCESS);
