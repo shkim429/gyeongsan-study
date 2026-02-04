@@ -6,7 +6,7 @@
 /*   By: sohuikim <sohuikim@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/19 16:32:52 by sohuikim          #+#    #+#             */
-/*   Updated: 2026/02/04 03:21:06 by sohuikim         ###   ########.fr       */
+/*   Updated: 2026/02/04 22:03:50 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,8 @@ int	load_wall_img(const t_mlx_vars *vars, t_tileset *ts);
 int	load_player_img(const t_mlx_vars *vars, t_sprites *spr);
 int	load_item_img(const t_mlx_vars *vars, t_sprites *spr);
 void	create_wall_layer(t_img *dst, t_img *src, t_map *map);
-
+void	create_exit_layer(t_img *dst, t_img *src, t_map *map);
+int	load_exit_img(const t_mlx_vars *vars, t_sprites *spr);
 /*
 int	load_res_utiil(void)
 {
@@ -84,6 +85,7 @@ int	load_res(const t_mlx_vars *vars, t_tileset *ts, t_sprites *spr)
 		return (FAILURE);
 	if (!load_item_img(vars, spr))
 		return (FAILURE);
+	if (!load_exit_img(vars, spr));
 }
 
 int	load_floor_img(const t_mlx_vars *vars, t_tileset *ts)
@@ -100,58 +102,26 @@ int	load_floor_img(const t_mlx_vars *vars, t_tileset *ts)
 
 int	load_wall_img(const t_mlx_vars *vars, t_tileset *ts)
 {
-	ts->car_rd_f.img = mlx_xpm_file_to_image(vars->mlx, \
-"./textures/car_rd_f", &ts->car_rd_f.img_w, &ts->car_rd_f.img_h);
-// 	ts->car_rd_r.img = mlx_xpm_file_to_image(vars->mlx, \
-// "./textures/car_rd_r", &ts->car_rd_r.img_w, &ts->car_rd_r.img_h);
-// 	ts->car_yl_f.img = mlx_xpm_file_to_image(vars->mlx, \
-// "./textures/car_car_yl_f", &ts->car_yl_f.img_w, &ts->car_yl_f.img_h);
-// 	ts->car_yl_r.img = mlx_xpm_file_to_image(vars->mlx, \
-// "./textures/car_yl_r", &ts->car_yl_r.img_w, &ts->car_yl_r.img_h);
-// 	ts->car_bl_f.img = mlx_xpm_file_to_image(vars->mlx, \
-// "./textures/car_bl_f", &ts->car_bl_f.img_w, &ts->car_bl_f.img_h);
-// 	ts->car_bl_r.img = mlx_xpm_file_to_image(vars->mlx, \
-// "./textures/car_bl_r", &ts->car_bl_r.img_w, &ts->car_bl_r.img_h);
-	ts->car_rd_f.addr = mlx_get_data_addr(ts->car_rd_f.img, \
-&ts->car_rd_f.bits_per_pixel, &ts->car_rd_f.line_length, &ts->car_rd_f.endian);
-// 	ts->car_rd_r.addr = mlx_get_data_addr(ts->car_rd_r.img, \
-// &ts->car_rd_r.bits_per_pixel, &ts->car_rd_r.line_length, &ts->car_rd_r.endian);
-// 	ts->car_yl_f.addr = mlx_get_data_addr(ts->car_yl_f.img, \
-// &ts->car_yl_f.bits_per_pixel, &ts->car_yl_f.line_length, &ts->car_yl_f.endian);
-// 	ts->car_yl_r.addr = mlx_get_data_addr(ts->car_yl_r.img, \
-// &ts->car_yl_r.bits_per_pixel, &ts->car_yl_r.line_length, &ts->car_yl_r.endian);
-// 	ts->car_bl_f.addr = mlx_get_data_addr(ts->car_bl_f.img, \
-// &ts->car_bl_f.bits_per_pixel, &ts->car_bl_f.line_length, &ts->car_bl_f.endian);
-// 	ts->car_bl_r.addr = mlx_get_data_addr(ts->car_bl_r.img, \
-// &ts->car_bl_r.bits_per_pixel, &ts->car_bl_r.line_length, &ts->car_bl_r.endian);
+	ts->car_rd_r.img = mlx_xpm_file_to_image(vars->mlx, \
+"./textures/car_rd_r.xpm", &ts->car_rd_r.img_w, &ts->car_rd_r.img_h);
+
+	ts->car_rd_r.addr = mlx_get_data_addr(ts->car_rd_r.img, \
+&ts->car_rd_r.bits_per_pixel, &ts->car_rd_r.line_length, &ts->car_rd_r.endian);
 }
 
+int	load_exit_img(const t_mlx_vars *vars, t_sprites *spr)
+{
+	spr->exit.img = mlx_xpm_file_to_image(vars->mlx, \
+"./textures/cart.xpm", &spr->exit.img_w, &spr->exit.img_h);
+	spr->exit.addr = mlx_get_data_addr(spr->exit.img, \
+&spr->exit.bits_per_pixel, &spr->exit.line_length, &spr->exit.endian);
+}
 int	load_player_img(const t_mlx_vars *vars, t_sprites *spr)
 {
-	spr->p_f.img = mlx_xpm_file_to_image(vars->mlx, \
-"./textures/p_f", &spr->p_f.img_w, &spr->p_f.img_h);
-	spr->p_b.img = mlx_xpm_file_to_image(vars->mlx, \
-"./textures/p_b", &spr->p_b.img_w, &spr->p_b.img_h);
-	spr->p_l.img = mlx_xpm_file_to_image(vars->mlx, \
-"./textures/p_l", &spr->p_l.img_w, &spr->p_l.img_h);
 	spr->p_r.img = mlx_xpm_file_to_image(vars->mlx, \
-"./textures/p_r", &spr->p_r.img_w, &spr->p_r.img_h);
-	spr->p_run_l.img = mlx_xpm_file_to_image(vars->mlx, \
-"./textures/p_run_l", &spr->p_run_l.img_w, &spr->p_run_l.img_h);
-	spr->p_run_r.img = mlx_xpm_file_to_image(vars->mlx, \
-"./textures/p_run_r", &spr->p_run_r.img_w, &spr->p_run_r.img_h);
-	spr->p_f.addr = mlx_get_data_addr(spr->p_f.img, \
-&spr->p_f.bits_per_pixel, &spr->p_f.line_length, &spr->p_f.endian);
-	spr->p_b.addr = mlx_get_data_addr(spr->p_b.img, \
-&spr->p_b.bits_per_pixel, &spr->p_b.line_length, &spr->p_b.endian);
-	spr->p_l.addr = mlx_get_data_addr(spr->p_l.img, \
-&spr->p_l.bits_per_pixel, &spr->p_l.line_length, &spr->p_l.endian);
+"./textures/p_r.xpm", &spr->p_r.img_w, &spr->p_r.img_h);
 	spr->p_r.addr = mlx_get_data_addr(spr->p_r.img, \
 &spr->p_r.bits_per_pixel, &spr->p_r.line_length, &spr->p_r.endian);
-	spr->p_run_l.addr = mlx_get_data_addr(spr->p_run_l.img, \
-&spr->p_run_l.bits_per_pixel, &spr->p_run_l.line_length, &spr->p_run_l.endian);
-	spr->p_run_r.addr = mlx_get_data_addr(spr->p_run_r.img, \
-&spr->p_run_r.bits_per_pixel, &spr->p_run_r.line_length, &spr->p_run_r.endian);
 }
 
 int	load_item_img(const t_mlx_vars *vars, t_sprites *spr)
@@ -161,19 +131,21 @@ int	load_item_img(const t_mlx_vars *vars, t_sprites *spr)
 	&spr->item.bits_per_pixel, &spr->item.line_length, &spr->item.endian);
 }
 
-int	create_bg_layer(t_mlx_vars *vars, t_img *frame_buffer, t_tileset *ts, t_map *dst_size)
+int	create_bg_layer(t_img *frame_buffer, t_tileset *ts, t_map *map)
 {
-	frame_buffer->img = mlx_new_image(vars->mlx, vars->win_x, vars->win_y); // 상위 함수로 이동하기
-	frame_buffer->addr = mlx_get_data_addr(frame_buffer->img, &frame_buffer->bits_per_pixel, &frame_buffer->line_length, &frame_buffer->endian);
-	if (!load_floor_img(vars, ts))
-		return (FAILURE);
-	if (!load_wall_img(vars, ts))
-		return (FAILURE);
-	create_floor_layer(frame_buffer, &ts->floor, dst_size);
-	create_wall_layer(frame_buffer, &ts->car_bl_f, dst_size);
+	create_floor_layer(frame_buffer, &ts->floor, map);
+	create_wall_layer(frame_buffer, &ts->car_rd_r, map);
+}
+
+int	create_spr_layer(t_img *frame_buffer, t_sprites *spr, t_map *map)
+{
+	create_item_layer(frame_buffer, &spr->item, map);
+	create_player_layer(frame_buffer, &spr->p_r, map);
+	create_exit_layer(frame_buffer, &spr->exit, map);
 }
 
 void	create_floor_layer(t_img *dst, t_img *src, t_map *dst_size)
+
 {
 	int	dst_x;
 	int	dst_y;
@@ -191,22 +163,79 @@ void	create_floor_layer(t_img *dst, t_img *src, t_map *dst_size)
 	}
 }
 
+void	create_player_layer(t_img *dst, t_img *src, t_map *map)
+{
+	int	col;
+	int	row;
+
+	row = 0;
+	while (row < map->cnt_row)
+	{
+		col = 0;
+		while (col < map->cnt_column)
+		{
+			if (map->arr[row][col] == 'P')
+				return (copy_tile(dst, src, src->img_h * row, src->img_w * col));
+			col++;
+		}
+		row++;
+	}
+}
+
+void	create_exit_layer(t_img *dst, t_img *src, t_map *map)
+{
+	int	col;
+	int	row;
+
+	row = 0;
+	while (row < map->cnt_row)
+	{
+		col = 0;
+		while (col < map->cnt_column)
+		{
+			if (map->arr[row][col] == 'E')
+				return (copy_tile(dst, src, src->img_h * row, src->img_w * col));
+			col++;
+		}
+		row++;
+	}
+}
+
+void	create_item_layer(t_img *dst, t_img *src, t_map *map)
+{
+	int	col;
+	int	row;
+
+	row = 0;
+	while (row < map->cnt_row)
+	{
+		col = 0;
+		while (col < map->cnt_column)
+		{
+			if (map->arr[row][col] == 'C')
+				copy_tile(dst, src, src->img_h * row, src->img_w * col);
+			col++;
+		}
+		row++;
+	}
+}
+
 void	create_wall_layer(t_img *dst, t_img *src, t_map *map)
 {
-	int	dst_x;
-	int	dst_y;
+	int	col;
+	int	row;
 
-	dst_x = 0;
-	while(map->cnt_row) // row = 4
+	row = 0;
+	while (row < map->cnt_row)
 	{
-		dst_y = 0;
-		while (map->cnt_column) // col = 5
+		col = 0;
+		while (col < map->cnt_column)
 		{
-			if (map->arr[dst_y][dst_x] == '1')
-				copy_tile(dst, src, src->img_h * dst_y, src->img_w * dst_x);
-			dst_x++;
+			if (map->arr[row][col] == '1')
+				copy_tile(dst, src, src->img_h * row, src->img_w * col);
+			col++;
 		}
-		dst_y++;
+		row++;
 	}
 }
 
@@ -226,5 +255,6 @@ void	copy_tile(t_img *dst, t_img *src, int row, int col)
 		src_y++;
 	}
 }
+
 
 

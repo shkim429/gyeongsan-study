@@ -6,7 +6,7 @@
 /*   By: sohuikim <sohuikim@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/14 04:52:35 by sohuikim          #+#    #+#             */
-/*   Updated: 2026/01/29 15:30:36 by sohuikim         ###   ########.fr       */
+/*   Updated: 2026/02/05 02:45:28 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,9 @@
 
 # define FAILURE 0
 # define SUCCESS 1
+# define NOT_VISITED 0
+# define VISITED 1
+
 
 # define XK_ESC 	0xff1b
 # define XK_UP		0xff52
@@ -46,12 +49,10 @@ typedef struct s_mlx_vars // s_mlx_ctx로 변경하기
 	int		win_y;
 }	t_mlx_vars;
 
-/*
-typedef struct s_win_size
+typedef enum s_state_spr
 {
-	int	win_x;
-	int	win_y;
-}	t_win_size;
-*/
+	FIND_C,
+	FIND_E,
+}	t_state_spr;
 
 #endif

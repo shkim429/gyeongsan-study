@@ -6,7 +6,7 @@
 /*   By: sohuikim <sohuikim@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 23:54:52 by sohuikim          #+#    #+#             */
-/*   Updated: 2026/01/29 21:09:36 by sohuikim         ###   ########.fr       */
+/*   Updated: 2026/02/05 03:36:24 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,13 @@ typedef struct s_map
 	char	**arr;
 	int		cnt_row;
 	int		cnt_column;
+	int		cnt_p;
+	int		cnt_c;
+	int		cnt_e;
+	int		visit_cnt_c;
+	int		visit_cnt_e;
+	int		p_x;
+	int		p_y;
 }	t_map;
 
 int	read_map(char *argv, t_map	*map);

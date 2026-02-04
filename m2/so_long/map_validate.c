@@ -6,7 +6,7 @@
 /*   By: sohuikim <sohuikim@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/19 16:44:34 by sohuikim          #+#    #+#             */
-/*   Updated: 2026/02/02 03:50:15 by sohuikim         ###   ########.fr       */
+/*   Updated: 2026/02/05 00:03:24 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	read_map(char *argv, t_map	*map)
 	if (fd < 0)
 		return (FAILURE);
 	map->cnt_row = cnt_map_row(argv); // map의 행 cnt (arr의 calloc 목적)
-	map->arr = ft_calloc((map->cnt_row) + 1, sizeof(*(map->arr)));
+	map->arr = ft_calloc((map->cnt_row), sizeof(*(map->arr)));
 	if (map->arr == NULL)
 		return (FAILURE);
 	i = 0;

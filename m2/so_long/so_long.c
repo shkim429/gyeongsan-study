@@ -18,12 +18,19 @@
 #include "mlx.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
 
 void	my_mlx_pixel_put(t_img *data, int x, int y, int color);
 int		handle_exit_key(int keycode, t_mlx_vars *vars);
 int	close_game(t_mlx_vars *vars);
 int	handle_exit_mouse(t_mlx_vars *vars);
 int	render_map(t_map *map);
+int	is_valid_path(t_map *map);
+int	is_valid_cnt_spr(t_map *map);
+int	is_valid_game(t_map *map);
+void	init_all_struct(t_mlx_vars *vars, t_img *frame, t_tileset *ts, t_sprites *spr);
+void	dfs(t_map *map, bool *visit_arr, int row, int col);
+void	get_plyaer_pos(t_map *map);
 
 int	main(int argc, char *argv[])
 {
@@ -36,6 +43,8 @@ int	main(int argc, char *argv[])
 		return (FAILURE);
 	if (!is_enclosed_by_walls(&map))
 		return (FAILURE);
+	if(!is_valid_game(&map))
+		return (FAILURE);
 	if (!render_map(&map))
 		return (FAILURE);
 	return (SUCCESS);
@@ -46,46 +55,37 @@ int	render_map(t_map *map)
 {
 	t_mlx_vars	vars;
 	t_img		frame_buffer;
-	t_tileset	tileset;
+	t_tileset	ts;
+	t_sprites	spr;
 	int			tile_size;
 
 	tile_size = 50;
 	vars.mlx = mlx_init();
 	if (vars.mlx == NULL)
 		return (FAILURE);
+	// init_all_struct(&vars, &frame_buffer, &ts, &spr);
 	vars.win_x = tile_size * map->cnt_column;
 	vars.win_y = tile_size * map->cnt_row;
 	vars.win = mlx_new_window(vars.mlx, vars.win_x, vars.win_y, "Hello world");
-	create_bg_layer(&vars, &frame_buffer, &tileset, map);
-	if (frame_buffer.img == NULL)
+	frame_buffer.img = mlx_new_image(vars.mlx, vars.win_x, vars.win_y); 
+	frame_buffer.addr = mlx_get_data_addr(frame_buffer.img, &frame_buffer.bits_per_pixel, &frame_buffer.line_length, &frame_buffer.endian);
+	if (!load_res(&vars, &ts, &spr))
 		return (FAILURE);
+	create_bg_layer(&frame_buffer, &ts, map);
+	create_spr_layer(&frame_buffer, &spr, map);
 	mlx_put_image_to_window(vars.mlx, vars.win, frame_buffer.img, 0, 0);
 	mlx_hook(vars.win, 2, 1L<<0, handle_exit_key, &vars);
 	mlx_loop(vars.mlx);
 	return (SUCCESS);
 }
 
-/*
-int	main(int argc, char *argv[])
+void	init_all_struct(t_mlx_vars *vars, t_img *frame, t_tileset *ts, t_sprites *spr)
 {
-	tile_size = 50;
-
-	vars.mlx = mlx_init();
-	relative_path = "./textures/road.xpm";
-	vars.win = mlx_new_window(vars.mlx, 1080, 1080, "Hello world");
-	img.img = mlx_xpm_file_to_image(vars.mlx, relative_path, &img_w, &img_h);
-	if (img.img == NULL)
-		return (0);
-	mlx_put_image_to_window(vars.mlx, vars.win, img.img, 0, 0);
-
-	// img.img = mlx_new_image(vars.mlx, 500, 500);
-	img.addr = mlx_get_data_addr(img.img, &img.bits_per_pixel, &img.line_length, &img.endian);
-	//my_mlx_pixel_put(&img, 100, 100, 0x00FF0000);
-	// mlx_key_hook(vars.win, key_hook, &vars);
-	mlx_hook(vars.win, 2, 1L<<0, handle_exit_key, &vars);
-	mlx_loop(vars.mlx);
-	return (SUCCESS);
-*/
+	ft_bzero(vars, sizeof(t_mlx_vars));
+	ft_bzero(frame, sizeof(t_img));
+	ft_bzero(ts, sizeof(t_tileset));
+	ft_bzero(spr, sizeof(t_sprites));
+}
 
 int	handle_exit_key(int keycode, t_mlx_vars *vars)
 {
@@ -99,13 +99,6 @@ int	close_game(t_mlx_vars *vars)
 	return (mlx_destroy_window(vars->mlx, vars->win), 0);
 }
 
-void	my_mlx_pixel_put(t_img *data, int x, int y, int color)
-{
-	char	*dst;
-
-	dst = data->addr + (y * data->line_length + x * (data->bits_per_pixel / 8));
-	*(unsigned int *)dst = color;
-}
 
 // /* map_path 유효성 검사 */
 // void	is_valid_name(char *map_path)
@@ -116,3 +109,100 @@ void	my_mlx_pixel_put(t_img *data, int x, int y, int color)
 // }
 
 // void	is_valid_format()
+
+int	is_valid_game(t_map *map)
+{
+	if (!is_valid_cnt_spr(map))
+		return (FAILURE);
+	if (!is_valid_path(map))
+		return (FAILURE);
+	return (SUCCESS);
+}
+
+int	is_valid_path(t_map *map)
+{
+	bool	*visit_arr;
+
+	map->visit_cnt_c = 0;
+	map->visit_cnt_e = 0;
+	visit_arr = malloc((map->cnt_row * map->cnt_column) * sizeof(bool));
+	if (visit_arr == NULL)
+		return (FAILURE);
+	ft_memset(visit_arr, false, map->cnt_row * map->cnt_column);
+	get_plyaer_pos(map);
+	dfs(map, visit_arr, map->p_x, map->p_y);
+	if (map->visit_cnt_c != map->cnt_c || map->visit_cnt_e != map->cnt_e)
+		return (FAILURE);
+	return (SUCCESS);
+}
+
+void	get_plyaer_pos(t_map *map)
+{
+	int	row;
+	int	col;
+
+	row = 0;
+	while (row < map->cnt_row)
+	{
+		col = 0;
+		while (col < map->cnt_column)
+		{
+			if (map->arr[row][col] == 'P')
+			{
+				map->p_x = row;
+				map->p_y = col;
+				return ;
+			}
+			col++;
+		}
+		row++;
+	}
+}
+
+
+void	dfs(t_map *map, bool *visit_arr, int row, int col)
+{
+	if (row < 0 || row >= map->cnt_row || col < 0 || col >= map->cnt_column)
+		return ;
+	if (visit_arr[(row * map->cnt_column) + col] == true || map->arr[row][col] == '1')
+		return ;
+	if (map->arr[row][col] == 'C')
+		map->visit_cnt_c++;
+	if (map->arr[row][col] == 'E')
+		map->visit_cnt_e++;
+	visit_arr[(row * map->cnt_column) + col] = true;
+	dfs(map, visit_arr, row - 1, col);
+	dfs(map, visit_arr, row, col + 1);
+	dfs(map, visit_arr, row + 1, col);
+	dfs(map, visit_arr, row, col - 1);
+}
+
+int	is_valid_cnt_spr(t_map *map)
+{
+	int	row;
+	int	col;
+
+	map->cnt_c = 0;
+	map->cnt_p = 0;
+	map->cnt_e = 0;
+	row = 0;
+	while (row < map->cnt_row)
+	{
+		col = 0;
+		while (col < map->cnt_column)
+		{
+			if (map->arr[row][col] == 'C')
+				map->cnt_c++;
+			else if (map->arr[row][col] == 'E')
+				map->cnt_e++;
+			else if (map->arr[row][col] == 'P')
+				map->cnt_p++;
+			col++;
+		}
+		row++;
+	}
+	if (map->cnt_c <= 0 || map->cnt_p <= 0 || map->cnt_p > 1 || \
+map->cnt_e <= 0 || map->cnt_e > 1)
+		return (FAILURE);
+	return (SUCCESS);
+}
