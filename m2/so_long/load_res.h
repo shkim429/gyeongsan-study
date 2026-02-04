@@ -6,7 +6,7 @@
 /*   By: sohuikim <sohuikim@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/19 16:35:19 by sohuikim          #+#    #+#             */
-/*   Updated: 2026/02/02 18:38:32 by sohuikim         ###   ########.fr       */
+/*   Updated: 2026/02/04 02:14:34 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,10 +58,10 @@ typedef struct s_img_table
 
 typedef enum s_facing_state
 {
-	BACK,
-	FRONT,
-	LEFT,
-	RRIGHT
+	BACK = 0,
+	FRONT = 1,
+	LEFT = 2,
+	RIGHT = 3,
 }	t_facing_state;
 
 int	create_bg_layer(t_mlx_vars *vars, t_img *frame_buffer, t_tileset *tileset, t_map *dst_size);

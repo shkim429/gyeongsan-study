@@ -106,3 +106,13 @@ void	my_mlx_pixel_put(t_img *data, int x, int y, int color)
 	dst = data->addr + (y * data->line_length + x * (data->bits_per_pixel / 8));
 	*(unsigned int *)dst = color;
 }
+
+// /* map_path 유효성 검사 */
+// void	is_valid_name(char *map_path)
+// {
+// 	is_vaild_format();
+// 	if ()
+
+// }
+
+// void	is_valid_format()
