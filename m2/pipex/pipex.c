@@ -6,26 +6,29 @@
 /*   By: sohuikim <sohuikim@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/01 01:47:28 by sohuikim          #+#    #+#             */
-/*   Updated: 2026/02/04 01:37:45 by sohuikim         ###   ########.fr       */
+/*   Updated: 2026/02/04 17:25:04 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 #include <sys/types.h>
 #include <sys/stat.h>
+#include <sys/wait.h>
 #include <fcntl.h>
 #include <errno.h>
 #include <stdio.h>
 #include <string.h>
 #include <unistd.h>
-#include "libft.h"
+#include "ft_libft.h"
 
 int		valid_file(char *pathname, char *name);
 int		get_idx_str(char *str, char c);
 char	*find_path(char **envp);
 void	get_path_dirs(char *path, t_dirs_path *arr);
 int	cnt_cmds(int argc);
-int	get_cmd_list(int argc, char	**argv, t_input_var *var);
+int	get_cmd_list(int argc, char	**argv, t_input_var *var, t_dirs_path *path);
+char	*test(t_dirs_path *arr, char *cmd);
+int	create(t_dirs_path *arr, char **argv, char **envp);
 
 /*
 int	main(int argc, char *argv[])
@@ -71,8 +74,9 @@ int	main(int argc, char **argv, char **envp)
 		str = find_path(envp);
 		get_path_dirs(str, &arr);
 		var.cnt_cmds = cnt_cmds(argc);
-		if (!get_cmd_list(argc, argv, &var))
-			return (FAILURE);
+		get_cmd_list(argc, argv, &var, &arr);
+		char *sss = test(&arr, arr.cmd_list[0][0]);
+		create(&arr, argv, envp);
 	}
 }
 
@@ -91,53 +95,97 @@ int	cnt_cmds(int argc)
 	}
 	return (cnt_cmds);
 }
-int	get_cmd_list(int argc, char	**argv, t_input_var *var)
+
+int	get_cmd_list(int argc, char	**argv, t_input_var *var, t_dirs_path *path)
 {
-	char	***cmds_arr;
 	int		i;
 	int		j;
 
+	path->cmd_list = ft_calloc(var->cnt_cmds, sizeof(*(path->cmd_list)));
+	if (path->cmd_list == NULL)
+		return (FAILURE);
 	i = 2;
 	j = 0;
-	cmds_arr = ft_calloc(var->cnt_cmds, sizeof(*(cmds_arr)));
-	if (cmds_arr == NULL)
-		return (FAILURE);
 	while (i < argc - 1)
 	{
-		cmds_arr[j] = ft_split(argv[i], ' ');
-		printf("%s\n", cmds_arr[j][0]);
+		path->cmd_list[j] = ft_split(argv[i], ' ');
 		i++;
 		j++;
 	}
 }
 
-/* 파이프fd 생성 */
-int	create(int	argc, char **argv)
+/* cmd_path 실행 가능 여부 확인 */
+
+char	*test(t_dirs_path *arr, char *cmd) // 추가 예외 처리 필요
 {
+	char	*str;
+	char	*sstr;
+	int		i;
+
+	i = 0;
+	while (arr->dirs_path[i] != NULL)
+	{
+		str = append_str(arr->dirs_path[i], "/");
+		sstr = append_str(str, cmd);
+		if (access(sstr, X_OK) == -1)
+			i++;
+		else
+			break ;
+	}
+	return (sstr);
+}
+
+/* 파이프fd 생성 */
+int	create(t_dirs_path *arr, char **argv, char **envp)
+{
+	int	fd1;
+	int	fd2;
 	int	pd[2];
-	pid_t	child_pid;
+	pid_t	child1_pid;
+	pid_t	child2_pid;
 	
 	if (pipe(pd) == -1) // 새 파이프 생성 (pd[0]: read end fd 할당, pd[1]: write end fd 할당)
 		return (FAILURE); // PIPE_ERROR로 고치기
-	child_pid = fork();
-	if (child_pid < 0)
+	fd1 = open(argv[1], O_RDONLY);
+	if (fd1 == -1)
+		return (FAILURE); // errno 설정 필요
+	fd2 = open(argv[4], O_WRONLY | O_TRUNC | O_APPEND | O_CREAT, 0644);
+	if (fd2 == -1)
+		return (FAILURE); // errno 설정 필요
+	child1_pid = fork();
+	if (child1_pid < 0)
 		return (FAILURE); // FORK_ERROR로 고치기
-	if (child_pid > 0) // 부모 p
+	if (child1_pid == 0) // 자식 p
 	{
-		dup2(pd[1], 1);
+		close(pd[0]);
+		dup2(fd1, 0);
+		close(fd1);
+		dup2(pd[1], 1); // 출력 (cmd1)
+		close(pd[1]);
+		char *str = test(arr, arr->cmd_list[0][0]);
+		if (execve(str, arr->cmd_list[0], envp) == -1)
+				return (exit(EXIT_FAILURE), FAILURE); // errno 설정 필요
 	}
-	else // 자식 p
+	child2_pid = fork();
+	if (child2_pid == 0)
 	{
-
+		close(pd[1]);
+		dup2(fd2, 1);
+		close(fd2);
+		dup2(pd[0], 0); // 입력 (cmd2)
+		close(pd[0]);
+		char *str = test(arr, arr->cmd_list[1][0]);
+		if (execve(str, arr->cmd_list[1], envp) == -1)
+			return (exit(EXIT_FAILURE), FAILURE);
 	}
-	
+	 // 부모 p
+	 close(pd[0]);
+	 close(pd[1]);
+	waitpid(child1_pid, NULL,0);
+	waitpid(child2_pid, NULL, 0);
 
-}
+}	
 
-int	handle_errno(char *name, int errno)
-{
-
-}
 /*
 int	is_valid_file(char *file_name)
 {

@@ -6,7 +6,7 @@
 /*   By: sohuikim <sohuikim@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/01 01:47:41 by sohuikim          #+#    #+#             */
-/*   Updated: 2026/02/04 01:20:54 by sohuikim         ###   ########.fr       */
+/*   Updated: 2026/02/04 14:30:17 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,12 @@
 typedef struct s_dirs_path
 {
 	char	**dirs_path;
+	char	***cmd_list;
 }	t_dirs_path;
 
 typedef struct s_input_var
 {
-	int	cnt_cmds;
+	int		cnt_cmds;
 }	t_input_var;
 
 #endif
