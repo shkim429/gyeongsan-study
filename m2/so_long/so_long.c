@@ -31,13 +31,16 @@ int	is_valid_game(t_map *map);
 void	init_all_struct(t_mlx_vars *vars, t_img *frame, t_tileset *ts, t_sprites *spr);
 void	dfs(t_map *map, bool *visit_arr, int row, int col);
 void	get_plyaer_pos(t_map *map);
+int	is_valid_file_path(char *file_path);
 
 int	main(int argc, char *argv[])
 {
 	t_map	map;
 
 	if (argc <= 1)
-		return (print_error(), 0);
+		return (print_error(), FAILURE);
+	if (!is_valid_file_path(argv[1]))
+		return (FAILURE); // errno 설정 필요
 	ft_bzero(&map, sizeof(t_map));
 	if (!read_map(argv[1], &map))
 		return (FAILURE);
@@ -100,13 +103,16 @@ int	close_game(t_mlx_vars *vars)
 }
 
 
-// /* map_path 유효성 검사 */
-// void	is_valid_name(char *map_path)
-// {
-// 	is_vaild_format();
-// 	if ()
+/* map_path 유효성 검사 */
+int	is_valid_file_path(char *file_path)
+{
+	int	fd;
 
-// }
+	fd = open(file_path, O_RDONLY);
+	if (fd == -1)
+		return (FAILURE);
+	return (SUCCESS);
+}
 
 // void	is_valid_format()
 
@@ -206,3 +212,4 @@ map->cnt_e <= 0 || map->cnt_e > 1)
 		return (FAILURE);
 	return (SUCCESS);
 }
+
