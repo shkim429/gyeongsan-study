@@ -6,7 +6,7 @@
 /*   By: sohuikim <sohuikim@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/01 01:47:28 by sohuikim          #+#    #+#             */
-/*   Updated: 2026/02/04 17:25:04 by sohuikim         ###   ########.fr       */
+/*   Updated: 2026/02/05 12:28:27 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,66 +22,36 @@
 #include "ft_libft.h"
 
 int		valid_file(char *pathname, char *name);
-int		get_idx_str(char *str, char c);
-char	*find_path(char **envp);
-void	get_path_dirs(char *path, t_dirs_path *arr);
+int		get_idx_chr(char *str, char c);
+int		split_path_dirs(char **envp, t_dirs_path *arr);
 int	cnt_cmds(int argc);
 int	get_cmd_list(int argc, char	**argv, t_input_var *var, t_dirs_path *path);
-char	*test(t_dirs_path *arr, char *cmd);
+char	*find_exec_path(t_dirs_path *arr, char *cmd);
 int	create(t_dirs_path *arr, char **argv, char **envp);
-
-/*
-int	main(int argc, char *argv[])
-{
-	int		pd[2];
-	pid_t	p;
-
-	if (argc == 4)
-	{
-		// split 배열부터 해야 함
-		if (pipe(pd) == -1) // pd[0] : read / pd[1] : write
-			return (FAILURE); // 오류 반환해야 함
-		p = fork();
-		if (p < 0)
-		{
-			return (FAILURE); // 오류 반환해야 함;
-		}
-		else if (p > 0) // 부모 프로세스
-		{
-			char concat_str[100];
-
-			close(pd);
-		}
-		valid_file(argv[1], argv[0]);
-	}
-	else
-		return (FAILURE);
-}
-*/
+void	print_errno(char *error_name);
 
 int	main(int argc, char **argv, char **envp)
 {
 	t_dirs_path	arr;
 	t_input_var	var;
 	int			i;
-	char		*str;
+	char		*exec_path;
 
 	if (argc != 5)
 		return (FAILURE);
 	else
 	{
 		i = 0;
-		str = find_path(envp);
-		get_path_dirs(str, &arr);
-		var.cnt_cmds = cnt_cmds(argc);
-		get_cmd_list(argc, argv, &var, &arr);
-		char *sss = test(&arr, arr.cmd_list[0][0]);
+		// print_errno(argv[0]);
+		if (!split_path_dirs(envp, &arr))
+			return (FAILURE);
+		exec_path = find_exec_path(&arr, arr.cmd_list[0][0]);
 		create(&arr, argv, envp);
 	}
 }
 
 /* 명령어 개수 세기 */
-int	cnt_cmds(int argc)
+int	cnt_input_cmds(int argc)
 {
 	int	cnt_cmds;
 	int	i;
@@ -96,11 +66,13 @@ int	cnt_cmds(int argc)
 	return (cnt_cmds);
 }
 
+/* input cmds 배열화 */
 int	get_cmd_list(int argc, char	**argv, t_input_var *var, t_dirs_path *path)
 {
 	int		i;
 	int		j;
 
+	var->cnt_cmds = cnt_input_cmds(argc);
 	path->cmd_list = ft_calloc(var->cnt_cmds, sizeof(*(path->cmd_list)));
 	if (path->cmd_list == NULL)
 		return (FAILURE);
@@ -109,30 +81,32 @@ int	get_cmd_list(int argc, char	**argv, t_input_var *var, t_dirs_path *path)
 	while (i < argc - 1)
 	{
 		path->cmd_list[j] = ft_split(argv[i], ' ');
+		if (path->cmd_list[j] == NULL)
+			return (FAILURE);
 		i++;
 		j++;
 	}
+	return (SUCCESS);
 }
 
 /* cmd_path 실행 가능 여부 확인 */
-
-char	*test(t_dirs_path *arr, char *cmd) // 추가 예외 처리 필요
+char	*find_exec_path(t_dirs_path *arr, char *cmd) // 추가 예외 처리 필요
 {
-	char	*str;
-	char	*sstr;
+	char	*path_prefix;
+	char	*exec_path;
 	int		i;
 
 	i = 0;
 	while (arr->dirs_path[i] != NULL)
 	{
-		str = append_str(arr->dirs_path[i], "/");
-		sstr = append_str(str, cmd);
-		if (access(sstr, X_OK) == -1)
-			i++;
+		path_prefix = append_str(arr->dirs_path[i], "/");
+		exec_path = append_str(exec_path, cmd);
+		if (access(exec_path, X_OK) != -1) // 실행 못 하면 건너뛰기
+			return (exec_path);
 		else
-			break ;
+			i++;
 	}
-	return (sstr);
+	return ((void *)0); // errno 처리 필요: errno 반환
 }
 
 /* 파이프fd 생성 */
@@ -149,7 +123,7 @@ int	create(t_dirs_path *arr, char **argv, char **envp)
 	fd1 = open(argv[1], O_RDONLY);
 	if (fd1 == -1)
 		return (FAILURE); // errno 설정 필요
-	fd2 = open(argv[4], O_WRONLY | O_TRUNC | O_APPEND | O_CREAT, 0644);
+	fd2 = open(argv[4], O_WRONLY | O_TRUNC | O_CREAT, 0644);
 	if (fd2 == -1)
 		return (FAILURE); // errno 설정 필요
 	child1_pid = fork();
@@ -195,17 +169,8 @@ int	is_valid_file(char *file_name)
 }
 */
 
-/* 디렉터리별 path 저장 */
-void	get_path_dirs(char *path, t_dirs_path *arr)
-{
-	int	i;
-
-	i = 0;
-	arr->dirs_path = ft_split(path, ':');
-}
-
-/* PATH 배열 찾기 */
-char	*find_path(char **envp) // 코드 가독성 다시 생각해 보기
+/* 디렉터리별 path 추출 */
+int	split_path_dirs(char **envp, t_dirs_path *arr)
 {
 	int	i;
 	int	n;
@@ -213,19 +178,26 @@ char	*find_path(char **envp) // 코드 가독성 다시 생각해 보기
 	i = 0;
 	while (envp[i] != NULL)
 	{
-		n = get_idx_str(envp[i], '=');
+		n = get_idx_chr(envp[i], '=');
 		if (n != NOT_FOUND)
 		{
 			if (ft_strncmp(envp[i], "PATH=", n) == 0)
-				return (&envp[i][n + 1]);
+			{
+				arr->dirs_path = ft_split(&envp[i][n + 1], ':');
+				if (arr->dirs_path == NULL)
+					break ;
+				else
+					return (SUCCESS);
+			}
 		}
 		i++;
 	}
-	return (NULL);
+	return (FAILURE);
 }
 
+
 /* PATH 문자열 탐색할 idx 찾기 */
-int	get_idx_str(char *str, char c)
+int	get_idx_chr(char *str, char c)
 {
 	int	i;
 
@@ -238,16 +210,11 @@ int	get_idx_str(char *str, char c)
 	}
 	return (i);
 }
-
-/*
-int	print_errno(void)
+void	print_errno(char *error_name)
 {
-	if (!valid_file())
-	{
-		// 에러 문구 출력
-	}
+	// write(2, "./pipex: ", 9);
+	perror(error_name);
 }
-*/
 
 int	valid_file(char *pathname, char *name)
 {

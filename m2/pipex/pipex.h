@@ -6,7 +6,7 @@
 /*   By: sohuikim <sohuikim@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/01 01:47:41 by sohuikim          #+#    #+#             */
-/*   Updated: 2026/02/04 14:30:17 by sohuikim         ###   ########.fr       */
+/*   Updated: 2026/02/05 12:23:34 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 # define FAILURE 0
 # define SUCCESS 1
 
-typedef struct s_dirs_path
+typedef struct s_dirs_path // 구조체명 변경 필요
 {
 	char	**dirs_path;
 	char	***cmd_list;
