@@ -6,12 +6,14 @@
 /*   By: sohuikim <sohuikim@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/01 01:47:41 by sohuikim          #+#    #+#             */
-/*   Updated: 2026/02/05 12:23:34 by sohuikim         ###   ########.fr       */
+/*   Updated: 2026/02/05 23:07:20 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PIPEX_H
 # define PIPEX_H
+
+#include <sys/types.h>
 
 # define NOT_FOUND -1
 # define FAILURE 0
@@ -27,5 +29,14 @@ typedef struct s_input_var
 {
 	int		cnt_cmds;
 }	t_input_var;
+
+typedef struct s_fd
+{
+	int		pd[2];
+	int		infile_fd;
+	int		input_fd;
+	int		outfile_fd;
+	pid_t	*child_pid;
+}	t_fd;
 
 #endif
