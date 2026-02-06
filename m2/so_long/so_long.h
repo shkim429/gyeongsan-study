@@ -3,21 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   so_long.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sohuikim <sohuikim@student.42gyeongsan.    +#+  +:+       +#+        */
+/*   By: sohuikim <sohuikim@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/14 04:52:35 by sohuikim          #+#    #+#             */
-/*   Updated: 2026/02/05 02:45:28 by sohuikim         ###   ########.fr       */
+/*   Updated: 2026/02/06 18:32:51 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef SO_LONG_H
 # define SO_LONG_H
 
+#include "map_validate.h"
+
 # define FAILURE 0
 # define SUCCESS 1
 # define NOT_VISITED 0
 # define VISITED 1
-
 
 # define XK_ESC 	0xff1b
 # define XK_UP		0xff52
@@ -41,6 +42,18 @@ typedef struct s_img
 	int		img_h;
 }	t_img;
 
+typedef struct s_sprites
+{
+	t_img	item;
+	t_img	exit;
+	t_img	p_f;
+	t_img	p_b;
+	t_img	p_l;
+	t_img	p_run_l;
+	t_img	p_r;
+	t_img	p_run_r;
+}	t_sprites;
+
 typedef struct s_mlx_vars // s_mlx_ctx로 변경하기
 {
 	void	*mlx;
@@ -49,10 +62,11 @@ typedef struct s_mlx_vars // s_mlx_ctx로 변경하기
 	int		win_y;
 }	t_mlx_vars;
 
-typedef enum s_state_spr
+typedef struct s_ctx
 {
-	FIND_C,
-	FIND_E,
-}	t_state_spr;
-
+	t_mlx_vars	*v;
+	t_map		*m;
+	t_img		*i;
+	t_sprites	*s;
+}	t_ctx;
 #endif

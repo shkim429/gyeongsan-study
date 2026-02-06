@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   load_res.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sohuikim <sohuikim@student.42gyeongsan.    +#+  +:+       +#+        */
+/*   By: sohuikim <sohuikim@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/19 16:32:52 by sohuikim          #+#    #+#             */
-/*   Updated: 2026/02/04 22:03:50 by sohuikim         ###   ########.fr       */
+/*   Updated: 2026/02/06 17:20:50 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,11 +137,27 @@ int	create_bg_layer(t_img *frame_buffer, t_tileset *ts, t_map *map)
 	create_wall_layer(frame_buffer, &ts->car_rd_r, map);
 }
 
-int	create_spr_layer(t_img *frame_buffer, t_sprites *spr, t_map *map)
+int	create_spr_layer(t_mlx_vars *vars, t_sprites *spr, t_map *map)
 {
-	create_item_layer(frame_buffer, &spr->item, map);
-	create_player_layer(frame_buffer, &spr->p_r, map);
-	create_exit_layer(frame_buffer, &spr->exit, map);
+	int	row;
+	int	col;
+
+	row = 0;
+	while (row < map->cnt_row)
+	{
+		col = 0;
+		while (col < map->cnt_column)
+		{
+			if (map->arr[row][col] == 'C')
+				mlx_put_image_to_window(vars->mlx, vars->win, spr->item.img, col * 50, row * 50);
+			else if (map->arr[row][col] == 'E')
+				mlx_put_image_to_window(vars->mlx, vars->win, spr->exit.img, col * 50, row * 50);
+			else if (map->arr[row][col] == 'P')
+				mlx_put_image_to_window(vars->mlx, vars->win, spr->p_r.img, col * 50, row * 50);
+			col++;
+		}
+		row++;
+	}
 }
 
 void	create_floor_layer(t_img *dst, t_img *src, t_map *dst_size)

@@ -24,7 +24,7 @@ void	my_mlx_pixel_put(t_img *data, int x, int y, int color);
 int		handle_exit_key(int keycode, t_mlx_vars *vars);
 int	close_game(t_mlx_vars *vars);
 int	handle_exit_mouse(t_mlx_vars *vars);
-int	render_map(t_map *map);
+int	render_map(t_map *map, t_ctx *ctx);
 int	is_valid_path(t_map *map);
 int	is_valid_cnt_spr(t_map *map);
 int	is_valid_game(t_map *map);
@@ -32,10 +32,12 @@ void	init_all_struct(t_mlx_vars *vars, t_img *frame, t_tileset *ts, t_sprites *s
 void	dfs(t_map *map, bool *visit_arr, int row, int col);
 void	get_plyaer_pos(t_map *map);
 int	is_valid_file_path(char *file_path);
-
+int	handle_player(int keycode, t_ctx *ctx);
+int	move_up(t_ctx *ctx);
 int	main(int argc, char *argv[])
 {
 	t_map	map;
+	t_ctx	ctx;
 
 	if (argc <= 1)
 		return (print_error(), FAILURE);
@@ -48,13 +50,13 @@ int	main(int argc, char *argv[])
 		return (FAILURE);
 	if(!is_valid_game(&map))
 		return (FAILURE);
-	if (!render_map(&map))
+	if (!render_map(&map, &ctx))
 		return (FAILURE);
 	return (SUCCESS);
 }
 
 /* 창에 맵 화면 띄우기 */
-int	render_map(t_map *map)
+int	render_map(t_map *map, t_ctx *ctx)
 {
 	t_mlx_vars	vars;
 	t_img		frame_buffer;
@@ -75,9 +77,10 @@ int	render_map(t_map *map)
 	if (!load_res(&vars, &ts, &spr))
 		return (FAILURE);
 	create_bg_layer(&frame_buffer, &ts, map);
-	create_spr_layer(&frame_buffer, &spr, map);
 	mlx_put_image_to_window(vars.mlx, vars.win, frame_buffer.img, 0, 0);
-	mlx_hook(vars.win, 2, 1L<<0, handle_exit_key, &vars);
+	create_spr_layer(&vars, &spr, map);
+	// mlx_hook(vars.win, 2, 1L<<0, handle_exit_key, &vars);
+	mlx_hook(vars.win, 2, 1L<<0, handle_player, &ctx);
 	mlx_loop(vars.mlx);
 	return (SUCCESS);
 }
@@ -213,3 +216,22 @@ map->cnt_e <= 0 || map->cnt_e > 1)
 	return (SUCCESS);
 }
 
+int	handle_player(int keycode, t_ctx *ctx)
+{
+	if (keycode == XK_W || keycode == XK_UP)
+	{
+		move_up(ctx);
+		// mlx_put_image_to_window(vars->mlx, vars->win, frame, 0, 0);
+		// mlx_put_image_to_window(vars->mlx, vars->win, spr->p_r.img, map->p_x * 50, (map->p_y + 1) * 50);
+	}
+	// else if (keycode == XK_S || keycode == XK_LEFT)
+	// {
+	// 	mlx_put_image_to_window(vars->mlx, vars->win, frame, 0, 0);
+	// 	mlx_put_image_to_window(vars->mlx, vars->win, spr->p_r.img, map->p_x * 50, map->p_y * 50);
+	// }
+}
+int	move_up(t_ctx *ctx)
+{
+	 mlx_put_image_to_window(ctx->v->mlx, ctx->v->win, ctx->i, 0, 0);
+	mlx_put_image_to_window(ctx->v->mlx, ctx->v->win, ctx->s->p_r.img, ctx->m->p_x * 50, (ctx->m->p_y + 1) * 50);
+}
