@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sohuikim <sohuikim@student.42gyeongsan.    +#+  +:+       +#+        */
+/*   By: sohuikim <sohuikim@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/01 01:47:28 by sohuikim          #+#    #+#             */
-/*   Updated: 2026/02/06 01:55:42 by sohuikim         ###   ########.fr       */
+/*   Updated: 2026/02/06 21:06:25 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,12 +44,10 @@ int	main(int argc, char **argv, char **envp)
 	else
 	{
 		i = 0;
-		// print_errno(argv[0]);
 		if (!split_path_dirs(envp, &path))
 			return (FAILURE);
 		if (!get_cmd_list(argc, argv, &var, &path))
 			return (FAILURE);
-		// create(&var, &path, &fd, argv, envp);
 		create(&var, &path, &fd, argv, envp);
 	}
 }
@@ -65,20 +63,26 @@ int	test(t_input_var *var, t_dirs_path *path, t_fd *fd, char **envp)
 	fd->input_fd = fd->infile_fd;
 	while (i < var->cnt_cmds) // 0 < 2 , i=0, i=1 i=0일때, cmd1, i=1일때, cmd2
 	{
-		if (i != var->cnt_cmds - 1)
+		if (i != var->cnt_cmds - 1) // 파이프는 n - 1개만 생성
 		{
 			if (pipe(fd->pd) == -1)
-			return (FAILURE); // errno 설정 필요
+				return (FAILURE); // errno 설정 필요
 		}
 		fd->child_pid[i] = fork(); // 자식 1 프로세스 복제
-		close(fd->pd[1]);
+		if (fd->child_pid[i] == -1)
+			return (FAILURE);
+		else if (fd->child_pid[i] > 0)
+		{
+			close(fd->pd[1]);
+			close(fd->input_fd); // old_pd
+
+		}
+		else if (fd->child_pid[i] == 0)
+			exec_child_p(i, var, fd, path, envp);
 		if (fd->child_pid[i] == -1)
 			return (FAILURE); // errno 설정 필요
-		if (fd->child_pid[i] == 0) // 0
-			exec_child_p(i, var, fd, path, envp);
-		i++;
-		close(fd->input_fd);
 		fd->input_fd = fd->pd[0];
+		i++;
 	}
 	i = 0;
 	while (i < var->cnt_cmds)
