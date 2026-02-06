@@ -1,38 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex.h                                            :+:      :+:    :+:   */
+/*   free_res.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sohuikim <sohuikim@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/02/01 01:47:41 by sohuikim          #+#    #+#             */
-/*   Updated: 2026/02/06 22:10:18 by sohuikim         ###   ########.fr       */
+/*   Created: 2026/02/06 21:10:07 by sohuikim          #+#    #+#             */
+/*   Updated: 2026/02/06 21:10:55 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PIPEX_H
-# define PIPEX_H
-
-#include <sys/types.h>
-
-# define NOT_FOUND -1
-# define FAILURE 0
-# define SUCCESS 1
-
-typedef struct s_pipe_util
-{
-	char	**dirs_path;
-	char	***cmd_list;
-	int		cnt_cmds;
-}	t_pipe_util;
-
-typedef struct s_fd
-{
-	int		pd[2];
-	int		infile_fd;
-	int		input_fd;
-	int		outfile_fd;
-	pid_t	*child_pid;
-}	t_fd;
-
-#endif
