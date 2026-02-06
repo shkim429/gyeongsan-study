@@ -2,7 +2,12 @@ NAME = so_long
 CC = cc
 CFLAGS = $(INC) -g
 RM = rm -rf
-SRCS = so_long.c error.c map_validate.c load_res.c
+SRCS = so_long.c \
+	   valid_map.c valid_wall_utils.c valid_exit_path_utils.c \
+	   load_res.c \
+	   create_img_layer.c create_bg_layer_utils.c \
+	   handle_frame.c \
+	   error.c
 
 OBJ_DIR = obj
 OBJS_FILES = $(addprefix $(OBJ_DIR)/, $(SRCS:.c=.o))
