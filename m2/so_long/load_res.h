@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   load_res.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sohuikim <sohuikim@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sohuikim <sohuikim@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/19 16:35:19 by sohuikim          #+#    #+#             */
-/*   Updated: 2026/02/07 04:15:31 by sohuikim         ###   ########.fr       */
+/*   Updated: 2026/02/07 15:36:20 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,12 @@
 
 # include "so_long.h"
 
-int	load_res(const t_mlx_vars *vars, t_tileset *ts, t_sprites *spr);
-int	load_floor_img(const t_mlx_vars *vars, t_tileset *ts);
-int	load_wall_img(const t_mlx_vars *vars, t_tileset *ts);
-int	load_exit_img(const t_mlx_vars *vars, t_sprites *spr);
-int	load_player_img(const t_mlx_vars *vars, t_sprites *spr);
-int	load_item_img(const t_mlx_vars *vars, t_tileset *ts);
-
-
+int		load_res(const t_mlx_vars *vars, t_comp *cmp);
+int		load_floor_img(const t_mlx_vars *vars, t_comp *cmp);
+int		load_wall_img(const t_mlx_vars *vars, t_comp *cmp);
+int		load_exit_img(const t_mlx_vars *vars, t_comp *cmp);
+int		load_player_img(const t_mlx_vars *vars, t_comp *cmp);
+int		load_item_img(const t_mlx_vars *vars, t_comp *cmp);
 void	copy_tile(t_img *dst, t_img *src, int row, int col);
 
 

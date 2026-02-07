@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   so_long.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sohuikim <sohuikim@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sohuikim <sohuikim@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/14 04:52:35 by sohuikim          #+#    #+#             */
-/*   Updated: 2026/02/07 04:28:34 by sohuikim         ###   ########.fr       */
+/*   Updated: 2026/02/07 15:27:17 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,27 +50,14 @@ typedef struct s_img
 	int		img_h;
 }	t_img;
 
-typedef struct s_tileset
+typedef struct s_comp
 {
 	t_img	floor;
-	t_img	item;
-	t_img	car_rd_r;
-	t_img	car_gn_r;
-	t_img	car_yl_r;
-}	t_tileset;
-
-typedef struct s_sprites
-{
-
 	t_img	exit;
 	t_img	item;
-	t_img	p_f;
-	t_img	p_b;
-	t_img	p_l;
-	t_img	p_run_l;
 	t_img	p_r;
-	t_img	p_run_r;
-}	t_sprites;
+	t_img	car_rd_r;
+}	t_comp;
 
 typedef struct s_mlx_vars // s_mlx_ctx로 변경하기
 {
@@ -85,8 +72,7 @@ typedef struct s_ctx
 	t_mlx_vars	*v;
 	t_map		*m;
 	t_img		*i;
-	t_sprites	*s;
-	t_tileset	*t;
+	t_comp		*c;
 }	t_ctx;
 
 int	read_map(char *argv, t_map	*map);

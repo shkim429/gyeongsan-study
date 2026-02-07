@@ -26,11 +26,11 @@ int	main(int argc, char *argv[])
 	t_ctx	ctx;
 
 	if (argc <= 1)
-		return (print_error(), FAILURE);
+		return (FAILURE);
 	ft_bzero(&map, sizeof(t_map));
 	if (!read_map(argv[1], &map))
 		return (FAILURE);
-	if(!is_valid_game(&map))
+	if (!is_valid_game(&map))
 		return (FAILURE);
 	if (!render_map(&map, &ctx))
 		return (FAILURE);
@@ -41,9 +41,8 @@ int	main(int argc, char *argv[])
 int	render_map(t_map *map, t_ctx *ctx)
 {
 	t_mlx_vars	vars;
-	t_img		frame_buffer;
-	t_tileset	ts;
-	t_sprites	spr;
+	t_img		buffer;
+	t_comp		cmp;
 	int			tile_size;
 
 	tile_size = 50;
@@ -54,19 +53,18 @@ int	render_map(t_map *map, t_ctx *ctx)
 	vars.win_x = tile_size * map->cnt_col;
 	vars.win_y = tile_size * map->cnt_row;
 	vars.win = mlx_new_window(vars.mlx, vars.win_x, vars.win_y, "Hello world");
-	frame_buffer.img = mlx_new_image(vars.mlx, vars.win_x, vars.win_y); 
-	frame_buffer.addr = mlx_get_data_addr(frame_buffer.img, &frame_buffer.bits_per_pixel, &frame_buffer.line_length, &frame_buffer.endian);
-	if (!load_res(&vars, &ts, &spr))
+	buffer.img = mlx_new_image(vars.mlx, vars.win_x, vars.win_y);
+	buffer.addr = mlx_get_data_addr(buffer.img, &buffer.bits_per_pixel, &buffer.line_length, &buffer.endian);
+	if (!load_res(&vars, &cmp))
 		return (FAILURE);
-	create_bg_layer(&frame_buffer, &ts, map);
-	mlx_put_image_to_window(vars.mlx, vars.win, frame_buffer.img, 0, 0);
-	create_spr_layer(&vars, &spr, map);
+	create_bg_layer(&buffer, &cmp, map);
+	mlx_put_image_to_window(vars.mlx, vars.win, buffer.img, 0, 0);
+	create_player_layer(&vars, &cmp, map);
 	ctx->v = &vars;
-	ctx->i = &frame_buffer;
+	ctx->i = &buffer;
 	ctx->m = map;
-	ctx->s = &spr;
-	ctx->t = &ts;
-	mlx_hook(vars.win, 2, 1L<<0, handle_press_key, ctx);
+	ctx->c = &cmp;
+	mlx_hook(vars.win, 2, 1L << 0, handle_press_key, ctx);
 	mlx_loop(vars.mlx);
 	return (SUCCESS);
 }
@@ -99,12 +97,12 @@ int	read_map(char *argv, t_map	*map)
 	return (SUCCESS);
 }
 
-void	init_all_struct(t_mlx_vars *vars, t_img *frame, t_tileset *ts, t_sprites *spr)
+void	init_all_struct(t_mlx_vars *vars, t_img *frame, t_comp *cmp)
 {
 	ft_bzero(vars, sizeof(t_mlx_vars));
 	ft_bzero(frame, sizeof(t_img));
-	ft_bzero(ts, sizeof(t_tileset));
-	ft_bzero(spr, sizeof(t_sprites));
+	ft_bzero(cmp, sizeof(t_comp));
+	ft_bzero(cmp, sizeof(t_comp));
 }
 
 int	close_game(t_mlx_vars *vars)
