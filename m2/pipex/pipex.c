@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sohuikim <sohuikim@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sohuikim <sohuikim@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/01 01:47:28 by sohuikim          #+#    #+#             */
-/*   Updated: 2026/02/06 22:52:10 by sohuikim         ###   ########.fr       */
+/*   Updated: 2026/02/07 23:12:18 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,11 @@ int		create(t_pipe_util *util, t_fd *fd, char **argv, char **envp);
 void	print_errno(char **argv, char *error_obj);
 int	exec_child_p(int i, t_fd *fd, t_pipe_util *util, char **envp, char **argv);
 int	test(t_pipe_util *path, t_fd *fd, char **envp, char **argv);
+int	exec_last_cmd(int i, t_pipe_util *util, t_fd *fd, char **envp, char **argv);
+int	exec_cmd(int i, t_pipe_util *util, t_fd *fd, char **envp, char **argv);
+void	print_cur_exe_name(char **argv);
+void	print_error_msg(char **argv, char *error_obj);
+void	print_errno(char **argv, char *error_obj);
 
 int	main(int argc, char **argv, char **envp)
 {
@@ -60,32 +65,51 @@ int	test(t_pipe_util *util, t_fd *fd, char **envp, char **argv)
 		return (FAILURE);
 	i = 0;
 	fd->input_fd = fd->infile_fd;
-	while (i < util->cnt_cmds) // 0 < 2 , i=0, i=1 i=0일때, cmd1, i=1일때, cmd2
+	while (i < util->cnt_cmds)
 	{
-		if (i != util->cnt_cmds - 1) // 파이프는 n - 1개만 생성
+		if (i == util->cnt_cmds - 1)
 		{
-			if (pipe(fd->pd) == -1)
-				return (FAILURE); // errno 설정 필요
+			if (exec_last_cmd(i, util, fd, envp, argv) == -1)
+				return (FAILURE);
 		}
-		fd->child_pid[i] = fork(); // 자식 1 프로세스 복제
-		if (fd->child_pid[i] == -1)
+		else if (exec_cmd(i, util, fd, envp, argv) == -1)
 			return (FAILURE);
-		else if (fd->child_pid[i] > 0)
-		{
-			close(fd->pd[1]);
-			close(fd->input_fd); // old_pd
-
-		}
-		else if (fd->child_pid[i] == 0)
-			exec_child_p(i, fd, util, envp, argv);
-		if (fd->child_pid[i] == -1)
-			return (FAILURE); // errno 설정 필요
-		fd->input_fd = fd->pd[0];
 		i++;
 	}
 	i = 0;
 	while (i < util->cnt_cmds)
 		waitpid(fd->child_pid[i++], NULL, 0);
+	return (SUCCESS);
+}
+
+int	exec_last_cmd(int i, t_pipe_util *util, t_fd *fd, char **envp, char **argv)
+{
+	fd->child_pid[i] = fork();
+	if (fd->child_pid[i] == -1)
+		return (print_errno(argv, "fork failed"), FAILURE);
+	if (fd->child_pid[i] > 0)
+		close(fd->input_fd);
+	else if (fd->child_pid[i] == 0)
+		exec_child_p(i, fd, util, envp, argv);
+	return (SUCCESS);
+}
+
+int	exec_cmd(int i, t_pipe_util *util, t_fd *fd, char **envp, char **argv)
+{
+	if (pipe(fd->pd) == -1)
+		return (print_errno(argv, "pipe failed"), FAILURE);
+	fd->child_pid[i] = fork();
+	if (fd->child_pid[i] == -1)
+		return (print_errno(argv, "fork failed"), FAILURE);
+	if (fd->child_pid[i] > 0)
+	{
+		close(fd->pd[1]);
+		close(fd->input_fd);
+	}
+	else if (fd->child_pid[i] == 0)
+		exec_child_p(i, fd, util, envp, argv);
+	fd->input_fd = fd->pd[0];
+	return (SUCCESS);
 }
 
 int	exec_child_p(int i, t_fd *fd, t_pipe_util *util, char **envp, char **argv)
@@ -95,17 +119,23 @@ int	exec_child_p(int i, t_fd *fd, t_pipe_util *util, char **envp, char **argv)
 	exec_path = find_exec_path(util, *(util->cmd_list[i]));
 	dup2(fd->input_fd, 0);
 	close(fd->input_fd);
-	close(fd->pd[0]);
 	if (i == util->cnt_cmds - 1)
 	{
 		dup2(fd->outfile_fd, 1);
 		close(fd->outfile_fd);
 	}
 	else
+	{
+		close(fd->pd[0]);
 		dup2(fd->pd[1], 1);
-	close(fd->pd[1]);
-	if(execve (exec_path, util->cmd_list[i], envp) == -1)
-		return (exit(EXIT_FAILURE), FAILURE);
+		close(fd->pd[1]);
+	}
+	if (exec_path == NULL)
+		if (exec_path == NULL)
+			return (print_error_msg(argv, *(util->cmd_list[i])), FAILURE);
+	if (execve(exec_path, util->cmd_list[i], envp) == -1)
+		return (print_errno(argv, *(util->cmd_list[i])), FAILURE);
+	return (SUCCESS);
 }
 
 /* 명령어 개수 세기 */
@@ -169,7 +199,6 @@ char	*find_exec_path(t_pipe_util *util, char *cmd) // 추가 예외 처리 필�
 
 int	create(t_pipe_util *util, t_fd *fd, char **argv, char **envp)
 {
-	
 	fd->infile_fd = open(argv[1], O_RDONLY);
 	if (fd->infile_fd == -1)
 		print_errno(argv, argv[1]);
@@ -177,9 +206,10 @@ int	create(t_pipe_util *util, t_fd *fd, char **argv, char **envp)
 	if (fd->outfile_fd == -1)
 		print_errno(argv, argv[4]);
 	if (fd->outfile_fd == -1 && fd->infile_fd == -1)
-		return(FAILURE); // 검토 필요
+		return(FAILURE); // 프로그램 종료 하기
 	if (!test(util, fd, envp, argv))
 		return (FAILURE);
+	return (SUCCESS);
 }
 
 /* 디렉터리별 path 추출 */
@@ -223,9 +253,22 @@ int	get_idx_chr(char *str, char c)
 	}
 	return (i);
 }
+
 void	print_errno(char **argv, char *error_obj)
+{
+	print_cur_exe_name(argv);
+	perror(error_obj);
+}
+
+void	print_error_msg(char **argv, char *error_obj)
+{
+	print_cur_exe_name(argv);
+	write(2, "command not found: ", ft_strlen("command not found: "));
+	write(2, error_obj, ft_strlen(error_obj));
+	write(2, "\n", 2);
+}
+void	print_cur_exe_name(char **argv)
 {
 	write(2, argv[0], ft_strlen(argv[0]));
 	write(2, ": ", 2);
-	perror(error_obj);
 }
