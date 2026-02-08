@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   create_img_layer.h                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sohuikim <sohuikim@student.42gyeongsan.    +#+  +:+       +#+        */
+/*   By: sohuikim <sohuikim@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/07 04:16:05 by sohuikim          #+#    #+#             */
-/*   Updated: 2026/02/08 18:42:40 by sohuikim         ###   ########.fr       */
+/*   Updated: 2026/02/09 07:48:59 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@
 # include "so_long.h"
 
 int		create_bg_layer(t_mlx *m_vars, t_comp *cmp, t_map_info *map);
-void	create_floor_layer(t_img_info *dst, t_img_info *src, t_map_info *map);
-void	create_tileset_layer(t_img_info *dst, t_comp *cmp, t_map_info *map);
+void	create_terrian_layer(t_img_info *dst, t_comp *cmp, t_map_info *map);
+void	create_obj_layer(t_img_info *dst, t_comp *cmp, t_map_info *map);
 void	create_player_layer(t_mlx *m_vars, t_comp *cmp, t_map_info *map);
 void	copy_tile(t_img_info *dst, t_img_info *src, int row, int col);
 

@@ -1,22 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   handle_frame.h                                     :+:      :+:    :+:   */
+/*   setup_game_info.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sohuikim <sohuikim@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/02/07 03:40:19 by sohuikim          #+#    #+#             */
-/*   Updated: 2026/02/09 07:55:39 by sohuikim         ###   ########.fr       */
+/*   Created: 2026/02/09 06:54:56 by sohuikim          #+#    #+#             */
+/*   Updated: 2026/02/09 07:17:26 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef HANDLE_FRAME_H
-# define HANDLE_FRAME_H
+#include "so_long.h"
 
-# include "so_long.h"
-
-int	handle_player(t_game_info *game, int row, int col);
-int	handle_press_key(int keycode, t_game_info *game);
-int	close_game(t_mlx *vars, t_game_info *game);
-
-#endif
+void	setup_game_info(t_game_info *game, t_mlx *m_vars, t_comp *cmp, \
+						t_map_info *map)
+{
+	game->mlx = m_vars;
+	game->cmp = cmp;
+	game->map = map;
+}

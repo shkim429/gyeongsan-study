@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   valid_wall_utils.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sohuikim <sohuikim@student.42gyeongsan.    +#+  +:+       +#+        */
+/*   By: sohuikim <sohuikim@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/07 03:23:51 by sohuikim          #+#    #+#             */
-/*   Updated: 2026/02/08 19:59:00 by sohuikim         ###   ########.fr       */
+/*   Updated: 2026/02/09 07:27:20 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

@@ -3,18 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   handle_frame.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sohuikim <sohuikim@student.42gyeongsan.    +#+  +:+       +#+        */
+/*   By: sohuikim <sohuikim@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/07 03:43:32 by sohuikim          #+#    #+#             */
-/*   Updated: 2026/02/08 22:41:26 by sohuikim         ###   ########.fr       */
+/*   Updated: 2026/02/09 07:56:22 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "handle_frame.h"
 #include "create_img_layer.h"
 #include "free_res.h"
-#include "ft_libft.h"
 #include "mlx.h"
+#include "ft_libft.h"
 
 int	handle_player(t_game_info *game, int row, int col)
 {
@@ -71,16 +71,6 @@ int	handle_press_key(int keycode, t_game_info *game)
 	}
 	return (SUCCESS);
 }
-#include <stdio.h>
-int	click_x(t_game_info *game)
-{
-	int keycode = 0;
-	
-	// printf("%d\n", keycode);
-	if (keycode == XK_BUTTON_LEFT)
-		return (close_game(game->mlx, game));
-	return (SUCCESS);
-}
 
 int	close_game(t_mlx *vars, t_game_info *game)
 {
@@ -89,9 +79,3 @@ int	close_game(t_mlx *vars, t_game_info *game)
 	exit(EXIT_SUCCESS);
 }
 
-// int	click_x(t_game_info *game)
-// {
-// 	free_map_arr(game->map->arr);
-// 	free_mlx(game);
-// 	exit(EXIT_SUCCESS);
-// }

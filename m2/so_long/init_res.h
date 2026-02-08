@@ -1,22 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   handle_frame.h                                     :+:      :+:    :+:   */
+/*   init_res.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sohuikim <sohuikim@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/02/07 03:40:19 by sohuikim          #+#    #+#             */
-/*   Updated: 2026/02/09 07:55:39 by sohuikim         ###   ########.fr       */
+/*   Created: 2026/02/09 07:49:31 by sohuikim          #+#    #+#             */
+/*   Updated: 2026/02/09 07:52:30 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef HANDLE_FRAME_H
-# define HANDLE_FRAME_H
+#ifndef INIT_RES_H
+# define INIT_RES_H
 
-# include "so_long.h"
+#include "so_long.h"
 
-int	handle_player(t_game_info *game, int row, int col);
-int	handle_press_key(int keycode, t_game_info *game);
-int	close_game(t_mlx *vars, t_game_info *game);
+void	init_all_struct(t_mlx *vars, t_map_info *map, t_comp *cmp, t_game_info *game);
+void	init_win(t_mlx *m_vars, t_map_info *map);
 
 #endif

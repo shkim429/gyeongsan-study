@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   valid_map.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sohuikim <sohuikim@student.42gyeongsan.    +#+  +:+       +#+        */
+/*   By: sohuikim <sohuikim@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/19 16:44:34 by sohuikim          #+#    #+#             */
-/*   Updated: 2026/02/08 20:22:59 by sohuikim         ###   ########.fr       */
+/*   Updated: 2026/02/09 07:14:56 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ int	is_valid_game(t_map_info *map)
 		return (print_error("no exit path", "no exit path"), FAILURE);
 	return (SUCCESS);
 }
-
 int	is_enclosed_by_walls(t_map_info *map)
 {
 	if (!is_row_filled(map))

@@ -3,16 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   free_res.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sohuikim <sohuikim@student.42gyeongsan.    +#+  +:+       +#+        */
+/*   By: sohuikim <sohuikim@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/08 01:53:20 by sohuikim          #+#    #+#             */
-/*   Updated: 2026/02/08 21:53:53 by sohuikim         ###   ########.fr       */
+/*   Updated: 2026/02/09 07:55:33 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "so_long.h"
-#include <stdlib.h>
 #include "mlx.h"
+#include <stdlib.h>
 
 void	free_map_arr(char **map_arr)
 {
