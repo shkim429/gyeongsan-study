@@ -7,16 +7,16 @@ SRCS = so_long.c \
 	   load_res.c \
 	   create_img_layer.c \
 	   handle_frame.c \
-	   error.c
+	   error.c free_res.c
 
 OBJ_DIR = obj
 OBJS_FILES = $(addprefix $(OBJ_DIR)/, $(SRCS:.c=.o))
 LIBS_PATH = -L. \
 			-L./ft_libft \
-			-Lminilibx-linux
+			-L ../minilibx-linux
 
 LIBS_DIR_PATH = ./ft_libft 
-MLX_DIR_PATH = ./minilibx-linux
+MLX_DIR_PATH = ../minilibx-linux
 
 MLX_A = $(MLX_DIR_PATH)/libmlx.a
 
@@ -24,7 +24,7 @@ LIBS = -lftprintfgnl -lmlx -lXext -lX11
 
 INC = -I. \
 	  -I./ft_libft/include \
-	  -I./minilibx-linux
+	  -I../minilibx-linux
 
 all : $(NAME)
 

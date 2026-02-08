@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   valid_exit_path_utils.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sohuikim <sohuikim@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sohuikim <sohuikim@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/07 03:04:30 by sohuikim          #+#    #+#             */
-/*   Updated: 2026/02/07 03:55:43 by sohuikim         ###   ########.fr       */
+/*   Updated: 2026/02/08 20:22:45 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,7 @@
 #include "valid_map.h"
 #include "stdbool.h"
 
-/* plyaer 위치 찾기 */
-void	get_plyaer_pos(t_map *map)
+void	get_plyaer_pos(t_map_info *map)
 {
 	int	row;
 	int	col;
@@ -28,8 +27,8 @@ void	get_plyaer_pos(t_map *map)
 		{
 			if (map->arr[row][col] == 'P')
 			{
-				map->p_row = row;
-				map->p_col = col;
+				map->p_y = row;
+				map->p_x = col;
 				return ;
 			}
 			col++;
@@ -38,12 +37,13 @@ void	get_plyaer_pos(t_map *map)
 	}
 }
 
-/* exit_path 탐색 */
-void	dfs(t_map *map, int *visit_arr, int row, int col)
+void	dfs(t_map_info *map, int *visit_arr, int row, int col)
 {
 	if (row < 0 || row >= map->cnt_row || col < 0 || col >= map->cnt_col)
 		return ;
-	if (visit_arr[(row * map->cnt_col) + col] == TRUE || map->arr[row][col] == '1')
+	if (visit_arr[(row * map->cnt_col) + col] == TRUE)
+		return ;
+	if (map->arr[row][col] == '1')
 		return ;
 	if (map->arr[row][col] == 'C')
 		map->visit_cnt_c++;

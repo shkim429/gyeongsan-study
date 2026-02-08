@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   valid_wall_utils.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sohuikim <sohuikim@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sohuikim <sohuikim@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/07 03:23:51 by sohuikim          #+#    #+#             */
-/*   Updated: 2026/02/07 04:44:38 by sohuikim         ###   ########.fr       */
+/*   Updated: 2026/02/08 19:59:00 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,7 @@
 #include <fcntl.h>
 #include "ft_libft.h"
 
-/* 열의 엣지 데이터 = 1(wall) 확인 */
-int	is_col_filled(t_map *map)
+int	is_col_filled(t_map_info *map)
 {
 	int	row;
 	int	col;
@@ -24,7 +23,7 @@ int	is_col_filled(t_map *map)
 
 	col = 0;
 	i = 0;
-	while (i < 2) 
+	while (i < 2)
 	{
 		row = 0;
 		while (row < map->cnt_row)
@@ -32,7 +31,7 @@ int	is_col_filled(t_map *map)
 			if (map->arr[row][col] == '1')
 				row++;
 			else
-				return (FAILURE); // 할당된 메모리 free 필요
+				return (FAILURE);
 		}
 		col = map->cnt_col - 1;
 		i++;
@@ -40,8 +39,7 @@ int	is_col_filled(t_map *map)
 	return (SUCCESS);
 }
 
-/* 행의 엣지 데이터 = 1(wall) 확인 */
-int	is_row_filled(t_map *map)
+int	is_row_filled(t_map_info *map)
 {
 	int	row;
 	int	col;
@@ -57,9 +55,9 @@ int	is_row_filled(t_map *map)
 			if (map->arr[row][col] == '1')
 				col++;
 			else
-				return (FAILURE); // 할당된 메모리 free 필요
+				return (FAILURE);
 		}
-		if (map->arr[row][col] != '\n') // len_first_row < len_last_row인 경우
+		if (map->arr[row][col] == '\n' && map->arr[row][col] == '\0') // len_first_row < len_last_row인 경우
 			return (FAILURE);
 		row = map->cnt_row - 1;
 		i++;
@@ -67,7 +65,6 @@ int	is_row_filled(t_map *map)
 	return (SUCCESS);
 }
 
-/* 맵의 행 수 세기 */
 int	cnt_map_row(char *argv)
 {
 	int		fd;
@@ -91,8 +88,7 @@ int	cnt_map_row(char *argv)
 	return (cnt_map_row);
 }
 
-/* 맵의 열 수 세기 */
-int	cnt_map_col(t_map *map)
+int	cnt_map_col(t_map_info *map)
 {
 	int	i;
 	int	j;

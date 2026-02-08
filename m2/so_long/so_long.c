@@ -1,87 +1,102 @@
- /* ************************************************************************** */
+/* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   so_long.c                                         :+:      :+:    :+:   */
+/*   so_long.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sohuikim <sohuikim@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/01/14 03:08:58 by sohuikim          #+#    #+#             */
-/*   Updated: 2026/01/14 14:30:38 by sohuikim         ###   ########.fr       */
+/*   Created: 2026/02/07 23:25:44 by sohuikim          #+#    #+#             */
+/*   Updated: 2026/02/08 22:32:59 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 #include "valid_map.h"
-#include "error.h"
 #include "load_res.h"
-#include "ft_libft.h"
 #include "handle_frame.h"
 #include "create_img_layer.h"
+#include "error.h"
+#include "free_res.h"
+#include "ft_libft.h"
 #include "mlx.h"
+#include <X11/X.h>
+#include <X11/keysym.h>
 #include <stdlib.h>
+
+int	is_file_path(char *file_path);
 
 int	main(int argc, char *argv[])
 {
-	t_map	map;
-	t_ctx	ctx;
+	t_map_info	map;
 
 	if (argc <= 1)
-		return (FAILURE);
-	ft_bzero(&map, sizeof(t_map));
+		return (print_error("a few argv", "a few"), FAILURE);
+	ft_bzero(&map, sizeof(t_map_info));
 	if (!read_map(argv[1], &map))
 		return (FAILURE);
 	if (!is_valid_game(&map))
+		return (free_map_arr(map.arr), FAILURE);
+	if (!render_map(&map))
+		return (free_map_arr(map.arr), FAILURE);
+	return (free_map_arr(map.arr), SUCCESS);
+}
+
+int	render_map(t_map_info *map)
+{
+	t_mlx		m_vars;
+	t_comp		cmp;
+	t_game_info	game;
+
+	init_all_struct(&m_vars, &cmp, &game);
+	m_vars.mlx = mlx_init();
+	if (m_vars.mlx == NULL)
 		return (FAILURE);
-	if (!render_map(&map, &ctx))
+	init_win(&m_vars, map);
+	if (!load_res(&m_vars, &cmp))
 		return (FAILURE);
+	if (!create_bg_layer(&m_vars, &cmp, map))
+		return (FAILURE);
+	mlx_put_image_to_window(m_vars.mlx, m_vars.win, cmp.frame.img, 0, 0);
+	create_player_layer(&m_vars, &cmp, map);
+	setup_game_info(&game, &m_vars, &cmp, map);
+	mlx_hook(m_vars.win, 2, 1L << 0, handle_press_key, &game);
+	mlx_hook(m_vars.win, DestroyNotify, StructureNotifyMask, click_x, &game);
+	mlx_loop(m_vars.mlx);
 	return (SUCCESS);
 }
 
-/* 창에 맵 화면 띄우기 */
-int	render_map(t_map *map, t_ctx *ctx)
+void	setup_game_info(t_game_info *game, t_mlx *m_vars, t_comp *cmp, \
+						t_map_info *map)
 {
-	t_mlx_vars	vars;
-	t_img		buffer;
-	t_comp		cmp;
-	int			tile_size;
+	game->mlx = m_vars;
+	game->cmp = cmp;
+	game->map = map;
+}
+
+void	init_win(t_mlx *m_vars, t_map_info *map)
+{
+	int	tile_size;
 
 	tile_size = 50;
-	vars.mlx = mlx_init();
-	if (vars.mlx == NULL)
-		return (FAILURE);
-	// init_all_struct(&vars, &frame_buffer, &ts, &spr);
-	vars.win_x = tile_size * map->cnt_col;
-	vars.win_y = tile_size * map->cnt_row;
-	vars.win = mlx_new_window(vars.mlx, vars.win_x, vars.win_y, "Hello world");
-	buffer.img = mlx_new_image(vars.mlx, vars.win_x, vars.win_y);
-	buffer.addr = mlx_get_data_addr(buffer.img, &buffer.bits_per_pixel, &buffer.line_length, &buffer.endian);
-	if (!load_res(&vars, &cmp))
-		return (FAILURE);
-	create_bg_layer(&buffer, &cmp, map);
-	mlx_put_image_to_window(vars.mlx, vars.win, buffer.img, 0, 0);
-	create_player_layer(&vars, &cmp, map);
-	ctx->v = &vars;
-	ctx->i = &buffer;
-	ctx->m = map;
-	ctx->c = &cmp;
-	mlx_hook(vars.win, 2, 1L << 0, handle_press_key, ctx);
-	mlx_loop(vars.mlx);
-	return (SUCCESS);
+	m_vars->win_x = tile_size * map->cnt_col;
+	m_vars->win_y = tile_size * map->cnt_row;
+	m_vars->win = mlx_new_window(m_vars->mlx, m_vars->win_x, m_vars->win_y, \
+								"sohuikim");
 }
 
-
-/* map의 데이터 읽기 (arr 저장) (**메모리 free 필요 **)*/
-int	read_map(char *argv, t_map	*map)
+int	read_map(char *argv, t_map_info	*map)
 {
 	int		fd;
 	char	*map_data;
 	int		i;
 
+	if (!is_file_path(argv))
+		return (FAILURE);
 	fd = open(argv, O_RDONLY);
 	if (fd < 0)
-		return (FAILURE);
-	map->cnt_row = cnt_map_row(argv); // map의 행 cnt (arr의 calloc 목적)
-	map->arr = ft_calloc((map->cnt_row), sizeof(*(map->arr)));
+		return (print_error(argv, "wrong path"), exit(STDERR_FILENO), FAILURE);
+	map->cnt_row = cnt_map_row(argv);
+	map->arr = ft_calloc((map->cnt_row + 1), sizeof(*(map->arr)));
 	if (map->arr == NULL)
 		return (FAILURE);
 	i = 0;
@@ -93,19 +108,42 @@ int	read_map(char *argv, t_map	*map)
 			break ;
 	}
 	close(fd);
-	map->cnt_col = cnt_map_col(map); // 위치 검토 필요
+	map->cnt_col = cnt_map_col(map);
 	return (SUCCESS);
 }
 
-void	init_all_struct(t_mlx_vars *vars, t_img *frame, t_comp *cmp)
+int	is_file_path(char *file_path)
 {
-	ft_bzero(vars, sizeof(t_mlx_vars));
-	ft_bzero(frame, sizeof(t_img));
-	ft_bzero(cmp, sizeof(t_comp));
-	ft_bzero(cmp, sizeof(t_comp));
+	char	*file;
+
+	file = ft_strchr(file_path, '/');
+	if (file == NULL)
+		return (FAILURE);
+	if (*(file + 1) == '/' || *(file + 1) == '\0')
+		return (FAILURE);
+	return (SUCCESS);
 }
 
-int	close_game(t_mlx_vars *vars)
+int	load_res(const t_mlx *m_vars, t_comp *cmp)
 {
-	return (mlx_destroy_window(vars->mlx, vars->win), 0);
+	if (!load_floor_img(m_vars, cmp))
+		return (FAILURE);
+	if (!load_item_img(m_vars, cmp))
+		return (FAILURE);
+	if (!load_wall_img(m_vars, cmp))
+		return (FAILURE);
+	if (!load_exit_img(m_vars, cmp))
+		return (FAILURE);
+	if (!load_player_img(m_vars, cmp))
+		return (FAILURE);
+	return (SUCCESS);
 }
+
+void	init_all_struct(t_mlx *vars, t_comp *cmp, t_game_info *game)
+{
+	ft_bzero(vars, sizeof(t_mlx));
+	ft_bzero(cmp, sizeof(t_comp));
+	ft_bzero(game, sizeof(t_game_info));
+}
+
+

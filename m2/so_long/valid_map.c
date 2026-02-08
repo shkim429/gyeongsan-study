@@ -3,28 +3,30 @@
 /*                                                        :::      ::::::::   */
 /*   valid_map.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sohuikim <sohuikim@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sohuikim <sohuikim@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/19 16:44:34 by sohuikim          #+#    #+#             */
-/*   Updated: 2026/02/07 04:26:19 by sohuikim         ###   ########.fr       */
+/*   Updated: 2026/02/08 20:22:59 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "so_long.h"
 #include "valid_map.h"
 #include "ft_libft.h"
+#include "error.h"
 
-int	is_valid_game(t_map *map)
+int	is_valid_game(t_map_info *map)
 {
 	if (!is_enclosed_by_walls(map))
-		return (FAILURE);
+		return (print_error("not enclosed", "not enclosed by walls"), FAILURE);
 	if (!is_valid_cnt_spr(map))
-		return (FAILURE);
+		return (print_error("not enough comp", "not enough comp"), FAILURE);
 	if (!is_valid_exit_path(map))
+		return (print_error("no exit path", "no exit path"), FAILURE);
 	return (SUCCESS);
 }
 
-/* 벽 잘 닫혀 있는지 */
-int	is_enclosed_by_walls(t_map *map)
+int	is_enclosed_by_walls(t_map_info *map)
 {
 	if (!is_row_filled(map))
 		return (FAILURE);
@@ -33,15 +35,11 @@ int	is_enclosed_by_walls(t_map *map)
 	return (SUCCESS);
 }
 
-/* 요소가 적절히 있는지 */
-int	is_valid_cnt_spr(t_map *map)
+int	is_valid_cnt_spr(t_map_info *map)
 {
 	int	row;
 	int	col;
 
-	map->cnt_c = 0; // 3개 삭제 예정
-	map->cnt_p = 0;
-	map->cnt_e = 0;
 	row = 0;
 	while (row < map->cnt_row)
 	{
@@ -54,6 +52,8 @@ int	is_valid_cnt_spr(t_map *map)
 				map->cnt_e++;
 			else if (map->arr[row][col] == 'P')
 				map->cnt_p++;
+			else if (map->arr[row][col] != '0' && map->arr[row][col] != '1')
+				return (FAILURE);
 			col++;
 		}
 		row++;
@@ -64,8 +64,7 @@ map->cnt_e <= 0 || map->cnt_e > 1)
 	return (SUCCESS);
 }
 
-/* 탈출 경로가 있는지 */
-int	is_valid_exit_path(t_map *map)
+int	is_valid_exit_path(t_map_info *map)
 {
 	int	*visit_arr;
 
@@ -74,10 +73,11 @@ int	is_valid_exit_path(t_map *map)
 	visit_arr = malloc((map->cnt_row * map->cnt_col) * sizeof(*(visit_arr)));
 	if (visit_arr == NULL)
 		return (FAILURE);
-	ft_memset(visit_arr, FALSE, map->cnt_row * map->cnt_col);
+	ft_memset(visit_arr, FALSE, \
+		(map->cnt_row * map->cnt_col) * sizeof(*(visit_arr)));
 	get_plyaer_pos(map);
-	dfs(map, visit_arr, map->p_row, map->p_col);
+	dfs(map, visit_arr, map->p_y, map->p_x);
 	if (map->visit_cnt_c != map->cnt_c || map->visit_cnt_e != map->cnt_e)
-		return (FAILURE);
-	return (SUCCESS);
+		return (free(visit_arr), FAILURE);
+	return (free(visit_arr), SUCCESS);
 }

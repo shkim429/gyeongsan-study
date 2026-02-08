@@ -6,7 +6,7 @@
 /*   By: sohuikim <sohuikim@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/14 04:52:35 by sohuikim          #+#    #+#             */
-/*   Updated: 2026/02/07 15:27:17 by sohuikim         ###   ########.fr       */
+/*   Updated: 2026/02/08 22:14:07 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,10 @@
 # define XK_DOWN	0xff54
 # define XK_LEFT	0xff51
 # define XK_RIGHT	0xff53
-# define XK_BUTTON_LEFT	0xfee9
 
-typedef struct s_map
+# define XK_BUTTON_LEFT	1
+
+typedef struct s_map_info
 {
 	char	**arr;
 	int		cnt_row;
@@ -35,47 +36,54 @@ typedef struct s_map
 	int		cnt_e;
 	int		visit_cnt_c;
 	int		visit_cnt_e;
-	int		p_row;
-	int		p_col;
-}	t_map;
+	int		p_x;
+	int		p_y;
+	int		move_cnt;
+}	t_map_info;
 
-typedef struct s_img
+typedef struct s_img_info
 {
 	void	*img;
 	char	*addr;
-	int		bits_per_pixel;
-	int		line_length;
+	int		bpp;
+	int		line_len;
 	int		endian;
 	int		img_w;
 	int		img_h;
-}	t_img;
+}	t_img_info;
 
 typedef struct s_comp
 {
-	t_img	floor;
-	t_img	exit;
-	t_img	item;
-	t_img	p_r;
-	t_img	car_rd_r;
+	t_img_info	frame;
+	t_img_info	floor;
+	t_img_info	exit;
+	t_img_info	item;
+	t_img_info	player;
+	t_img_info	wall;
 }	t_comp;
 
-typedef struct s_mlx_vars // s_mlx_ctx로 변경하기
+typedef struct s_mlx
 {
 	void	*mlx;
 	void	*win;
 	int		win_x;
 	int		win_y;
-}	t_mlx_vars;
+}	t_mlx;
 
-typedef struct s_ctx
+typedef struct s_game_info
 {
-	t_mlx_vars	*v;
-	t_map		*m;
-	t_img		*i;
-	t_comp		*c;
-}	t_ctx;
+	t_mlx		*mlx;
+	t_map_info	*map;
+	t_comp		*cmp;
+}	t_game_info;
 
-int	read_map(char *argv, t_map	*map);
-int	render_map(t_map *map, t_ctx *ctx);
-int	close_game(t_mlx_vars *vars);
+int	read_map(char *argv, t_map_info	*map);
+int		render_map(t_map_info *map);
+void	init_win(t_mlx *m_vars, t_map_info *map);
+void	init_all_struct(t_mlx *vars, t_comp *cmp, t_game_info *game);
+void	setup_game_info(t_game_info *game, t_mlx *m_vars, t_comp *cmp, \
+						t_map_info *map);
+void	init_win(t_mlx *m_vars, t_map_info *map);
+int	load_res(const t_mlx *m_vars, t_comp *cmp);
+
 #endif
