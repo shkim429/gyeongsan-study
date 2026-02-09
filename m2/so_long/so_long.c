@@ -6,7 +6,7 @@
 /*   By: sohuikim <sohuikim@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/07 23:25:44 by sohuikim          #+#    #+#             */
-/*   Updated: 2026/02/09 14:41:05 by sohuikim         ###   ########.fr       */
+/*   Updated: 2026/02/09 15:24:06 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,6 @@ int	main(int argc, char *argv[])
 int	read_map(char *argv, t_map_info	*map)
 {
 	int		fd;
-	char	*map_data;
 	int		i;
 
 	if (is_dir(argv))
