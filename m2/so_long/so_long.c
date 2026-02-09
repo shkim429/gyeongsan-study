@@ -3,18 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   so_long.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sohuikim <sohuikim@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sohuikim <sohuikim@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/07 23:25:44 by sohuikim          #+#    #+#             */
-/*   Updated: 2026/02/09 07:58:18 by sohuikim         ###   ########.fr       */
+/*   Updated: 2026/02/09 14:41:05 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 #include "valid_map.h"
-#include "load_res.h"
 #include "handle_frame.h"
 #include "create_img_layer.h"
+#include "load_res.h"
+#include "setup_game_info.h"
+#include "init_res.h"
 #include "error.h"
 #include "free_res.h"
 #include "ft_libft.h"
@@ -29,16 +31,17 @@ int	main(int argc, char *argv[])
 	t_game_info	game;
 
 	if (argc <= 1)
-		return (print_error("a few argv", "a few"), FAILURE);
+		return (print_error("invalid number of arguments", \
+			"invalid number of arguments provided to program."), FAILURE);
 	init_all_struct(&m_vars, &map, &cmp, &game);
 	if (!read_map(argv[1], &map))
 		return (FAILURE);
 	if (!is_valid_game(&map))
 		return (free_map_arr(map.arr), FAILURE);
-	if (!render_map(&m_vars, &map, &cmp, &game))
+	if (!render_map(&m_vars, &map, &cmp))
 		return (free_map_arr(map.arr), FAILURE);
-	setup_game_info(game, m_vars, cmp, map);
-	play_game(game);
+	setup_game_info(&game, &m_vars, &cmp, &map);
+	play_game(&game);
 	return (free_map_arr(map.arr), SUCCESS);
 }
 
@@ -49,12 +52,13 @@ int	read_map(char *argv, t_map_info	*map)
 	int		i;
 
 	if (is_dir(argv))
-		return (FAILURE);
+		return (print_error(argv, "the file path is invalid."), FAILURE);
 	fd = open(argv, O_RDONLY);
 	if (fd < 0)
-		return (print_error(argv, "wrong path"), exit(STDERR_FILENO), FAILURE);
+		return (print_error(argv, "the file path is invalid."), \
+		exit(STDERR_FILENO), FAILURE);
 	map->cnt_row = cnt_map_row(argv);
-	map->arr = ft_calloc((map->cnt_row + 1), sizeof(*(map->arr)));
+	map->arr = ft_calloc((map->cnt_row + 1), sizeof(char *));
 	if (map->arr == NULL)
 		return (FAILURE);
 	i = 0;
@@ -70,9 +74,9 @@ int	read_map(char *argv, t_map_info	*map)
 	return (SUCCESS);
 }
 
-int	render_map(t_mlx *m_vars, t_map_info *map, t_comp *cmp, t_game_info *game)
+int	render_map(t_mlx *m_vars, t_map_info *map, t_comp *cmp)
 {
-	m_var->mlx = mlx_init();
+	m_vars->mlx = mlx_init();
 	if (m_vars->mlx == NULL)
 		return (FAILURE);
 	init_win(m_vars, map);
@@ -85,11 +89,11 @@ int	render_map(t_mlx *m_vars, t_map_info *map, t_comp *cmp, t_game_info *game)
 	return (SUCCESS);
 }
 
-void play_game(t_game_info *game)
+void	play_game(t_game_info *game)
 {
-	mlx_hook(m_vars.win, 2, 1L << 0, handle_press_key, &game);
-	mlx_hook(m_vars.win, 17, 1L << 17, click_x, &game);
-	mlx_loop(m_vars.mlx);
+	mlx_hook(game->mlx->win, 2, 1L << 0, handle_press_key, game);
+	mlx_hook(game->mlx->win, 17, 1L << 17, close_game, game);
+	mlx_loop(game->mlx->mlx);
 }
 
 int	is_dir(char *file_path)

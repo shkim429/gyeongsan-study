@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   create_img_layer.h                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sohuikim <sohuikim@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sohuikim <sohuikim@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/07 04:16:05 by sohuikim          #+#    #+#             */
-/*   Updated: 2026/02/09 07:48:59 by sohuikim         ###   ########.fr       */
+/*   Updated: 2026/02/09 10:54:07 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

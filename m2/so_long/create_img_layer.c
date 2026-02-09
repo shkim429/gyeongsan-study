@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   create_img_layer.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sohuikim <sohuikim@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sohuikim <sohuikim@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/07 04:05:07 by sohuikim          #+#    #+#             */
-/*   Updated: 2026/02/09 07:48:38 by sohuikim         ###   ########.fr       */
+/*   Updated: 2026/02/09 13:53:27 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,10 @@ int	create_bg_layer(t_mlx *m_vars, t_comp *cmp, t_map_info *map)
 		return (FAILURE);
 	cmp->frame.addr = mlx_get_data_addr(cmp->frame.img, &cmp->frame.bpp, \
 		&cmp->frame.line_len, &cmp->frame.endian);
-	create_terrian_layer(&cmp->frame, &cmp->floor, map);
+	create_terrian_layer(&cmp->frame, cmp, map);
 	create_obj_layer(&cmp->frame, cmp, map);
 	return (SUCCESS);
 }
-
 
 void	create_terrian_layer(t_img_info *dst, t_comp *cmp, t_map_info *map)
 {
@@ -44,8 +43,8 @@ void	create_terrian_layer(t_img_info *dst, t_comp *cmp, t_map_info *map)
 				copy_tile(dst, &cmp->wall, \
 					cmp->wall.img_h * row, cmp->wall.img_w * col);
 			else
-				copy_tile(dst, &cmp->floor, \
-					cmp->floor.img_h * row, cmp->floor.img_w * col);
+				copy_tile(dst, &cmp->gnd, \
+					cmp->gnd.img_h * row, cmp->gnd.img_w * col);
 			col++;
 		}
 		row++;

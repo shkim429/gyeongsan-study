@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   valid_wall_utils.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sohuikim <sohuikim@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sohuikim <sohuikim@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/07 03:23:51 by sohuikim          #+#    #+#             */
-/*   Updated: 2026/02/09 07:27:20 by sohuikim         ###   ########.fr       */
+/*   Updated: 2026/02/09 13:54:23 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ int	is_row_filled(t_map_info *map)
 			else
 				return (FAILURE);
 		}
-		if (map->arr[row][col] == '\n' && map->arr[row][col] == '\0') // len_first_row < len_last_row인 경우
+		if (map->arr[row][col] == '\n' && map->arr[row][col] == '\0')
 			return (FAILURE);
 		row = map->cnt_row - 1;
 		i++;

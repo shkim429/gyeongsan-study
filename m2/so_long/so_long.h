@@ -6,7 +6,7 @@
 /*   By: sohuikim <sohuikim@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/14 04:52:35 by sohuikim          #+#    #+#             */
-/*   Updated: 2026/02/08 22:14:07 by sohuikim         ###   ########.fr       */
+/*   Updated: 2026/02/09 13:51:42 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ typedef struct s_img_info
 typedef struct s_comp
 {
 	t_img_info	frame;
-	t_img_info	floor;
+	t_img_info	gnd;
 	t_img_info	exit;
 	t_img_info	item;
 	t_img_info	player;
@@ -77,13 +77,9 @@ typedef struct s_game_info
 	t_comp		*cmp;
 }	t_game_info;
 
-int	read_map(char *argv, t_map_info	*map);
-int		render_map(t_map_info *map);
-void	init_win(t_mlx *m_vars, t_map_info *map);
-void	init_all_struct(t_mlx *vars, t_comp *cmp, t_game_info *game);
-void	setup_game_info(t_game_info *game, t_mlx *m_vars, t_comp *cmp, \
-						t_map_info *map);
-void	init_win(t_mlx *m_vars, t_map_info *map);
-int	load_res(const t_mlx *m_vars, t_comp *cmp);
+int		read_map(char *argv, t_map_info	*map);
+int		render_map(t_mlx *m_vars, t_map_info *map, t_comp *cmp);
+void	play_game(t_game_info *game);
+int		is_dir(char *file_path);
 
 #endif

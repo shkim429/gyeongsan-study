@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   load_res.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sohuikim <sohuikim@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sohuikim <sohuikim@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/19 16:32:52 by sohuikim          #+#    #+#             */
-/*   Updated: 2026/02/09 07:40:06 by sohuikim         ###   ########.fr       */
+/*   Updated: 2026/02/09 13:53:59 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,12 +30,12 @@ int	load_res(t_mlx *m_vars, t_comp *cmp)
 
 int	load_terrian_img(t_mlx *vars, t_comp *cmp)
 {
-	cmp->floor.img = mlx_xpm_file_to_image(vars->mlx, \
-"./textures/gnd.xpm", &cmp->floor.img_w, &cmp->floor.img_h);
-	if (cmp->floor.img == NULL)
+	cmp->gnd.img = mlx_xpm_file_to_image(vars->mlx, \
+"./textures/gnd.xpm", &cmp->gnd.img_w, &cmp->gnd.img_h);
+	if (cmp->gnd.img == NULL)
 		return (FAILURE);
-	cmp->floor.addr = mlx_get_data_addr(cmp->floor.img, \
-&cmp->floor.bpp, &cmp->floor.line_len, &cmp->floor.endian);
+	cmp->gnd.addr = mlx_get_data_addr(cmp->gnd.img, \
+&cmp->gnd.bpp, &cmp->gnd.line_len, &cmp->gnd.endian);
 	cmp->wall.img = mlx_xpm_file_to_image(vars->mlx, \
 "./textures/wall.xpm", &cmp->wall.img_w, &cmp->wall.img_h);
 	if (cmp->wall.img == NULL)
@@ -78,4 +78,3 @@ int	load_player_img(t_mlx *vars, t_comp *cmp)
 &cmp->player.bpp, &cmp->player.line_len, &cmp->player.endian);
 	return (SUCCESS);
 }
-

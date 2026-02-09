@@ -1,12 +1,13 @@
 NAME = so_long
 CC = cc
-CFLAGS = $(INC) -g
+CFLAGS = -Wall -Wextra -Werror $(INC)
 RM = rm -rf
 SRCS = so_long.c \
 	   valid_map.c valid_wall_utils.c valid_exit_path_utils.c \
 	   load_res.c \
 	   create_img_layer.c \
 	   handle_frame.c \
+	   init_res.c setup_game_info.c \
 	   error.c free_res.c
 
 OBJ_DIR = obj

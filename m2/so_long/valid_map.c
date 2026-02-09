@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   valid_map.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sohuikim <sohuikim@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sohuikim <sohuikim@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/19 16:44:34 by sohuikim          #+#    #+#             */
-/*   Updated: 2026/02/09 07:14:56 by sohuikim         ###   ########.fr       */
+/*   Updated: 2026/02/09 14:38:50 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,17 @@
 int	is_valid_game(t_map_info *map)
 {
 	if (!is_enclosed_by_walls(map))
-		return (print_error("not enclosed", "not enclosed by walls"), FAILURE);
+		return (print_error("invalid map format", \
+				"map is not enclosed by walls."), FAILURE);
 	if (!is_valid_cnt_spr(map))
-		return (print_error("not enough comp", "not enough comp"), FAILURE);
+		return (print_error("invalid map format", \
+				"map element count or format is invalid."), FAILURE);
 	if (!is_valid_exit_path(map))
-		return (print_error("no exit path", "no exit path"), FAILURE);
+		return (print_error("invalid map format", \
+				"no valid path to exit."), FAILURE);
 	return (SUCCESS);
 }
+
 int	is_enclosed_by_walls(t_map_info *map)
 {
 	if (!is_row_filled(map))

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   setup_game_info.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sohuikim <sohuikim@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sohuikim <sohuikim@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/09 06:54:56 by sohuikim          #+#    #+#             */
-/*   Updated: 2026/02/09 07:17:26 by sohuikim         ###   ########.fr       */
+/*   Updated: 2026/02/09 13:11:47 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
