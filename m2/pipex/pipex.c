@@ -6,7 +6,7 @@
 /*   By: sohuikim <sohuikim@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/01 01:47:28 by sohuikim          #+#    #+#             */
-/*   Updated: 2026/02/07 23:12:18 by sohuikim         ###   ########.fr       */
+/*   Updated: 2026/02/09 19:43:44 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,40 +20,51 @@
 #include <string.h>
 #include <unistd.h>
 #include "ft_libft.h"
+#include "free_res.h"
 
 int		valid_file(char *pathname, char *name);
 int		get_idx_chr(char *str, char c);
 int		split_path_dirs(char **envp, t_pipe_util *util);
-int	cnt_input_cmds(int argc);
+int		cnt_input_cmds(int argc);
 int		get_cmd_list(int argc, char	**argv, t_pipe_util *util);
 char	*find_exec_path(t_pipe_util *arr, char *cmd);
 int		create(t_pipe_util *util, t_fd *fd, char **argv, char **envp);
 void	print_errno(char **argv, char *error_obj);
-int	exec_child_p(int i, t_fd *fd, t_pipe_util *util, char **envp, char **argv);
-int	test(t_pipe_util *path, t_fd *fd, char **envp, char **argv);
-int	exec_last_cmd(int i, t_pipe_util *util, t_fd *fd, char **envp, char **argv);
-int	exec_cmd(int i, t_pipe_util *util, t_fd *fd, char **envp, char **argv);
+int		exec_child_p(int i, t_fd *fd, t_pipe_util *util, char **envp, char **argv);
+int		test(t_pipe_util *path, t_fd *fd, char **envp, char **argv);
+int		exec_last_cmd(int i, t_pipe_util *util, t_fd *fd, char **envp, char **argv);
+int		exec_cmd(int i, t_pipe_util *util, t_fd *fd, char **envp, char **argv);
 void	print_cur_exe_name(char **argv);
 void	print_error_msg(char **argv, char *error_obj);
 void	print_errno(char **argv, char *error_obj);
+void	init_all_struct(t_pipe_util *util, t_fd *fd);
+
+#include <stdio.h>
 
 int	main(int argc, char **argv, char **envp)
 {
 	t_pipe_util	path;
 	t_fd		fd;
-	int			i;
 
 	if (argc != 5)
 		return (FAILURE);
 	else
 	{
-		i = 0;
+		init_all_struct(&path, &fd);
 		if (!split_path_dirs(envp, &path))
-			return (FAILURE); // path->dirs_path free 필요 (char **)
+			return (FAILURE);
 		if (!get_cmd_list(argc, argv, &path))
-			return (FAILURE); // path->cmd_list free 필요 (char ***)
-		create(&path, &fd, argv, envp);
+			return (free_res(&path, &fd), FAILURE); // util->dirs_path free 필요, cmd_list[j] free 
+		if (create(&path, &fd, argv, envp))
+			return (free_res(&path, &fd), FAILURE);
+		return (free_res(&path, &fd), SUCCESS);
 	}
+}
+
+void	init_all_struct(t_pipe_util *util, t_fd *fd)
+{
+	ft_bzero(util, sizeof(t_pipe_util));
+	ft_bzero(fd, sizeof(t_fd));
 }
 
 int	test(t_pipe_util *util, t_fd *fd, char **envp, char **argv)
@@ -161,7 +172,7 @@ int	get_cmd_list(int argc, char	**argv, t_pipe_util *util)
 	int		j;
 
 	util->cnt_cmds = cnt_input_cmds(argc);
-	util->cmd_list = ft_calloc(util->cnt_cmds, sizeof(*(util->cmd_list)));
+	util->cmd_list = ft_calloc(util->cnt_cmds + 1, sizeof(*(util->cmd_list)));
 	if (util->cmd_list == NULL)
 		return (FAILURE);
 	i = 2;
@@ -194,7 +205,7 @@ char	*find_exec_path(t_pipe_util *util, char *cmd) // 추가 예외 처리 필�
 		else
 			i++;
 	}
-	return ((void *)0); // 직접 문구 처리 필요
+	return (NULL); // 직접 문구 처리 필요
 }
 
 int	create(t_pipe_util *util, t_fd *fd, char **argv, char **envp)
@@ -219,6 +230,8 @@ int	split_path_dirs(char **envp, t_pipe_util *util)
 	int	n;
 
 	i = 0;
+	if (envp == NULL)
+		return (FAILURE);
 	while (envp[i] != NULL)
 	{
 		n = get_idx_chr(envp[i], '=');

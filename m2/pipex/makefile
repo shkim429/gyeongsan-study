@@ -2,7 +2,8 @@ NAME = pipex
 CC = cc
 CFLAGS = $(INC) -g
 RM = rm -rf
-SRCS = pipex.c
+SRCS = pipex.c \
+	   free_res.c
 
 OBJ_DIR = obj
 OBJS_FILES = $(addprefix $(OBJ_DIR)/, $(SRCS:.c=.o))
