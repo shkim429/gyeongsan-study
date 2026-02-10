@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sohuikim <sohuikim@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sohuikim <sohuikim@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/01 01:47:28 by sohuikim          #+#    #+#             */
-/*   Updated: 2026/02/11 02:33:57 by sohuikim         ###   ########.fr       */
+/*   Updated: 2026/02/11 02:55:30 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,6 @@ void	print_error_msg(char **argv, char *error_obj);
 void	print_errno(char **argv, char *error_obj);
 void	init_all_struct(t_pipe_util *util, t_fd *fd);
 
-#include <stdio.h>
-
 int	main(int argc, char **argv, char **envp)
 {
 	t_pipe_util	path;
@@ -54,7 +52,7 @@ int	main(int argc, char **argv, char **envp)
 		if (!split_path_dirs(envp, &path))
 			return (FAILURE);
 		if (!get_cmd_list(argc, argv, &path))
-			return (free_res(&path, &fd), FAILURE); // util->dirs_path free 필요, cmd_list[j] free 
+			return (free_res(&path, &fd), FAILURE);
 		if (create(&path, &fd, argv, envp))
 			return (free_res(&path, &fd), FAILURE);
 		return (free_res(&path, &fd), SUCCESS);
@@ -128,14 +126,16 @@ int	exec_cmd(int i, t_pipe_util *util, t_fd *fd, char **envp, char **argv)
 	}
 	else if (fd->child_pid[i] == 0)
 	{
-		fd->infile_fd = open(argv[1], O_RDONLY);
-		if (fd->infile_fd == -1)
+		if (i == 0)
 		{
-			print_errno(argv, argv[1]);
-			exit(EXIT_FAILURE), FAILURE;
+		fd->infile_fd = open(argv[1], O_RDONLY);
+			if (fd->infile_fd == -1)
+			{
+				print_errno(argv, argv[1]);
+				exit(EXIT_FAILURE);
+			}
 		}
 		exec_child_p(i, fd, util, envp, argv);
-
 	}
 	fd->input_fd = fd->pd[0];
 	return (SUCCESS);
@@ -227,18 +227,11 @@ char	*find_exec_path(t_pipe_util *util, char *cmd) // 추가 예외 처리 필�
 			i++;
 		}
 	}
-	return (NULL); // 직접 문구 처리 필요
+	return (NULL);
 }
 
 int	create(t_pipe_util *util, t_fd *fd, char **argv, char **envp)
 {
-	// fd->infile_fd = open(argv[1], O_RDONLY);
-	
-	// fd->outfile_fd = open(argv[4], O_WRONLY | O_TRUNC | O_CREAT, 0644);
-	// if (fd->outfile_fd == -1)
-	// 	print_errno(argv, argv[4]);
-	// if (fd->outfile_fd == -1 && fd->infile_fd == -1)
-		return(FAILURE); // 프로그램 종료 하기
 	if (!test(util, fd, envp, argv))
 		return (FAILURE);
 	return (SUCCESS);
