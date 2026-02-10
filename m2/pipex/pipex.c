@@ -6,7 +6,7 @@
 /*   By: sohuikim <sohuikim@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/01 01:47:28 by sohuikim          #+#    #+#             */
-/*   Updated: 2026/02/11 02:55:30 by sohuikim         ###   ########.fr       */
+/*   Updated: 2026/02/11 05:31:29 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 #include <sys/stat.h>
 #include <sys/wait.h>
 #include <fcntl.h>
-#include <errno.h>
 #include <stdio.h>
 #include <string.h>
 #include <unistd.h>
@@ -53,7 +52,7 @@ int	main(int argc, char **argv, char **envp)
 			return (FAILURE);
 		if (!get_cmd_list(argc, argv, &path))
 			return (free_res(&path, &fd), FAILURE);
-		if (create(&path, &fd, argv, envp))
+		if (!test(&path, &fd, envp, argv))
 			return (free_res(&path, &fd), FAILURE);
 		return (free_res(&path, &fd), SUCCESS);
 	}
@@ -73,7 +72,7 @@ int	test(t_pipe_util *util, t_fd *fd, char **envp, char **argv)
 	if (fd->child_pid == NULL)
 		return (FAILURE);
 	i = 0;
-	fd->input_fd = fd->infile_fd;
+	// fd->input_fd = fd->infile_fd;
 	while (i < util->cnt_cmds)
 	{
 		if (i == util->cnt_cmds - 1)
@@ -104,6 +103,7 @@ int	exec_last_cmd(int i, t_pipe_util *util, t_fd *fd, char **envp, char **argv)
 		if (fd->outfile_fd == -1)
 		{
 			print_errno(argv, argv[4]);
+			free_res(util, fd);
 			exit(EXIT_FAILURE);
 		}
 
@@ -122,18 +122,18 @@ int	exec_cmd(int i, t_pipe_util *util, t_fd *fd, char **envp, char **argv)
 	if (fd->child_pid[i] > 0)
 	{
 		close(fd->pd[1]);
-		close(fd->input_fd);
+		if (i > 0)
+			close(fd->input_fd);
 	}
 	else if (fd->child_pid[i] == 0)
 	{
 		if (i == 0)
 		{
-		fd->infile_fd = open(argv[1], O_RDONLY);
+			fd->infile_fd = open(argv[1], O_RDONLY);
 			if (fd->infile_fd == -1)
-			{
-				print_errno(argv, argv[1]);
-				exit(EXIT_FAILURE);
-			}
+				return (print_errno(argv, argv[1]), (free_res(util, fd), \
+				exit(EXIT_FAILURE), FAILURE));
+			fd->input_fd = fd->infile_fd;
 		}
 		exec_child_p(i, fd, util, envp, argv);
 	}
@@ -162,13 +162,13 @@ int	exec_child_p(int i, t_fd *fd, t_pipe_util *util, char **envp, char **argv)
 	if (exec_path == NULL || execve(exec_path, util->cmd_list[i], envp) == -1)
 	{
 		print_error_msg(argv, *(util->cmd_list[i]));
+		free_res(util, fd);
 		free(exec_path);
 		exit(EXIT_FAILURE);
 	}
-	return (SUCCESS);
+	return (free(exec_path), SUCCESS);
 }
 
-/* 명령어 개수 세기 */
 int	cnt_input_cmds(int argc)
 {
 	int	cnt_cmds;
@@ -184,7 +184,6 @@ int	cnt_input_cmds(int argc)
 	return (cnt_cmds);
 }
 
-/* input cmds 배열화 */
 int	get_cmd_list(int argc, char	**argv, t_pipe_util *util)
 {
 	int		i;
@@ -207,8 +206,7 @@ int	get_cmd_list(int argc, char	**argv, t_pipe_util *util)
 	return (SUCCESS);
 }
 
-/* cmd_path 실행 가능 여부 확인 */
-char	*find_exec_path(t_pipe_util *util, char *cmd) // 추가 예외 처리 필요
+char	*find_exec_path(t_pipe_util *util, char *cmd)
 {
 	char	*path_prefix;
 	char	*exec_path;
@@ -219,7 +217,8 @@ char	*find_exec_path(t_pipe_util *util, char *cmd) // 추가 예외 처리 필�
 	{
 		path_prefix = ft_strjoin(util->dirs_path[i], "/");
 		exec_path = ft_strjoin(path_prefix, cmd);
-		if (access(exec_path, X_OK) != -1) // 실행 못 하면 건너뛰기
+		free(path_prefix);
+		if (access(exec_path, X_OK) != -1)
 			return (exec_path);
 		else
 		{
@@ -230,14 +229,7 @@ char	*find_exec_path(t_pipe_util *util, char *cmd) // 추가 예외 처리 필�
 	return (NULL);
 }
 
-int	create(t_pipe_util *util, t_fd *fd, char **argv, char **envp)
-{
-	if (!test(util, fd, envp, argv))
-		return (FAILURE);
-	return (SUCCESS);
-}
 
-/* 디렉터리별 path 추출 */
 int	split_path_dirs(char **envp, t_pipe_util *util)
 {
 	int	i;
@@ -262,11 +254,10 @@ int	split_path_dirs(char **envp, t_pipe_util *util)
 		}
 		i++;
 	}
-	return (FAILURE); // path가 없는 경우
+	return (FAILURE);
 }
 
 
-/* PATH 문자열 탐색할 idx 찾기 */
 int	get_idx_chr(char *str, char c)
 {
 	int	i;
@@ -281,21 +272,4 @@ int	get_idx_chr(char *str, char c)
 	return (i);
 }
 
-void	print_errno(char **argv, char *error_obj)
-{
-	print_cur_exe_name(argv);
-	perror(error_obj);
-}
 
-void	print_error_msg(char **argv, char *error_obj)
-{
-	print_cur_exe_name(argv);
-	write(2, "command not found: ", ft_strlen("command not found: "));
-	write(2, error_obj, ft_strlen(error_obj));
-	write(2, "\n", 2);
-}
-void	print_cur_exe_name(char **argv)
-{
-	write(2, argv[0], ft_strlen(argv[0]));
-	write(2, ": ", 2);
-}

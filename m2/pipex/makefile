@@ -3,6 +3,7 @@ CC = cc
 CFLAGS = $(INC) -g
 RM = rm -rf
 SRCS = pipex.c \
+	   print_msg.c \
 	   free_res.c
 
 OBJ_DIR = obj
