@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sohuikim <sohuikim@student.42gyeongsan.    +#+  +:+       +#+        */
+/*   By: sohuikim <sohuikim@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/01 01:47:28 by sohuikim          #+#    #+#             */
-/*   Updated: 2026/02/09 19:43:44 by sohuikim         ###   ########.fr       */
+/*   Updated: 2026/02/11 02:33:57 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,16 @@ int	exec_last_cmd(int i, t_pipe_util *util, t_fd *fd, char **envp, char **argv)
 	if (fd->child_pid[i] > 0)
 		close(fd->input_fd);
 	else if (fd->child_pid[i] == 0)
+	{
+		fd->outfile_fd = open(argv[4], O_WRONLY | O_TRUNC | O_CREAT, 0644);
+		if (fd->outfile_fd == -1)
+		{
+			print_errno(argv, argv[4]);
+			exit(EXIT_FAILURE);
+		}
+
 		exec_child_p(i, fd, util, envp, argv);
+	}
 	return (SUCCESS);
 }
 
@@ -118,7 +127,16 @@ int	exec_cmd(int i, t_pipe_util *util, t_fd *fd, char **envp, char **argv)
 		close(fd->input_fd);
 	}
 	else if (fd->child_pid[i] == 0)
+	{
+		fd->infile_fd = open(argv[1], O_RDONLY);
+		if (fd->infile_fd == -1)
+		{
+			print_errno(argv, argv[1]);
+			exit(EXIT_FAILURE), FAILURE;
+		}
 		exec_child_p(i, fd, util, envp, argv);
+
+	}
 	fd->input_fd = fd->pd[0];
 	return (SUCCESS);
 }
@@ -141,11 +159,12 @@ int	exec_child_p(int i, t_fd *fd, t_pipe_util *util, char **envp, char **argv)
 		dup2(fd->pd[1], 1);
 		close(fd->pd[1]);
 	}
-	if (exec_path == NULL)
-		if (exec_path == NULL)
-			return (print_error_msg(argv, *(util->cmd_list[i])), FAILURE);
-	if (execve(exec_path, util->cmd_list[i], envp) == -1)
-		return (print_errno(argv, *(util->cmd_list[i])), FAILURE);
+	if (exec_path == NULL || execve(exec_path, util->cmd_list[i], envp) == -1)
+	{
+		print_error_msg(argv, *(util->cmd_list[i]));
+		free(exec_path);
+		exit(EXIT_FAILURE);
+	}
 	return (SUCCESS);
 }
 
@@ -198,25 +217,27 @@ char	*find_exec_path(t_pipe_util *util, char *cmd) // 추가 예외 처리 필�
 	i = 0;
 	while (util->dirs_path[i] != NULL)
 	{
-		path_prefix = append_str(util->dirs_path[i], "/");
-		exec_path = append_str(path_prefix, cmd);
+		path_prefix = ft_strjoin(util->dirs_path[i], "/");
+		exec_path = ft_strjoin(path_prefix, cmd);
 		if (access(exec_path, X_OK) != -1) // 실행 못 하면 건너뛰기
 			return (exec_path);
 		else
+		{
+			free(exec_path);
 			i++;
+		}
 	}
 	return (NULL); // 직접 문구 처리 필요
 }
 
 int	create(t_pipe_util *util, t_fd *fd, char **argv, char **envp)
 {
-	fd->infile_fd = open(argv[1], O_RDONLY);
-	if (fd->infile_fd == -1)
-		print_errno(argv, argv[1]);
-	fd->outfile_fd = open(argv[4], O_WRONLY | O_TRUNC | O_CREAT, 0644);
-	if (fd->outfile_fd == -1)
-		print_errno(argv, argv[4]);
-	if (fd->outfile_fd == -1 && fd->infile_fd == -1)
+	// fd->infile_fd = open(argv[1], O_RDONLY);
+	
+	// fd->outfile_fd = open(argv[4], O_WRONLY | O_TRUNC | O_CREAT, 0644);
+	// if (fd->outfile_fd == -1)
+	// 	print_errno(argv, argv[4]);
+	// if (fd->outfile_fd == -1 && fd->infile_fd == -1)
 		return(FAILURE); // 프로그램 종료 하기
 	if (!test(util, fd, envp, argv))
 		return (FAILURE);
