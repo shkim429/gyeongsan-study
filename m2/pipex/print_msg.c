@@ -6,12 +6,14 @@
 /*   By: sohuikim <sohuikim@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/11 03:13:57 by sohuikim          #+#    #+#             */
-/*   Updated: 2026/02/11 03:29:40 by sohuikim         ###   ########.fr       */
+/*   Updated: 2026/02/11 16:23:47 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 #include <errno.h>
+#include "libft.h"
+#include <stdio.h>
 
 void	print_cur_exe_name(char **argv)
 {

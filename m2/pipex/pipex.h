@@ -6,7 +6,7 @@
 /*   By: sohuikim <sohuikim@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/01 01:47:41 by sohuikim          #+#    #+#             */
-/*   Updated: 2026/02/09 15:40:00 by sohuikim         ###   ########.fr       */
+/*   Updated: 2026/02/11 20:44:06 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@
 typedef struct s_pipe_util
 {
 	char	**dirs_path;
+	// t_cmd	*head;
+	// int		cmd_size;
 	char	***cmd_list;
 	int		cnt_cmds;
 }	t_pipe_util;
@@ -36,3 +38,33 @@ typedef struct s_fd
 }	t_fd;
 
 #endif
+// "ls -l" 
+// typedef struct s_cmd
+// {
+// 	char			**cmd;
+//	int				pipe[2];
+// 	struct s_cmd	*next;
+// 	struct s_cmd	*prev;
+// }	t_cmd;
+
+// typedef struct s_list
+// {
+// 	t_cmd	*head;
+// 	t_cmd	*tail;
+// 	int		size;
+// 	char	*in_file;
+// 	char	*out_file;
+// 	int		in_fd;
+// 	int		out_fd;
+// }	t_list;
+
+
+// prev
+// dupread
+// close()
+// close()
+
+// dup (read);
+// close()
+// close()
+

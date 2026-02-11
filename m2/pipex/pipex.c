@@ -6,7 +6,7 @@
 /*   By: sohuikim <sohuikim@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/01 01:47:28 by sohuikim          #+#    #+#             */
-/*   Updated: 2026/02/11 05:31:29 by sohuikim         ###   ########.fr       */
+/*   Updated: 2026/02/11 19:30:02 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 #include <sys/stat.h>
 #include <sys/wait.h>
 #include <fcntl.h>
+#include <stdbool.h>
 #include <stdio.h>
 #include <string.h>
 #include <unistd.h>
@@ -29,14 +30,17 @@ int		get_cmd_list(int argc, char	**argv, t_pipe_util *util);
 char	*find_exec_path(t_pipe_util *arr, char *cmd);
 int		create(t_pipe_util *util, t_fd *fd, char **argv, char **envp);
 void	print_errno(char **argv, char *error_obj);
-int		exec_child_p(int i, t_fd *fd, t_pipe_util *util, char **envp, char **argv);
-int		test(t_pipe_util *path, t_fd *fd, char **envp, char **argv);
+void	exec_child_p(int i, t_fd *fd, t_pipe_util *util, char **envp, char **argv);
+int		run_cmd(t_pipe_util *path, t_fd *fd, char **envp, char **argv);
 int		exec_last_cmd(int i, t_pipe_util *util, t_fd *fd, char **envp, char **argv);
 int		exec_cmd(int i, t_pipe_util *util, t_fd *fd, char **envp, char **argv);
 void	print_cur_exe_name(char **argv);
 void	print_error_msg(char **argv, char *error_obj);
 void	print_errno(char **argv, char *error_obj);
 void	init_all_struct(t_pipe_util *util, t_fd *fd);
+int 	prepare_for_first(t_pipe_util *util, t_fd *fd, char **argv);
+bool	prepare_io(int i, t_fd *fd, t_pipe_util *util);
+
 
 int	main(int argc, char **argv, char **envp)
 {
@@ -44,18 +48,22 @@ int	main(int argc, char **argv, char **envp)
 	t_fd		fd;
 
 	if (argc != 5)
-		return (FAILURE);
-	else
+		return (EXIT_FAILURE);
+	init_all_struct(&path, &fd);
+	if (!split_path_dirs(envp, &path))
+		return (EXIT_FAILURE);
+	if (!get_cmd_list(argc, argv, &path))
 	{
-		init_all_struct(&path, &fd);
-		if (!split_path_dirs(envp, &path))
-			return (FAILURE);
-		if (!get_cmd_list(argc, argv, &path))
-			return (free_res(&path, &fd), FAILURE);
-		if (!test(&path, &fd, envp, argv))
-			return (free_res(&path, &fd), FAILURE);
-		return (free_res(&path, &fd), SUCCESS);
+		free_res(&path, &fd);
+		return (EXIT_FAILURE);
 	}
+	if (!run_cmd(&path, &fd, envp, argv))
+	{
+		free_res(&path, &fd);
+		return (EXIT_FAILURE);
+	}
+	free_res(&path, &fd);
+	return (EXIT_SUCCESS);
 }
 
 void	init_all_struct(t_pipe_util *util, t_fd *fd)
@@ -64,7 +72,7 @@ void	init_all_struct(t_pipe_util *util, t_fd *fd)
 	ft_bzero(fd, sizeof(t_fd));
 }
 
-int	test(t_pipe_util *util, t_fd *fd, char **envp, char **argv)
+int	run_cmd(t_pipe_util *util, t_fd *fd, char **envp, char **argv)
 {
 	int	i;
 
@@ -99,6 +107,7 @@ int	exec_last_cmd(int i, t_pipe_util *util, t_fd *fd, char **envp, char **argv)
 		close(fd->input_fd);
 	else if (fd->child_pid[i] == 0)
 	{
+		close(fd->input_fd);
 		fd->outfile_fd = open(argv[4], O_WRONLY | O_TRUNC | O_CREAT, 0644);
 		if (fd->outfile_fd == -1)
 		{
@@ -106,8 +115,10 @@ int	exec_last_cmd(int i, t_pipe_util *util, t_fd *fd, char **envp, char **argv)
 			free_res(util, fd);
 			exit(EXIT_FAILURE);
 		}
-
 		exec_child_p(i, fd, util, envp, argv);
+		close(fd->outfile_fd);
+		free_res(util, fd);
+		exit(EXIT_FAILURE);
 	}
 	return (SUCCESS);
 }
@@ -127,46 +138,77 @@ int	exec_cmd(int i, t_pipe_util *util, t_fd *fd, char **envp, char **argv)
 	}
 	else if (fd->child_pid[i] == 0)
 	{
-		if (i == 0)
+		close(fd->pd[0]);
+		if (i == 0 && !prepare_for_first(util, fd, argv))
 		{
-			fd->infile_fd = open(argv[1], O_RDONLY);
-			if (fd->infile_fd == -1)
-				return (print_errno(argv, argv[1]), (free_res(util, fd), \
-				exit(EXIT_FAILURE), FAILURE));
-			fd->input_fd = fd->infile_fd;
+			// close(fd->pd[1]);
+			free_res(util, fd);
+			exit(EXIT_FAILURE);
 		}
 		exec_child_p(i, fd, util, envp, argv);
+		free_res(util, fd);
+		exit(EXIT_FAILURE);
 	}
 	fd->input_fd = fd->pd[0];
 	return (SUCCESS);
 }
 
-int	exec_child_p(int i, t_fd *fd, t_pipe_util *util, char **envp, char **argv)
+// int	exec_cmd(int i, t_pipe_util *util, t_fd *fd, char **envp, char **argv)
+// {
+// 	prepare_for_first(util, fd, argv)
+	
+// 	if (util->)
+// }
+
+int prepare_for_first(t_pipe_util *util, t_fd *fd, char **argv)
+{
+	fd->infile_fd = open(argv[1], O_RDONLY);
+	if (fd->infile_fd == -1)
+	{
+		close (fd->pd[0]);
+		close (fd->pd[1]);
+		print_errno(argv, argv[1]);
+		return (FAILURE);
+	}
+	fd->input_fd = fd->infile_fd;
+	return (SUCCESS);
+}
+
+void	exec_child_p(int i, t_fd *fd, t_pipe_util *util, char **envp, char **argv)
 {
 	char	*exec_path;
 
 	exec_path = find_exec_path(util, *(util->cmd_list[i]));
-	dup2(fd->input_fd, 0);
-	close(fd->input_fd);
+	if (exec_path == NULL)
+		return ;
+	if (!prepare_io(i, fd, util))
+	{
+		free(exec_path);
+		return ;
+	}
+	execve(exec_path, util->cmd_list[i], envp);
+	print_error_msg(argv, *(util->cmd_list[i]));
+	free(exec_path);
+	return ;
+}
+bool	prepare_io(int i, t_fd *fd, t_pipe_util *util)
+{
+	if (dup2(fd->input_fd, 0) < 0)
+		return (false);
 	if (i == util->cnt_cmds - 1)
 	{
-		dup2(fd->outfile_fd, 1);
+		if (dup2(fd->outfile_fd, 1) < 0)
+			return (false);
 		close(fd->outfile_fd);
 	}
 	else
 	{
 		close(fd->pd[0]);
-		dup2(fd->pd[1], 1);
+		if (dup2(fd->pd[1], 1) < 0)
+			return (false);
 		close(fd->pd[1]);
 	}
-	if (exec_path == NULL || execve(exec_path, util->cmd_list[i], envp) == -1)
-	{
-		print_error_msg(argv, *(util->cmd_list[i]));
-		free_res(util, fd);
-		free(exec_path);
-		exit(EXIT_FAILURE);
-	}
-	return (free(exec_path), SUCCESS);
+	return (true);
 }
 
 int	cnt_input_cmds(int argc)
@@ -229,7 +271,6 @@ char	*find_exec_path(t_pipe_util *util, char *cmd)
 	return (NULL);
 }
 
-
 int	split_path_dirs(char **envp, t_pipe_util *util)
 {
 	int	i;
@@ -257,7 +298,6 @@ int	split_path_dirs(char **envp, t_pipe_util *util)
 	return (FAILURE);
 }
 
-
 int	get_idx_chr(char *str, char c)
 {
 	int	i;
@@ -271,5 +311,3 @@ int	get_idx_chr(char *str, char c)
 	}
 	return (i);
 }
-
-
