@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sohuikim <sohuikim@student.42gyeongsan.    +#+  +:+       +#+        */
+/*   By: sohuikim <sohuikim@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/01 01:47:28 by sohuikim          #+#    #+#             */
-/*   Updated: 2026/02/11 19:30:02 by sohuikim         ###   ########.fr       */
+/*   Updated: 2026/02/12 14:34:46 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,6 @@ int	run_cmd(t_pipe_util *util, t_fd *fd, char **envp, char **argv)
 	if (fd->child_pid == NULL)
 		return (FAILURE);
 	i = 0;
-	// fd->input_fd = fd->infile_fd;
 	while (i < util->cnt_cmds)
 	{
 		if (i == util->cnt_cmds - 1)
@@ -104,18 +103,19 @@ int	exec_last_cmd(int i, t_pipe_util *util, t_fd *fd, char **envp, char **argv)
 	if (fd->child_pid[i] == -1)
 		return (print_errno(argv, "fork failed"), FAILURE);
 	if (fd->child_pid[i] > 0)
-		close(fd->input_fd);
+		close(fd->input_fd); // input_fd 닫음
 	else if (fd->child_pid[i] == 0)
 	{
-		close(fd->input_fd);
 		fd->outfile_fd = open(argv[4], O_WRONLY | O_TRUNC | O_CREAT, 0644);
 		if (fd->outfile_fd == -1)
 		{
+			close(fd->pd[0]);
 			print_errno(argv, argv[4]);
 			free_res(util, fd);
 			exit(EXIT_FAILURE);
 		}
 		exec_child_p(i, fd, util, envp, argv);
+		close(fd->pd[0]);
 		close(fd->outfile_fd);
 		free_res(util, fd);
 		exit(EXIT_FAILURE);
@@ -132,45 +132,39 @@ int	exec_cmd(int i, t_pipe_util *util, t_fd *fd, char **envp, char **argv)
 		return (print_errno(argv, "fork failed"), FAILURE);
 	if (fd->child_pid[i] > 0)
 	{
-		close(fd->pd[1]);
+		close(fd->pd[1]); // 부모의 write를 닫음 
 		if (i > 0)
-			close(fd->input_fd);
+			close(fd->input_fd); // 이전 input_fd 닫음
 	}
 	else if (fd->child_pid[i] == 0)
 	{
-		close(fd->pd[0]);
+		close(fd->pd[0]); // 현재 read 닫음
 		if (i == 0 && !prepare_for_first(util, fd, argv))
 		{
-			// close(fd->pd[1]);
-			free_res(util, fd);
+			// free_res(util, fd);
 			exit(EXIT_FAILURE);
 		}
-		exec_child_p(i, fd, util, envp, argv);
+		exec_child_p(i, fd, util, envp, argv); // 현재 write만 있음
+		close(fd->pd[1]);
 		free_res(util, fd);
 		exit(EXIT_FAILURE);
 	}
-	fd->input_fd = fd->pd[0];
+	fd->input_fd = fd->pd[0]; // 읽어온 내용을 input_fd로 갱신
 	return (SUCCESS);
 }
-
-// int	exec_cmd(int i, t_pipe_util *util, t_fd *fd, char **envp, char **argv)
-// {
-// 	prepare_for_first(util, fd, argv)
-	
-// 	if (util->)
-// }
 
 int prepare_for_first(t_pipe_util *util, t_fd *fd, char **argv)
 {
 	fd->infile_fd = open(argv[1], O_RDONLY);
 	if (fd->infile_fd == -1)
 	{
-		close (fd->pd[0]);
-		close (fd->pd[1]);
+		close (fd->pd[1]); // 실패 시, 현재 write 닫음
 		print_errno(argv, argv[1]);
 		return (FAILURE);
 	}
-	fd->input_fd = fd->infile_fd;
+	close (fd->pd[1]);
+	fd->input_fd = fd->infile_fd; // 갱신
+	close (fd->infile_fd);
 	return (SUCCESS);
 }
 
@@ -180,9 +174,14 @@ void	exec_child_p(int i, t_fd *fd, t_pipe_util *util, char **envp, char **argv)
 
 	exec_path = find_exec_path(util, *(util->cmd_list[i]));
 	if (exec_path == NULL)
+	{
+		print_error_msg(argv, *(util->cmd_list[i]));
 		return ;
+	}
+		// return ; // exe_cmd일 때는 write 닫고, last일 때는 read를 닫아야 함
 	if (!prepare_io(i, fd, util))
 	{
+		// close(fd->input_fd); // dup2 실패 시, input_fd 닫기
 		free(exec_path);
 		return ;
 	}
@@ -193,8 +192,11 @@ void	exec_child_p(int i, t_fd *fd, t_pipe_util *util, char **envp, char **argv)
 }
 bool	prepare_io(int i, t_fd *fd, t_pipe_util *util)
 {
-	if (dup2(fd->input_fd, 0) < 0)
+	if (dup2(fd->input_fd, 0) < 0) // infile -> stdin
+	{
+		close(fd->input_fd);
 		return (false);
+	}
 	if (i == util->cnt_cmds - 1)
 	{
 		if (dup2(fd->outfile_fd, 1) < 0)
@@ -203,10 +205,13 @@ bool	prepare_io(int i, t_fd *fd, t_pipe_util *util)
 	}
 	else
 	{
-		close(fd->pd[0]);
-		if (dup2(fd->pd[1], 1) < 0)
+		close(fd->input_fd); // dup2 성공 시, input_fd 닫기
+		if (dup2(fd->pd[1], 1) < 0) // dup2 실패 시, write 닫기
+		{
+			close(fd->pd[1]);
 			return (false);
-		close(fd->pd[1]);
+		}
+		close(fd->pd[1]); // 성공 시, write 닫기
 	}
 	return (true);
 }
