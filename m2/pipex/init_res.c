@@ -1,22 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   free_res.h                                         :+:      :+:    :+:   */
+/*   init_res.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sohuikim <sohuikim@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/02/09 16:08:32 by sohuikim          #+#    #+#             */
-/*   Updated: 2026/02/12 16:56:39 by sohuikim         ###   ########.fr       */
+/*   Created: 2026/02/12 16:29:25 by sohuikim          #+#    #+#             */
+/*   Updated: 2026/02/12 17:15:32 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FREE_RES_H
-# define FREE_RES_H
+#include "pipex.h"
+#include "ft_libft.h"
 
-# include "pipex.h"
+void	init_all_struct(t_pipe_util *pipe_util, t_cmd_path *cmd_path, t_fd *fd)
+{
+	ft_bzero(pipe_util, sizeof(t_pipe_util));
+	ft_bzero(cmd_path, sizeof(t_cmd_path));
+	ft_bzero(fd, sizeof(t_fd));
+}
 
-void	free_dirs_path(t_cmd_path *cmd_path);
-void	free_cmd_list(t_cmd_path *cmd_path);
-void	free_res(t_pipe_util *pipe_util);
-
-#endif
+void	bind_struct(t_pipe_util *pipe_util, t_cmd_path *cmd_path, t_fd *fd)
+{
+	pipe_util->cmd_path = cmd_path;
+	pipe_util->fd = fd;
+}

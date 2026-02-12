@@ -1,28 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_cmd_list_util.c                                :+:      :+:    :+:   */
+/*   get_exec_path_util.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sohuikim <sohuikim@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/11 15:00:59 by sohuikim          #+#    #+#             */
-/*   Updated: 2026/02/11 15:19:56 by sohuikim         ###   ########.fr       */
+/*   Updated: 2026/02/13 02:13:05 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipex.h"
-#include "get_cmd_list_util.h"
+#include "get_exec_path.h"
 #include "ft_libft.h"
 #include <stdlib.h>
 
-int	split_path_dirs(char **envp, t_pipe_util *util)
+bool	split_path_dirs(char **envp, t_cmd_path *cmd_path)
 {
 	int	i;
 	int	n;
 
 	i = 0;
 	if (envp == NULL)
-		return (FAILURE);
+		return (false);
 	while (envp[i] != NULL)
 	{
 		n = get_idx_chr(envp[i], '=');
@@ -30,38 +29,39 @@ int	split_path_dirs(char **envp, t_pipe_util *util)
 		{
 			if (ft_strncmp(envp[i], "PATH=", n) == 0)
 			{
-				util->dirs_path = ft_split(&envp[i][n + 1], ':');
-				if (util->dirs_path == NULL)
+				cmd_path->dirs_path = ft_split(&envp[i][n + 1], ':');
+				if (cmd_path->dirs_path == NULL)
 					break ;
 				else
-					return (SUCCESS);
+					return (true);
 			}
 		}
 		i++;
 	}
-	return (FAILURE);
+	return (false);
 }
 
-int	get_cmd_list(int argc, char	**argv, t_pipe_util *util)
+bool	get_cmd_list(int argc, char	**argv, t_cmd_path *cmd_path)
 {
 	int		i;
 	int		j;
 
-	util->cnt_cmds = cnt_input_cmds(argc);
-	util->cmd_list = ft_calloc(util->cnt_cmds + 1, sizeof(*(util->cmd_list)));
-	if (util->cmd_list == NULL)
-		return (FAILURE);
+	cmd_path->cnt_cmds = cnt_input_cmds(argc);
+	cmd_path->cmd_list = ft_calloc(cmd_path->cnt_cmds + 1, \
+						sizeof(*(cmd_path->cmd_list)));
+	if (cmd_path->cmd_list == NULL)
+		return (false);
 	i = 2;
 	j = 0;
 	while (i < argc - 1)
 	{
-		util->cmd_list[j] = ft_split(argv[i], ' ');
-		if (util->cmd_list[j] == NULL)
-			return (FAILURE);
+		cmd_path->cmd_list[j] = ft_split(argv[i], ' ');
+		if (cmd_path->cmd_list[j] == NULL)
+			return (false);
 		i++;
 		j++;
 	}
-	return (SUCCESS);
+	return (true);
 }
 
 int	cnt_input_cmds(int argc)

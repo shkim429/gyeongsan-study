@@ -2,7 +2,11 @@ NAME = pipex
 CC = cc
 CFLAGS = $(INC) -g
 RM = rm -rf
-SRCS = pipex.c \
+SRCS = main.c \
+	   init_res.c \
+	   exec_cmds.c exec_cmds_util.c \
+	   get_exec_path.c get_exec_path_util.c \
+	   open_file.c \
 	   print_msg.c \
 	   free_res.c
 

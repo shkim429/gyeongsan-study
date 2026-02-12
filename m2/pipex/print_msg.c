@@ -6,7 +6,7 @@
 /*   By: sohuikim <sohuikim@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/11 03:13:57 by sohuikim          #+#    #+#             */
-/*   Updated: 2026/02/11 16:23:47 by sohuikim         ###   ########.fr       */
+/*   Updated: 2026/02/12 19:41:18 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,4 +35,3 @@ void	print_error_msg(char **argv, char *error_obj)
 	write(2, "command not found", ft_strlen("command not found"));
 	write(2, "\n", 2);
 }
-
