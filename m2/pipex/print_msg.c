@@ -6,11 +6,12 @@
 /*   By: sohuikim <sohuikim@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/11 03:13:57 by sohuikim          #+#    #+#             */
-/*   Updated: 2026/02/12 19:41:18 by sohuikim         ###   ########.fr       */
+/*   Updated: 2026/03/05 17:40:55 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
+#include "ft_libft.h"
 #include <errno.h>
 #include "libft.h"
 #include <stdio.h>

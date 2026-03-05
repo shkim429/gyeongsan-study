@@ -8,9 +8,6 @@ SRCS = main.c \
 	   get_exec_path.c get_exec_path_util.c \
 	   open_file.c \
 	   get_child_status.c \
-	   print_msg.c \
-	   free_res.c
-
 OBJ_DIR = obj
 OBJS_FILES = $(addprefix $(OBJ_DIR)/, $(SRCS:.c=.o))
 LIBS_PATH = -L. \
