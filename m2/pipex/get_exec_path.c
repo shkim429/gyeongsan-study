@@ -6,7 +6,7 @@
 /*   By: sohuikim <sohuikim@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/13 02:05:42 by sohuikim          #+#    #+#             */
-/*   Updated: 2026/02/13 02:12:47 by sohuikim         ###   ########.fr       */
+/*   Updated: 2026/02/13 02:47:38 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ char	*find_exec_path(t_cmd_path *cmd_path, char *cmd)
 	is_slash = get_idx_chr(cmd, '/');
 	if (is_slash >= 0)
 	{
-		exec_path = find_exec_absolute_path(cmd_path, cmd);
+		exec_path = find_exec_absolute_path(cmd);
 		return (exec_path);
 	}
 	else
@@ -56,7 +56,7 @@ char	*find_exec_path_via_inputmcd(t_cmd_path *cmd_path, char *cmd)
 	return (NULL);
 }
 
-char	*find_exec_absolute_path(t_cmd_path *cmd_path, char *cmd)
+char	*find_exec_absolute_path(char *cmd)
 {
 	int	i;
 

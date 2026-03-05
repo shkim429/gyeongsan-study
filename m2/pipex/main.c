@@ -6,7 +6,7 @@
 /*   By: sohuikim <sohuikim@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/01 01:47:28 by sohuikim          #+#    #+#             */
-/*   Updated: 2026/02/13 02:13:12 by sohuikim         ###   ########.fr       */
+/*   Updated: 2026/02/13 02:49:06 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,17 +45,4 @@ int	main(int argc, char **argv, char **envp)
 	}
 	free_res(&pipe_util);
 	return_child_status(&pipe_util);
-}
-
-void	return_child_status(t_pipe_util *pipe_util)
-{
-	int	child_status_code;
-
-	if (WIFEXITED(pipe_util->child_status))
-		child_status_code = WEXITSTATUS(pipe_util->child_status);
-	else if (WIFSIGNALED(pipe_util->child_status))
-		child_status_code = WTERMSIG(pipe_util->child_status);
-	else if (WIFSTOPPED(pipe_util->child_status))
-		child_status_code = WSTOPSIG(pipe_util->child_status);
-	exit (child_status_code);
 }
