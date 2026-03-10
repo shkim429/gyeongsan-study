@@ -1,38 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   free_res.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sohuikim <sohuikim@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/03/05 20:18:18 by sohuikim          #+#    #+#             */
-/*   Updated: 2026/03/10 17:22:55 by sohuikim         ###   ########.fr       */
+/*   Created: 2026/03/10 15:16:05 by sohuikim          #+#    #+#             */
+/*   Updated: 2026/03/10 16:36:08 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
-#include "valid_input.h"
 #include "free.res.h"
 #include <stdlib.h>
-#include <stdbool.h>
 
-int	main(int argc, char **argv)
+void	free_res(t_philo *philo_arg)
 {
-	t_philo		philo_arg;
-	t_state_msg	philo_state_msg;
-
-	if (argc < 5 || argc > 6)
-		return (1);
-	if (!handle_input_data(argc, argv, &philo_arg))
-	{
-		free_res(&philo_arg);
-		return (1);
-	}
-	free_res(&philo_arg);
-	return (0);
+	if (philo_arg->input_arr != NULL)
+		free_num_arr(philo_arg->input_arr);
 }
 
-void	create_threads_philo()
+void	free_num_arr(void *num_arr)
 {
-	
+	free(num_arr);
+	num_arr = NULL;
 }

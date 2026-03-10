@@ -2,7 +2,10 @@ NAME = philo
 CC = cc
 CFLAGS = $(INC) -g
 RM = rm -rf
-SRCS = main.c 
+SRCS = main.c \
+	   valid_input.c valid_input_utils.c \
+	   general_func_utils.c \
+	   free_res.c
 OBJ_DIR = obj
 OBJS_FILES = $(addprefix $(OBJ_DIR)/, $(SRCS:.c=.o))
 LIBS_PATH = -L.

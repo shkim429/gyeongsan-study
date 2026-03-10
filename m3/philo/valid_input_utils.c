@@ -1,38 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   valid_input_utils.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sohuikim <sohuikim@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/03/05 20:18:18 by sohuikim          #+#    #+#             */
-/*   Updated: 2026/03/10 17:22:55 by sohuikim         ###   ########.fr       */
+/*   Created: 2026/03/10 14:07:12 by sohuikim          #+#    #+#             */
+/*   Updated: 2026/03/10 16:52:09 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo.h"
 #include "valid_input.h"
-#include "free.res.h"
-#include <stdlib.h>
-#include <stdbool.h>
 
-int	main(int argc, char **argv)
+bool	is_sign(char c)
 {
-	t_philo		philo_arg;
-	t_state_msg	philo_state_msg;
-
-	if (argc < 5 || argc > 6)
-		return (1);
-	if (!handle_input_data(argc, argv, &philo_arg))
-	{
-		free_res(&philo_arg);
-		return (1);
-	}
-	free_res(&philo_arg);
-	return (0);
+	if (c == '+' || c == '-')
+		return (true);
+	else
+		return (false);
 }
 
-void	create_threads_philo()
+bool	is_num(char c)
 {
-	
+	if (c >= '0' && c <= '9')
+		return (true);
+	else
+		return (false);
+}
+
+bool	is_zero(char c)
+{
+	if (c == '0')
+		return (true);
+	return (false);
 }

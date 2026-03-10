@@ -1,38 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   general_func_utils.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sohuikim <sohuikim@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/03/05 20:18:18 by sohuikim          #+#    #+#             */
-/*   Updated: 2026/03/10 17:22:55 by sohuikim         ###   ########.fr       */
+/*   Created: 2026/03/10 02:57:54 by sohuikim          #+#    #+#             */
+/*   Updated: 2026/03/10 14:20:07 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo.h"
-#include "valid_input.h"
-#include "free.res.h"
-#include <stdlib.h>
-#include <stdbool.h>
+#include "general_func_utils.h"
+#include <string.h>
+#include <stdint.h>
 
-int	main(int argc, char **argv)
+void	*ft_calloc(size_t nmemb, size_t size)
 {
-	t_philo		philo_arg;
-	t_state_msg	philo_state_msg;
+	void	*s;
+	size_t	total_size;
 
-	if (argc < 5 || argc > 6)
-		return (1);
-	if (!handle_input_data(argc, argv, &philo_arg))
-	{
-		free_res(&philo_arg);
-		return (1);
-	}
-	free_res(&philo_arg);
-	return (0);
-}
-
-void	create_threads_philo()
-{
-	
+	if (size != 0 && nmemb > SIZE_MAX / size)
+		return (NULL);
+	total_size = nmemb * size;
+	s = (void *)malloc(total_size);
+	if (s == NULL)
+		return (NULL);
+	memset(s, 0, total_size);
+	return (s);
 }

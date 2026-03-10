@@ -1,38 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   general_func_utils.h                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sohuikim <sohuikim@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/03/05 20:18:18 by sohuikim          #+#    #+#             */
-/*   Updated: 2026/03/10 17:22:55 by sohuikim         ###   ########.fr       */
+/*   Created: 2026/03/10 03:01:09 by sohuikim          #+#    #+#             */
+/*   Updated: 2026/03/10 14:18:27 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo.h"
-#include "valid_input.h"
-#include "free.res.h"
-#include <stdlib.h>
-#include <stdbool.h>
+#ifndef GENERAL_FUNC_UTILS_H
+# define GENERAL_FUNC_UTILS_H
 
-int	main(int argc, char **argv)
-{
-	t_philo		philo_arg;
-	t_state_msg	philo_state_msg;
+# include <stdlib.h>
 
-	if (argc < 5 || argc > 6)
-		return (1);
-	if (!handle_input_data(argc, argv, &philo_arg))
-	{
-		free_res(&philo_arg);
-		return (1);
-	}
-	free_res(&philo_arg);
-	return (0);
-}
+void	*ft_calloc(size_t nmemb, size_t size);
 
-void	create_threads_philo()
-{
-	
-}
+#endif
