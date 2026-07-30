@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <pthread.h>
 #include <unistd.h>
-// #include <sys/time.h>
+#include <sys/time.h>
 #define NUM_TIMES 5
 
 /*
@@ -145,3 +145,50 @@ int	main(void)
 	return (0);
 }
 */
+
+
+// static t_fork_status	pickup_fork(t_fork *fork, t_philo *philo)
+// {
+//     if (pthread_mutex_lock(&fork->mutex) != 0) /*  공유 자원 접근을 위해 lock */
+// 		return (FORK_FAILURE);
+// 	if (fork->is_taken)
+// 	{
+// 		if (pthread_mutex_unlock(&fork->mutex) != 0)
+// 			return (FORK_FAILURE);
+// 		return (FORK_BUSY);
+// 	}
+// 	fork->is_taken = true; /*  포크 잡은 상태 */
+// 	if (pthread_mutex_unlock(&fork->mutex) != 0)
+// 		return (FORK_FAILURE);
+// 	if (!print_philo_state(philo, "has taken a fork"))
+// 		return (FORK_FAILURE);
+// 	return (FORK_SUCCESS);
+// }
+
+
+// static t_fork_status	pickup_fork(t_fork *fork, t_philo *philo)
+// {
+// 	bool			is_end;
+	
+// 	while (true)
+// 	{
+// 		if (!check_philos_end(philo->data, &is_end))
+// 			return (false);
+// 		if (is_end)
+// 			return (true);
+// 		if (pthread_mutex_lock(&fork->mutex) != 0) /*  공유 자원 접근을 위해 lock */
+// 			return (false);
+// 		if (!fork->is_taken)
+// 		{
+// 			fork->is_taken = true;
+// 			if (pthread_mutex_unlock(&fork->mutex) != 0)
+// 				return (false);
+// 			if (!print_philo_action(philo, "has taken a fork"))
+// 				return (false); 
+// 			return (true);
+// 		}
+// 		if (pthread_mutex_unlock(&fork->mutex) != 0)
+// 			return (false);
+// 		usleep(1000);
+// 	}
+// } 
