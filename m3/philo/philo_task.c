@@ -104,26 +104,10 @@ static bool	sleeping(t_philo *philo)
 
 static bool	thinking(t_philo *philo)
 {
-	long long	start_time;
-	long long	think_time;
-	bool		is_end;
-
 	if (!print_philo_action(philo, "is thinking"))
 		return (false);
 	if (philo->data->philo_num % 2 == 0)
 		return (true);
-	think_time = \
-((long long)philo->data->time_to_eat * 2) - philo->data->time_to_sleep;
-	if (think_time <= 0)
-		return (true);
-	start_time = get_time_ms();
-	while (get_time_ms() - start_time < think_time)
-	{
-		if (!check_philos_end(philo->data, &is_end))
-			return (false);
-		if (is_end)
-			return (true);
-		usleep(200);
-	}
+	usleep(250);
 	return (true);
 }
