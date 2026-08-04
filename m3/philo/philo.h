@@ -6,7 +6,7 @@
 /*   By: sohuikim <sohuikim@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/05 20:24:03 by sohuikim          #+#    #+#             */
-/*   Updated: 2026/08/04 12:51:55 by sohuikim         ###   ########.fr       */
+/*   Updated: 2026/08/04 22:15:03 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,11 +150,11 @@ bool		start_philos(t_table *table);
 
 /* time.c */
 
-long long	get_time_ms(void);
+bool		get_time_ms(long long *now);
 
 /* wait.c */
 
 bool		wait_for_start(t_shared_data *data);
-void		delay_even_philo(t_philo *philo);
+bool		delay_even_philo(t_philo *philo);
 
 #endif

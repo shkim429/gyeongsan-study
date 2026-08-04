@@ -6,7 +6,7 @@
 /*   By: sohuikim <sohuikim@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/11 17:04:07 by sohuikim          #+#    #+#             */
-/*   Updated: 2026/08/04 03:18:37 by sohuikim         ###   ########.fr       */
+/*   Updated: 2026/08/04 21:46:28 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,13 +69,17 @@ static bool	monitor_philos(t_table *table, bool *need_stop)
 
 static bool	check_philo_state(t_philo *philo, t_philo_state *state)
 {
+	long long	now;
+
 	*state = PHILO_ALIVE;
 	if (pthread_mutex_lock(&philo->meal.mutex) != 0)
 		return (false);
 	if (philo->data->must_eat_cnt != NO_EAT_LIMIT && \
 philo->meal.eat_cnt >= philo->data->must_eat_cnt)
 		*state = PHILO_FULL;
-	if (get_time_ms() - philo->meal.last_time >= philo->data->time_to_die)
+	if (!get_time_ms(&now))
+		return (false);
+	if (now - philo->meal.last_time >= philo->data->time_to_die)
 		*state = PHILO_DEAD;
 	if (pthread_mutex_unlock(&philo->meal.mutex) != 0)
 		return (false);

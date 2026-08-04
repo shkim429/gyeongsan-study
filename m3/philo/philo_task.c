@@ -6,7 +6,7 @@
 /*   By: sohuikim <sohuikim@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/25 03:12:20 by sohuikim          #+#    #+#             */
-/*   Updated: 2026/08/04 12:53:31 by sohuikim         ###   ########.fr       */
+/*   Updated: 2026/08/04 22:11:09 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,8 @@ void	*run_philo_task(void *arg)
 	philo->thread_status = TRHEAD_FAILURE;
 	if (!wait_for_start(philo->data))
 		return (NULL);
-	delay_even_philo(philo);
+	if (!delay_even_philo(philo))
+		return (NULL);
 	while (true)
 	{
 		if (!check_philos_end(philo->data, &is_end))
@@ -63,43 +64,53 @@ static bool	task_cycle(t_philo *philo)
 static bool	eating(t_philo *philo)
 {
 	long long	start_time;
+	long long	now;
 	bool		is_end;
 
-	start_time = get_time_ms();
+	if (!get_time_ms(&start_time))
+		return (false);
 	if (!update_meal_time(&philo->meal, start_time))
 		return (false);
 	if (!print_philo_action(philo, "is eating"))
 		return (false);
-	while (get_time_ms() - start_time < philo->data->time_to_eat)
+	while (true)
 	{
+		if (!get_time_ms(&now))
+			return (false);
 		if (!check_philos_end(philo->data, &is_end))
 			return (false);
 		if (is_end)
 			return (true);
+		if (now - start_time >= philo->data->time_to_eat)
+			return (update_meal_cnt(&philo->meal));
 		usleep(100);
 	}
-	if (!update_meal_cnt(&philo->meal))
-		return (false);
-	return (true);
 }
 
 static bool	sleeping(t_philo *philo)
 {
 	long long	start_time;
+	long long	now;
 	bool		is_end;
 
-	start_time = get_time_ms();
+	if (!get_time_ms(&start_time))
+		return (false);
 	if (!print_philo_action(philo, "is sleeping"))
 		return (false);
-	while (get_time_ms() - start_time < philo->data->time_to_sleep)
+	if (!get_time_ms(&now))
+		return (false);
+	while (true)
 	{
+		if (!get_time_ms(&now))
+			return (false);
 		if (!check_philos_end(philo->data, &is_end))
 			return (false);
 		if (is_end)
 			return (true);
+		if (now - start_time >= philo->data->time_to_sleep)
+			return (true);
 		usleep(100);
 	}
-	return (true);
 }
 
 static bool	thinking(t_philo *philo)

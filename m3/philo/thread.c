@@ -6,7 +6,7 @@
 /*   By: sohuikim <sohuikim@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/04 02:43:12 by sohuikim          #+#    #+#             */
-/*   Updated: 2026/08/04 03:18:59 by sohuikim         ###   ########.fr       */
+/*   Updated: 2026/08/04 21:53:14 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,8 @@ bool	start_philos(t_table *table)
 	if (pthread_create(&table->monitor_thread, NULL, run_monitor_task, \
 table) != 0)
 		return (false);
-	table->data.time_to_start = get_time_ms();
+	if (!get_time_ms(&table->data.time_to_start))
+		return (false);
 	set_last_meal_times(table->philos, table->data.time_to_start);
 	if (!set_start(&table->data))
 		return (false);

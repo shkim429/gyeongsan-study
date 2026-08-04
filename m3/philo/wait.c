@@ -6,7 +6,7 @@
 /*   By: sohuikim <sohuikim@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/11 17:03:26 by sohuikim          #+#    #+#             */
-/*   Updated: 2026/08/04 12:53:02 by sohuikim         ###   ########.fr       */
+/*   Updated: 2026/08/04 22:15:18 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,15 +30,23 @@ bool	wait_for_start(t_shared_data *data)
 	}
 }
 
-void	delay_even_philo(t_philo *philo)
+bool	delay_even_philo(t_philo *philo)
 {
 	long long	start_time;
+	long long	now;
 	long long	delay;
 
 	if (philo->id % 2 != 0)
-		return ;
-	start_time = get_time_ms();
+		return (true);
+	if (!get_time_ms(&start_time))
+		return (false);
 	delay = ((long long)philo->data->time_to_eat / 2);
-	while (get_time_ms() - start_time < delay)
+	while (true)
+	{
+		if (!get_time_ms(&now))
+			return (false);
+		if (now - start_time >= delay)
+			return (true);
 		usleep (100);
+	}
 }
