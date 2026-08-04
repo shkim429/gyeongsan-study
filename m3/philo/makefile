@@ -1,11 +1,15 @@
 NAME = philo
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -g
+CFLAGS = -Wall -Wextra -Werror
+
 RM = rm -rf
 SRCS = main.c \
 	   init_philo.c init_table.c \
-	   monitor.c philo_parse.c philo_print.c philo_state.c philo_task_fork.c philo_task.c \
-	   time.c cleanup.c mutex_destroy.c
+	   monitor.c \
+	   philo_parse.c philo_print.c philo_task_fork.c philo_task_single.c philo_task.c \
+	   state.c thread.c \
+	   time.c wait.c \
+	   cleanup.c
 
 OBJ_DIR = obj
 OBJS_FILES = $(addprefix $(OBJ_DIR)/, $(SRCS:.c=.o))

@@ -1,15 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   philo_state.c                                      :+:      :+:    :+:   */
+/*   state.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sohuikim <sohuikim@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/10 01:57:04 by sohuikim          #+#    #+#             */
-/*   Updated: 2026/07/30 19:45:48 by sohuikim         ###   ########.fr       */
+/*   Updated: 2026/08/04 12:50:25 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <unistd.h>
 #include "philo.h"
 
 bool	set_philos_end(t_shared_data *data)
@@ -32,11 +33,20 @@ bool	check_philos_end(t_shared_data *data, bool *is_end)
 	return (true);
 }
 
-bool	update_meal_state(t_meal *meal, long long start_time)
+bool	update_meal_time(t_meal *meal, long long start_time)
 {
 	if (pthread_mutex_lock(&meal->mutex) != 0)
 		return (false);
 	meal->last_time = start_time;
+	if (pthread_mutex_unlock(&meal->mutex) != 0)
+		return (false);
+	return (true);
+}
+
+bool	update_meal_cnt(t_meal *meal)
+{
+	if (pthread_mutex_lock(&meal->mutex) != 0)
+		return (false);
 	meal->eat_cnt++;
 	if (pthread_mutex_unlock(&meal->mutex) != 0)
 		return (false);

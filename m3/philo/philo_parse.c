@@ -6,7 +6,7 @@
 /*   By: sohuikim <sohuikim@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/10 02:57:54 by sohuikim          #+#    #+#             */
-/*   Updated: 2026/07/30 20:23:55 by sohuikim         ###   ########.fr       */
+/*   Updated: 2026/08/03 22:06:31 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,18 +20,18 @@ static bool	is_valid_num_arg(char *str, int *i);
 bool	parse_args(int argc, char **argv, t_shared_data *data)
 {
 	data->philo_num = str_to_positive_int(argv[1]);
-	if (data->philo_num == INVALID_NUM)
+	if (data->philo_num == INVALID_NUM || data->philo_num == 0)
 		return (false);
 	data->time_to_die = str_to_positive_int(argv[2]);
-	if (data->time_to_die == INVALID_NUM)
+	if (data->time_to_die == INVALID_NUM || data->time_to_die == 0)
 		return (false);
 	data->time_to_eat = str_to_positive_int(argv[3]);
-	if (data->time_to_eat == INVALID_NUM)
+	if (data->time_to_eat == INVALID_NUM || data->time_to_eat == 0)
 		return (false);
 	data->time_to_sleep = str_to_positive_int(argv[4]);
-	if 	(data->time_to_sleep == INVALID_NUM)
+	if (data->time_to_sleep == INVALID_NUM)
 		return (false);
-	data->must_eat_cnt = NO_EAT_LIMIT;	
+	data->must_eat_cnt = NO_EAT_LIMIT;
 	if (argc == 6)
 	{
 		data->must_eat_cnt = str_to_positive_int(argv[5]);
@@ -43,12 +43,11 @@ bool	parse_args(int argc, char **argv, t_shared_data *data)
 
 static int	str_to_positive_int(char *str)
 {
-	int		num;
-	int		i;
+	int	num;
+	int	i;
 
 	num = 0;
 	i = 0;
-
 	if (!is_valid_num_arg(str, &i))
 		return (INVALID_NUM);
 	while (str[i] != '\0')
@@ -60,8 +59,6 @@ static int	str_to_positive_int(char *str)
 		num = num * 10 + (str[i] - '0');
 		i++;
 	}
-	if (num == 0)
-		return (INVALID_NUM);
 	return (num);
 }
 

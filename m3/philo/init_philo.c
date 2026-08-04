@@ -6,18 +6,17 @@
 /*   By: sohuikim <sohuikim@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/10 14:07:12 by sohuikim          #+#    #+#             */
-/*   Updated: 2026/07/27 21:06:09 by sohuikim         ###   ########.fr       */
+/*   Updated: 2026/08/03 23:07:46 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 #include "philo.h"
 
-/* 나중에 지우기 */
-#include <stdio.h>
-
-static bool	init_philo(t_philo *philo, t_fork *forks, t_shared_data *data, int i);
-static void	assign_philo_forks(t_philo *philo, t_fork *forks, int i);
+static bool	init_philo(t_philo *philo, t_fork *forks, t_shared_data *data, \
+int i);
+static void	assign_philo_forks(t_philo *philo, t_fork *forks, \
+int i);
 
 bool	init_philos(t_table *table)
 {
@@ -39,7 +38,8 @@ bool	init_philos(t_table *table)
 	return (true);
 }
 
-static bool	init_philo(t_philo *philo, t_fork *forks, t_shared_data *data, int i)
+static bool	init_philo(t_philo *philo, t_fork *forks, t_shared_data *data, \
+int i)
 {
 	philo->id = i + 1;
 	philo->meal.last_time = 0;
@@ -64,7 +64,6 @@ static void	assign_philo_forks(t_philo *philo, t_fork *forks, int i)
 		philo->second_fork = &forks[i + 1];
 	}
 }
-
 
 void	set_last_meal_times(t_philo *philos, long long start_time)
 {
