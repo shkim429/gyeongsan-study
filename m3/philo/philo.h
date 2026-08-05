@@ -6,7 +6,7 @@
 /*   By: sohuikim <sohuikim@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/05 20:24:03 by sohuikim          #+#    #+#             */
-/*   Updated: 2026/08/05 19:26:12 by sohuikim         ###   ########.fr       */
+/*   Updated: 2026/08/05 21:57:33 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,19 +25,18 @@ typedef enum e_thread_status
 	THREAD_FAILURE
 }	t_thread_status;
 
-typedef enum e_philo_state
-{
-	PHILO_ALIVE,
-	PHILO_FULL,
-	PHILO_DEAD
-}	t_philo_state;
-
 typedef enum e_task_state
 {
 	TASK_RUNNING,
 	TASK_END,
 	TASK_ERROR,
 }	t_task_state;
+typedef enum e_philo_state
+{
+	PHILO_ALIVE,
+	PHILO_FULL,
+	PHILO_DEAD
+}	t_philo_state;
 
 typedef struct s_end
 {
@@ -99,36 +98,36 @@ typedef struct s_table
 
 /* cleanup.c */
 
-void		cleanup_table(t_table *table);
+void			cleanup_table(t_table *table);
 
 /* init_philo.c */
 
-bool		init_philos(t_table *table);
-void		set_last_meal_times(t_philo *philos, long long start_time);
+bool			init_philos(t_table *table);
+void			set_last_meal_times(t_philo *philos, long long start_time);
 
 /* init_table.c */
 
-bool		init_table(int argc, char **argv, t_table *table);
+bool			init_table(int argc, char **argv, t_table *table);
 
 /* monitor.c */
 
-void		*run_monitor_task(void *arg);
+void			*run_monitor_task(void *arg);
 
 /* mutex_destroy.c */
 
-void		destroy_meal_mutex(t_philo *philos, int init_cnt);
-void		destroy_fork_mutex(t_fork *forks, int init_cnt);
-void		destroy_shared_data_mutex(t_shared_data *data);
+void			destroy_meal_mutex(t_philo *philos, int init_cnt);
+void			destroy_fork_mutex(t_fork *forks, int init_cnt);
+void			destroy_shared_data_mutex(t_shared_data *data);
 
 /* philo_parse.c */
 
-bool		parse_args(int argc, char **argv, t_shared_data *data);
+bool			parse_args(int argc, char **argv, t_shared_data *data);
 
 /* philo_print.c */
 
-bool		print_philo_action(t_philo *philo, char *message);
-bool		print_philo_taken_forks(t_philo *philo);
-bool		print_philo_death(t_philo *philo);
+bool			print_philo_action(t_philo *philo, char *message);
+bool			print_philo_taken_forks(t_philo *philo);
+bool			print_philo_death(t_philo *philo);
 
 /* philo_tasks_fork.c */
 
@@ -137,31 +136,35 @@ bool			put_down_forks(t_philo *philo);
 
 /* philo_task_single.c */
 
-void		*run_single_philo_task(void *arg);
+void			*run_single_philo_task(void *arg);
+
+/* philo_task_utils.c */
+
+t_task_state	finish_eating(t_philo *philo);
 
 /* philo_tasks.c */
 
-void		*run_philo_task(void *arg);
+void			*run_philo_task(void *arg);
 
 /* state.c */
 
-bool		set_philos_end(t_shared_data *data);
-bool		check_philos_end(t_shared_data *data, bool *is_end);
-bool		update_meal_time(t_meal *meal, long long start_time);
-bool		update_meal_cnt(t_meal *meal);
-bool		wait_for_start(t_shared_data *data);
+bool			set_start(t_shared_data *data);
+bool			set_philos_end(t_shared_data *data);
+bool			check_philos_end(t_shared_data *data, bool *is_end);
+bool			update_meal_time(t_meal *meal, long long start_time);
+bool			update_meal_cnt(t_meal *meal);
 
 /* thread.c */
 
-bool		start_philos(t_table *table);
+bool			start_philos(t_table *table);
 
 /* time.c */
 
-bool		get_time_ms(long long *now);
+bool			get_time_ms(long long *now);
 
 /* wait.c */
 
-bool		wait_for_start(t_shared_data *data);
-bool		delay_even_philo(t_philo *philo);
+bool			wait_for_start(t_shared_data *data);
+bool			delay_even_philo(t_philo *philo);
 
 #endif

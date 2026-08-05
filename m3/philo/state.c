@@ -6,12 +6,22 @@
 /*   By: sohuikim <sohuikim@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/10 01:57:04 by sohuikim          #+#    #+#             */
-/*   Updated: 2026/08/04 12:50:25 by sohuikim         ###   ########.fr       */
+/*   Updated: 2026/08/05 20:26:25 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
 #include "philo.h"
+
+bool	set_start(t_shared_data *data)
+{
+	if (pthread_mutex_lock(&data->start.mutex) != 0)
+		return (false);
+	data->start.is_start = true;
+	if (pthread_mutex_unlock(&data->start.mutex) != 0)
+		return (false);
+	return (true);
+}
 
 bool	set_philos_end(t_shared_data *data)
 {

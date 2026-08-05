@@ -6,7 +6,7 @@
 /*   By: sohuikim <sohuikim@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/25 03:12:20 by sohuikim          #+#    #+#             */
-/*   Updated: 2026/08/05 19:27:12 by sohuikim         ###   ########.fr       */
+/*   Updated: 2026/08/05 21:55:07 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void	*run_philo_task(void *arg)
 static t_task_state	task_cycle(t_philo *philo)
 {
 	t_task_state	state;
-	
+
 	state = pickup_forks(philo);
 	if (state != TASK_RUNNING)
 		return (state);
@@ -88,11 +88,7 @@ static t_task_state	eating(t_philo *philo)
 		if (!get_time_ms(&now))
 			return (TASK_ERROR);
 		if (now - start_time >= philo->data->time_to_eat)
-		{
-			if (!update_meal_cnt(&philo->meal))
-				return (TASK_ERROR);
-			return (TASK_RUNNING);
-		}
+			return (finish_eating(philo));
 		usleep(100);
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: sohuikim <sohuikim@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/04 02:43:12 by sohuikim          #+#    #+#             */
-/*   Updated: 2026/08/05 19:27:56 by sohuikim         ###   ########.fr       */
+/*   Updated: 2026/08/05 22:00:01 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,23 +16,34 @@
 static bool	create_philo_threads(t_table *table);
 static bool	join_all_threads(t_table *table);
 static bool	join_philos_thread(t_philo *philos, int thread_cnt);
-bool		set_start(t_shared_data *data);
+static bool	stop_and_join_threads(t_table *table, bool join_all);
 
 bool	start_philos(t_table *table)
 {
+	bool	join_all;
+
+	join_all = true;
 	if (!create_philo_threads(table))
 		return (false);
 	if (pthread_create(&table->monitor_thread, NULL, run_monitor_task, \
 table) != 0)
+	{
+		join_all = false;
+		stop_and_join_threads(table, join_all);
 		return (false);
+	}
 	if (!get_time_ms(&table->data.time_to_start))
+	{
+		stop_and_join_threads(table, join_all);
 		return (false);
+	}
 	set_last_meal_times(table->philos, table->data.time_to_start);
 	if (!set_start(&table->data))
+	{
+		stop_and_join_threads(table, join_all);
 		return (false);
-	if (!join_all_threads(table))
-		return (false);
-	return (true);
+	}
+	return (join_all_threads(table));
 }
 
 static bool	create_philo_threads(t_table *table)
@@ -90,12 +101,21 @@ static bool	join_philos_thread(t_philo *philos, int thread_cnt)
 	return (status);
 }
 
-bool	set_start(t_shared_data *data)
+static bool	stop_and_join_threads(t_table *table, bool join_all)
 {
-	if (pthread_mutex_lock(&data->start.mutex) != 0)
-		return (false);
-	data->start.is_start = true;
-	if (pthread_mutex_unlock(&data->start.mutex) != 0)
-		return (false);
-	return (true);
+	bool	status;
+
+	status = true;
+	if (!set_philos_end(&table->data))
+		status = false;
+	if (!set_start(&table->data))
+		status = false;
+	if (join_all)
+	{
+		if (!join_all_threads(table))
+			status = false;
+	}
+	else if (!join_philos_thread(table->philos, table->data.philo_num))
+		status = false;
+	return (status);
 }
