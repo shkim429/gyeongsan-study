@@ -6,7 +6,7 @@ RM = rm -rf
 SRCS = main.c \
 	   init_philo.c init_table.c \
 	   monitor.c \
-	   philo_parse.c philo_print.c philo_task_fork.c philo_task_single.c philo_task.c philo_task_utils.c \
+	   philo_parse.c philo_print.c philo_task_fork.c philo_task_cycle.c philo_task_single.c philo_task.c \
 	   state.c thread.c \
 	   time.c wait.c \
 	   cleanup.c

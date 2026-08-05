@@ -6,123 +6,30 @@
 /*   By: sohuikim <sohuikim@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/25 03:12:20 by sohuikim          #+#    #+#             */
-/*   Updated: 2026/08/05 21:55:07 by sohuikim         ###   ########.fr       */
+/*   Updated: 2026/08/06 03:00:23 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
 #include "philo.h"
 
-static t_task_state	task_cycle(t_philo *philo);
-static t_task_state	eating(t_philo *philo);
-static t_task_state	sleeping(t_philo *philo);
-static t_task_state	thinking(t_philo *philo);
-
 void	*run_philo_task(void *arg)
 {
 	t_philo			*philo;
-	t_task_state	state;
-	bool			is_end;
+	t_exec_state	state;
 
 	philo = (t_philo *)arg;
 	philo->thread_status = THREAD_FAILURE;
 	if (!wait_for_start(philo->data))
 		return (NULL);
-	if (!delay_even_philo(philo))
-		return (NULL);
-	while (true)
+	state = delay_even_philo(philo);
+	while (state == EXEC_RUNNING)
 	{
-		if (!check_philos_end(philo->data, &is_end))
-			return (NULL);
-		if (is_end)
-			break ;
-		state = task_cycle(philo);
-		if (state == TASK_END)
-			break ;
-		if (state == TASK_ERROR)
-			return (NULL);
+		state = check_philos_end(philo->data);
+		if (state == EXEC_RUNNING)
+			state = task_cycle(philo);
 	}
-	philo->thread_status = THREAD_SUCCESS;
+	if (state == EXEC_END)
+		philo->thread_status = THREAD_SUCCESS;
 	return (NULL);
-}
-
-static t_task_state	task_cycle(t_philo *philo)
-{
-	t_task_state	state;
-
-	state = pickup_forks(philo);
-	if (state != TASK_RUNNING)
-		return (state);
-	state = eating(philo);
-	if (!put_down_forks(philo))
-		return (TASK_ERROR);
-	if (state != TASK_RUNNING)
-		return (state);
-	state = sleeping(philo);
-	if (state != TASK_RUNNING)
-		return (state);
-	state = thinking(philo);
-	if (state != TASK_RUNNING)
-		return (state);
-	return (TASK_RUNNING);
-}
-
-static t_task_state	eating(t_philo *philo)
-{
-	long long	start_time;
-	long long	now;
-	bool		is_end;
-
-	if (!get_time_ms(&start_time))
-		return (TASK_ERROR);
-	if (!update_meal_time(&philo->meal, start_time))
-		return (TASK_ERROR);
-	if (!print_philo_action(philo, "is eating"))
-		return (TASK_ERROR);
-	while (true)
-	{
-		if (!check_philos_end(philo->data, &is_end))
-			return (TASK_ERROR);
-		if (is_end)
-			return (TASK_END);
-		if (!get_time_ms(&now))
-			return (TASK_ERROR);
-		if (now - start_time >= philo->data->time_to_eat)
-			return (finish_eating(philo));
-		usleep(100);
-	}
-}
-
-static t_task_state	sleeping(t_philo *philo)
-{
-	long long	start_time;
-	long long	now;
-	bool		is_end;
-
-	if (!get_time_ms(&start_time))
-		return (TASK_ERROR);
-	if (!print_philo_action(philo, "is sleeping"))
-		return (TASK_ERROR);
-	while (true)
-	{
-		if (!check_philos_end(philo->data, &is_end))
-			return (TASK_ERROR);
-		if (is_end)
-			return (TASK_END);
-		if (!get_time_ms(&now))
-			return (TASK_ERROR);
-		if (now - start_time >= philo->data->time_to_sleep)
-			return (TASK_RUNNING);
-		usleep(100);
-	}
-}
-
-static t_task_state	thinking(t_philo *philo)
-{
-	if (!print_philo_action(philo, "is thinking"))
-		return (TASK_ERROR);
-	if (philo->data->philo_num % 2 == 0)
-		return (TASK_RUNNING);
-	usleep(250);
-	return (TASK_RUNNING);
 }

@@ -6,57 +6,52 @@
 /*   By: sohuikim <sohuikim@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/04 01:34:27 by sohuikim          #+#    #+#             */
-/*   Updated: 2026/08/05 19:24:08 by sohuikim         ###   ########.fr       */
+/*   Updated: 2026/08/06 03:50:15 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
 #include "philo.h"
 
-static bool	pickup_single_fork(t_philo *philo);
-static bool	put_down_single_fork(t_philo *philo);
+static t_exec_state	pickup_single_fork(t_philo *philo);
+static bool			put_down_single_fork(t_philo *philo);
 
 void	*run_single_philo_task(void *arg)
 {
-	t_philo	*philo;
-	bool	is_end;
+	t_philo			*philo;
+	t_exec_state	state;
 
 	philo = (t_philo *)arg;
 	philo->thread_status = THREAD_FAILURE;
 	if (!wait_for_start(philo->data))
 		return (NULL);
-	if (!pickup_single_fork(philo))
-		return (NULL);
-	while (true)
+	state = pickup_single_fork(philo);
+	while (state == EXEC_RUNNING)
 	{
-		if (!check_philos_end(philo->data, &is_end))
-		{
-			put_down_single_fork(philo);
-			return (NULL);
-		}
-		if (is_end)
-		{
-			put_down_single_fork(philo);
-			philo->thread_status = THREAD_SUCCESS;
-			return (NULL);
-		}
-		usleep (300);
+		state = check_philos_end(philo->data);
+		if (state == EXEC_RUNNING)
+			usleep (300);
 	}
+	if (!put_down_single_fork(philo))
+		return (NULL);
+	if (state == EXEC_END)
+		philo->thread_status = THREAD_SUCCESS;
+	return (NULL);
 }
 
-static bool	pickup_single_fork(t_philo *philo)
+static t_exec_state	pickup_single_fork(t_philo *philo)
 {
+	t_exec_state	state;
+
 	if (pthread_mutex_lock(&philo->first_fork->mutex) != 0)
 		return (false);
 	philo->first_fork->is_taken = true;
 	if (pthread_mutex_unlock(&philo->first_fork->mutex) != 0)
 		return (false);
-	if (!print_philo_action(philo, "has taken a fork"))
-	{
-		put_down_single_fork(philo);
+	state = print_philo_action(philo, "has taken a fork");
+	if (!put_down_single_fork(philo))
 		return (false);
-	}
-	return (true);
+	return (state);
 }
 
 static bool	put_down_single_fork(t_philo *philo)

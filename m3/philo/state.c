@@ -6,7 +6,7 @@
 /*   By: sohuikim <sohuikim@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/10 01:57:04 by sohuikim          #+#    #+#             */
-/*   Updated: 2026/08/05 20:26:25 by sohuikim         ###   ########.fr       */
+/*   Updated: 2026/08/06 02:01:46 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,14 +33,18 @@ bool	set_philos_end(t_shared_data *data)
 	return (true);
 }
 
-bool	check_philos_end(t_shared_data *data, bool *is_end)
+t_exec_state	check_philos_end(t_shared_data *data)
 {
+	bool	is_end;
+
 	if (pthread_mutex_lock(&data->end.mutex) != 0)
-		return (false);
-	*is_end = data->end.is_end;
+		return (EXEC_ERROR);
+	is_end = data->end.is_end;
 	if (pthread_mutex_unlock(&data->end.mutex) != 0)
-		return (false);
-	return (true);
+		return (EXEC_ERROR);
+	if (is_end)
+		return (EXEC_END);
+	return (EXEC_RUNNING);
 }
 
 bool	update_meal_time(t_meal *meal, long long start_time)

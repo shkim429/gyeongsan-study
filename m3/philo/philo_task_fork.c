@@ -6,7 +6,7 @@
 /*   By: sohuikim <sohuikim@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/11 21:24:57 by sohuikim          #+#    #+#             */
-/*   Updated: 2026/08/05 18:53:35 by sohuikim         ###   ########.fr       */
+/*   Updated: 2026/08/06 03:25:05 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,27 +17,28 @@ static bool	try_pickup_forks(t_philo *philo, bool *picked_up);
 static bool	lock_forks(t_fork *first, t_fork *second);
 static bool	unlock_forks(t_fork *first, t_fork *second);
 
-t_task_state	pickup_forks(t_philo *philo)
+t_exec_state	pickup_forks(t_philo *philo)
 {
-	bool	picked_up;
-	bool	is_end;
+	bool			picked_up;
+	t_exec_state	state;
 
 	while (true)
 	{
-		if (!check_philos_end(philo->data, &is_end))
-			return (TASK_ERROR);
-		if (is_end)
-			return (TASK_END);
+		state = check_philos_end(philo->data);
+		if (state != EXEC_RUNNING)
+			return (state);
 		if (!try_pickup_forks(philo, &picked_up))
-			return (TASK_ERROR);
+			return (EXEC_ERROR);
 		if (picked_up)
 		{
-			if (!print_philo_taken_forks(philo))
+			state = print_philo_taken_forks(philo);
+			if (state != EXEC_RUNNING)
 			{
-				put_down_forks(philo);
-				return (TASK_ERROR);
+				if (!put_down_forks(philo))
+					return (EXEC_ERROR);
+				return (state);
 			}
-			return (TASK_RUNNING);
+			return (EXEC_RUNNING);
 		}
 		usleep (100);
 	}

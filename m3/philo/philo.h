@@ -6,7 +6,7 @@
 /*   By: sohuikim <sohuikim@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/05 20:24:03 by sohuikim          #+#    #+#             */
-/*   Updated: 2026/08/05 21:57:33 by sohuikim         ###   ########.fr       */
+/*   Updated: 2026/08/06 03:01:03 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,12 +25,12 @@ typedef enum e_thread_status
 	THREAD_FAILURE
 }	t_thread_status;
 
-typedef enum e_task_state
+typedef enum e_exec_state
 {
-	TASK_RUNNING,
-	TASK_END,
-	TASK_ERROR,
-}	t_task_state;
+	EXEC_RUNNING,
+	EXEC_END,
+	EXEC_ERROR,
+}	t_exec_state;
 typedef enum e_philo_state
 {
 	PHILO_ALIVE,
@@ -125,24 +125,23 @@ bool			parse_args(int argc, char **argv, t_shared_data *data);
 
 /* philo_print.c */
 
-bool			print_philo_action(t_philo *philo, char *message);
-bool			print_philo_taken_forks(t_philo *philo);
+t_exec_state	print_philo_action(t_philo *philo, char *message);
+t_exec_state	print_philo_taken_forks(t_philo *philo);
 bool			print_philo_death(t_philo *philo);
 
-/* philo_tasks_fork.c */
+/* philo_task_cycle.c */
 
-t_task_state	pickup_forks(t_philo *philo);
+t_exec_state	task_cycle(t_philo *philo);
+/* philo_task_fork.c */
+
+t_exec_state	pickup_forks(t_philo *philo);
 bool			put_down_forks(t_philo *philo);
 
 /* philo_task_single.c */
 
 void			*run_single_philo_task(void *arg);
 
-/* philo_task_utils.c */
-
-t_task_state	finish_eating(t_philo *philo);
-
-/* philo_tasks.c */
+/* philo_task.c */
 
 void			*run_philo_task(void *arg);
 
@@ -150,7 +149,7 @@ void			*run_philo_task(void *arg);
 
 bool			set_start(t_shared_data *data);
 bool			set_philos_end(t_shared_data *data);
-bool			check_philos_end(t_shared_data *data, bool *is_end);
+t_exec_state	check_philos_end(t_shared_data *data);
 bool			update_meal_time(t_meal *meal, long long start_time);
 bool			update_meal_cnt(t_meal *meal);
 
@@ -165,6 +164,6 @@ bool			get_time_ms(long long *now);
 /* wait.c */
 
 bool			wait_for_start(t_shared_data *data);
-bool			delay_even_philo(t_philo *philo);
+t_exec_state	delay_even_philo(t_philo *philo);
 
 #endif
