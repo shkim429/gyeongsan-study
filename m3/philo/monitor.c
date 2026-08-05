@@ -6,7 +6,7 @@
 /*   By: sohuikim <sohuikim@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/11 17:04:07 by sohuikim          #+#    #+#             */
-/*   Updated: 2026/08/04 21:46:28 by sohuikim         ###   ########.fr       */
+/*   Updated: 2026/08/05 17:55:30 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	*run_monitor_task(void *arg)
 	bool	need_stop;
 
 	table = (t_table *)arg;
-	table->monitor_status = TRHEAD_FAILURE;
+	table->monitor_status = THREAD_FAILURE;
 	if (!wait_for_start(&table->data))
 		return (NULL);
 	while (true)
@@ -33,7 +33,7 @@ void	*run_monitor_task(void *arg)
 			return (NULL);
 		if (need_stop)
 		{
-			table->monitor_status = TRHEAD_SUCCESS;
+			table->monitor_status = THREAD_SUCCESS;
 			return (NULL);
 		}
 		usleep(100);

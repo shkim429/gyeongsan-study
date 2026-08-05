@@ -6,7 +6,7 @@
 /*   By: sohuikim <sohuikim@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/04 01:34:27 by sohuikim          #+#    #+#             */
-/*   Updated: 2026/08/04 01:48:57 by sohuikim         ###   ########.fr       */
+/*   Updated: 2026/08/05 19:24:08 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	*run_single_philo_task(void *arg)
 	bool	is_end;
 
 	philo = (t_philo *)arg;
-	philo->thread_status = TRHEAD_FAILURE;
+	philo->thread_status = THREAD_FAILURE;
 	if (!wait_for_start(philo->data))
 		return (NULL);
 	if (!pickup_single_fork(philo))
@@ -37,7 +37,7 @@ void	*run_single_philo_task(void *arg)
 		if (is_end)
 		{
 			put_down_single_fork(philo);
-			philo->thread_status = TRHEAD_SUCCESS;
+			philo->thread_status = THREAD_SUCCESS;
 			return (NULL);
 		}
 		usleep (300);

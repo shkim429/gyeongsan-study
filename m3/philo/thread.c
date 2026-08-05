@@ -6,7 +6,7 @@
 /*   By: sohuikim <sohuikim@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/04 02:43:12 by sohuikim          #+#    #+#             */
-/*   Updated: 2026/08/04 21:53:14 by sohuikim         ###   ########.fr       */
+/*   Updated: 2026/08/05 19:27:56 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ static bool	join_all_threads(t_table *table)
 		status = false;
 	if (pthread_join(table->monitor_thread, NULL) != 0)
 		status = false;
-	else if (table->monitor_status == TRHEAD_FAILURE)
+	else if (table->monitor_status == THREAD_FAILURE)
 		status = false;
 	return (status);
 }
@@ -83,7 +83,7 @@ static bool	join_philos_thread(t_philo *philos, int thread_cnt)
 	{
 		if (pthread_join(philos[i].thread, NULL) != 0)
 			status = false;
-		else if (philos[i].thread_status == TRHEAD_FAILURE)
+		else if (philos[i].thread_status == THREAD_FAILURE)
 			status = false;
 		i++;
 	}

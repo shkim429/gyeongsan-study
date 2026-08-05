@@ -6,7 +6,7 @@
 /*   By: sohuikim <sohuikim@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/05 20:24:03 by sohuikim          #+#    #+#             */
-/*   Updated: 2026/08/04 22:15:03 by sohuikim         ###   ########.fr       */
+/*   Updated: 2026/08/05 19:26:12 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@
 
 typedef enum e_thread_status
 {
-	TRHEAD_SUCCESS,
-	TRHEAD_FAILURE
+	THREAD_SUCCESS,
+	THREAD_FAILURE
 }	t_thread_status;
 
 typedef enum e_philo_state
@@ -31,6 +31,13 @@ typedef enum e_philo_state
 	PHILO_FULL,
 	PHILO_DEAD
 }	t_philo_state;
+
+typedef enum e_task_state
+{
+	TASK_RUNNING,
+	TASK_END,
+	TASK_ERROR,
+}	t_task_state;
 
 typedef struct s_end
 {
@@ -125,8 +132,8 @@ bool		print_philo_death(t_philo *philo);
 
 /* philo_tasks_fork.c */
 
-bool		pickup_forks(t_philo *philo);
-bool		put_down_forks(t_philo *philo);
+t_task_state	pickup_forks(t_philo *philo);
+bool			put_down_forks(t_philo *philo);
 
 /* philo_task_single.c */
 

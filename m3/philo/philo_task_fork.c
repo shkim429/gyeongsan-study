@@ -6,7 +6,7 @@
 /*   By: sohuikim <sohuikim@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/11 21:24:57 by sohuikim          #+#    #+#             */
-/*   Updated: 2026/08/04 04:17:02 by sohuikim         ###   ########.fr       */
+/*   Updated: 2026/08/05 18:53:35 by sohuikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static bool	try_pickup_forks(t_philo *philo, bool *picked_up);
 static bool	lock_forks(t_fork *first, t_fork *second);
 static bool	unlock_forks(t_fork *first, t_fork *second);
 
-bool	pickup_forks(t_philo *philo)
+t_task_state	pickup_forks(t_philo *philo)
 {
 	bool	picked_up;
 	bool	is_end;
@@ -25,19 +25,19 @@ bool	pickup_forks(t_philo *philo)
 	while (true)
 	{
 		if (!check_philos_end(philo->data, &is_end))
-			return (false);
+			return (TASK_ERROR);
 		if (is_end)
-			return (true);
+			return (TASK_END);
 		if (!try_pickup_forks(philo, &picked_up))
-			return (false);
+			return (TASK_ERROR);
 		if (picked_up)
 		{
 			if (!print_philo_taken_forks(philo))
 			{
 				put_down_forks(philo);
-				return (false);
+				return (TASK_ERROR);
 			}
-			return (true);
+			return (TASK_RUNNING);
 		}
 		usleep (100);
 	}
